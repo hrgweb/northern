@@ -2,100 +2,105 @@
 	<div class="customer-search">
 		<h2>Search for Customer 
 			<b>[{{ tblCustomer }}]</b>
-		</h2> <hr>
-
-		<!-- <pre>{{ filterIcNoCustomers }}</pre> -->
+		</h2>
 
 		<div class="customer-search__controls">
 			<form method="GET" role="form">
-				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 					<div class="form-group">
 						<label for="ic_no">IC #</label>
-						<input type="text" class="form-control" id="ic_no" name="ic_no" v-model="icNo">
+						<input type="text" class="form-control" id="ic_no" name="ic_no" v-model="icNo" @focus="columnToSearch" autofocus>
 					</div>
 				
 					<div class="form-group">
 						<label for="first_name">First Name</label>
-						<input type="text" class="form-control" id="first_name" name="first_name">
-					</div>
-
-					<div class="form-group">
-						<label for="last_name">Last Name</label>
-						<input type="text" class="form-control" id="last_name" name="last_name">
+						<input type="text" class="form-control" id="first_name" name="first_name" v-model="firstname" @focus="columnToSearch">
 					</div>
 				</div>
 
-				<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 					<div class="form-group">
-						<label for="handphone_no">Handphone #</label>
-						<input type="text" class="form-control" id="handphone_no" name="handphone_no">
+						<label for="last_name">Last Name</label>
+						<input type="text" class="form-control" id="last_name" name="last_name" v-model="lastname" @focus="columnToSearch">
 					</div>
 
+				
+					<div class="form-group">
+						<label for="handphone_no">Handphone #</label>
+						<input type="text" class="form-control" id="handphone_no" name="handphone_no" v-model="handPhoneNo" @focus="columnToSearch">
+					</div>
+				</div>
+				
+				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 					<div class="form-group">
 						<label for="homephone_no">Home Phone #</label>
-						<input type="text" class="form-control" id="homephone_no" name="homephone_no">
+						<input type="text" class="form-control" id="homephone_no" name="homephone_no" v-model="homePhoneNo" @focus="columnToSearch">
 					</div>
 
 					<div class="form-group">
 						<label for="email">Email Address</label>
-						<input type="text" class="form-control" id="email" name="email">
-					</div>	
-				</div>					
+						<input type="text" class="form-control" id="email" name="email" v-model="email" @focus="columnToSearch">
+					</div>
+				</div>
 			</form>
 		</div>
 
 		<div v-if="customers.length <= 0">
-			<br><h2 class="text-center">FETCHING CUSTOMERS DATA.... PLEASE WAIT....</h2>
+			<br><h2 class="text-center">FETCHING CUSTOMER DATA.... PLEASE WAIT</h2>
 		</div>
 		<div class="customer-search__records" v-else>
 			<table class="table table-bordered table-hover">
 				<caption>
 					<h3>
 						Customer Records
-						<span class="label label-danger">{{ customers.length }}</span>
+						<span class="label label-danger">{{ filterCustomersByColumn.length }}</span>
 					</h3> 
 				</caption>
 				<thead>
 					<tr>
 						<th>CustID</th>
 						<th>IC</th>
+						<th>Firstname</th>
+						<th>Lastname</th>
+						<th>Hand Phone No</th>
+						<th>Home Phone No</th>
+						<th>Email</th>
 						<th>Country</th>
 						<th>Building</th>
 						<th>Block</th>
-						<th>Firstname</th>
-						<th>Lastname</th>
 						<th>Postcode</th>
 						<th>Street</th>
-						<th>System</th>
-						<th>Email</th>
 						<th>Gender</th>
-						<th>Occupation</th>
 						<th>Salutation</th>
 						<th>Unit</th>
+						<!-- <th>System</th> -->
+						<!-- <th>Occupation</th> -->
 					</tr>
 				</thead>
-				<tbody v-if="filterIcNoCustomers.length > 0">
-					<tr v-for="customer in filterIcNoCustomers">
+				<tbody v-if="filterCustomersByColumn.length > 0">
+					<tr v-for="customer in filterCustomersByColumn">
 						<td>{{ customer.CustID }}</td>
 						<td>{{ customer.IC }}</td>
+						<td>{{ customer.FirstName }}</td>
+						<td>{{ customer.Surname }}</td>
+						<td>{{ customer.HandPhone }}</td>
+						<td>{{ customer.HomePhone }}</td>
+						<td>{{ customer.Email }}</td>
 						<td>{{ customer.Country }}</td>
 						<td>{{ customer.Building }}</td>
 						<td>{{ customer.Block }}</td>
-						<td>{{ customer.Firstname }}</td>
-						<td>{{ customer.Surname }}</td>
 						<td>{{ customer.Postcode }}</td>
 						<td>{{ customer.Street }}</td>
-						<td>{{ customer.System }}</td>
-						<td>{{ customer.Email }}</td>
 						<td>{{ customer.Gender }}</td>
-						<td>{{ customer.Occupation }}</td>
 						<td>{{ customer.Salutation }}</td>
 						<td>{{ customer.Unit }}</td>
+						<!-- <td>{{ customer.System }}</td> -->
+						<!-- <td>{{ customer.Occupation }}</td> -->
 					</tr>
 				</tbody>
 				<tbody v-else>
 					<tr>
-						<td colspan="15"><h2 class="text-center">No results found for <em>"{{ icNo }}"</em></h2></td>
+						<td colspan="15"><h2 class="text-center">No result found.</h2></td>
 					</tr>
 				</tbody>
 			</table>
@@ -112,29 +117,105 @@
 				customers: [],
 				tblCustomer: '',
 				icNo: '',
-			}
-		},
-		computed: {
-			filterIcNoCustomers() {
-				let search = this.icNo;
-
-				return this.customers.filter(elem => elem.IC.match(search));
+				firstname: '',
+				lastname: '',
+				handPhoneNo: '',
+				homePhoneNo: '',
+				email: '',
+				columnToUse: '',
 			}
 		},
 		created() {
 			this.authUser = JSON.parse(this.auth);
 			this.allCustomer();
 		},
+		computed: {
+			filterCustomersByColumn() {
+				let records = [];
+
+				switch(this.columnToUse.trim()) {
+					case 'ic_no':
+						records = this.customers.filter(elem => elem.IC.match(new RegExp(this.icNo, 'i')));
+						break;
+					case 'first_name':
+						records = this.customers.filter(elem => elem.FirstName.match(new RegExp(this.firstname, 'i')));
+						break;
+					case 'last_name':
+						records = this.customers.filter(elem => elem.Surname.match(new RegExp(this.lastname, 'i')));
+						break;
+					case 'handphone_no':
+						records = this.customers.filter(elem => elem.HandPhone.match(new RegExp(this.handPhoneNo, 'i')));
+						break;
+					case 'homephone_no':
+						records = this.customers.filter(elem => elem.HomePhone.match(new RegExp(this.homePhoneNo, 'i')));
+						break;
+					case 'email':
+						records = this.customers.filter(elem => elem.Email.match(new RegExp(this.email, 'i')));
+						break;
+				}
+
+				return records;
+			}
+		},
 		methods: {
+			replaceNullRecordWithEmptyString(data) {
+				return data.map(elem => {
+					let nullValue = '';
+
+					return {
+						CustID: elem.CustID,
+						IC: (elem.IC != null) ? elem.IC : nullValue,
+						FirstName: (elem.FirstName != null) ? elem.FirstName : nullValue,
+						Surname: (elem.Surname != null) ? elem.Surname : nullValue,
+						HandPhone: (elem.HandPhone != null) ? elem.HandPhone : nullValue,
+						HomePhone: (elem.HomePhone != null) ? elem.HomePhone : nullValue,
+						Email: (elem.Email != null) ? elem.Email : nullValue,
+						Country: elem.Country,
+						Building: elem.Building,
+						Block: elem.Block,
+						Postcode: elem.Postcode,
+						Street: elem.Street,
+						Gender: (elem.Gender == 'M') ? 'Male' : 'Female',
+						Salutation: elem.Salutation,
+						Unit: elem.Unit,
+						System: elem.System,
+						Occupation: elem.Occupation
+					}
+				});
+			},
 			allCustomer() {
-				let tblCustomer = this.authUser.AllowedtblCustomer		
+				let tblCustomer = this.authUser.AllowedtblCustomer;
 
 				axios.get('/customers/allCustomer/' + tblCustomer).then(response => {
 					let data = response.data;
 
-					this.customers = data.records;
+					this.customers = this.replaceNullRecordWithEmptyString(data.records);
 					this.tblCustomer = data.table;
 				});
+			},
+			columnToSearch(event) {
+				let column = event.target.attributes.id.value;
+
+				switch(column.trim()) {
+					case 'ic_no':
+						this.columnToUse = 'ic_no';
+						break;
+					case 'first_name':
+						this.columnToUse = 'first_name';
+						break;
+					case 'last_name':
+						this.columnToUse = 'last_name';
+						break;
+					case 'handphone_no':
+						this.columnToUse = 'handphone_no';
+						break;
+					case 'homephone_no':
+						this.columnToUse = 'homephone_no';
+						break;
+					case 'email':
+						this.columnToUse = 'email';
+						break;
+				}
 			}
 		}
 	}

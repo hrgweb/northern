@@ -1,8 +1,21 @@
-.customer {
+@media (min-width: 1200px) {
+	.container {
+	    width: 1170px;
+	    width: 90%;
+	}
+}
 
+.customer-search__controls {
+	background: #e7eae5;
+    padding: 1em .5em;
+    margin-top: 1em;
+    border: 1px solid #dadada;
+    overflow: hidden;
 }
 
 .customer-search__records {
+	margin-bottom: 5em;
+
 	table > tbody > tr:nth-child(odd) {
 	    background: #DFF0D8;
 	}
@@ -11,4 +24,3 @@
 	    background: #D9EDF7;
 	}
 }
-

@@ -23,7 +23,7 @@ class CustomersController extends Controller
 	{
 		$table = '';
 
-		switch ($tblCustomer) {
+		switch (trim($tblCustomer)) {
 			case 'dboBPP.tblCustomer':
 				$table = 'dboBPP';
 				break;
