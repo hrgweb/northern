@@ -1,0 +1,14 @@
+.customer {
+
+}
+
+.customer-search__records {
+	table > tbody > tr:nth-child(odd) {
+	    background: #DFF0D8;
+	}
+
+	table > tbody > tr:nth-child(even) {
+	    background: #D9EDF7;
+	}
+}
+
