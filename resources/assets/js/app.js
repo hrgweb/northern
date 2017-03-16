@@ -14,8 +14,13 @@ require('./bootstrap');
  */
 
 import Customer from './components/Customer.vue';
+import CustomerCreate from './components/CustomerCreate.vue';
+
+// plugins
+import noty from 'noty';
+window.noty = noty;
 
 const app = new Vue({
     el: '#app',
-    components: { Customer }
+    components: { Customer, CustomerCreate }
 });

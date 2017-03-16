@@ -10,7 +10,7 @@
 
 			<div class="dashboard__actions">
 				<a href="{{ url('/customers') }}" role="button" class="btn btn-default btn-lg">Search For Existing Record</a>
-				<a href="" role="button" class="btn btn-default btn-lg">Create A New Record</a>
+				<a href="{{ url('/customers/create') }}" role="button" class="btn btn-default btn-lg">Create A New Record</a>
 			</div>
 		</div>
 	</div>

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 42);
+/******/ 	return __webpack_require__(__webpack_require__.s = 49);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,7 +73,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(7);
+var bind = __webpack_require__(9);
 
 /*global toString:true*/
 
@@ -374,558 +374,6 @@ module.exports = {
 
 /***/ }),
 /* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(28);
-
-var PROTECTION_PREFIX = /^\)\]\}',?\n/;
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(3);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(3);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      data = data.replace(PROTECTION_PREFIX, '');
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMehtodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(0);
-var settle = __webpack_require__(20);
-var buildURL = __webpack_require__(23);
-var parseHeaders = __webpack_require__(29);
-var isURLSameOrigin = __webpack_require__(27);
-var createError = __webpack_require__(6);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(22);
-
-module.exports = function xhrAdapter(config) {
-  return new Promise(function dispatchXhrRequest(resolve, reject) {
-    var requestData = config.data;
-    var requestHeaders = config.headers;
-
-    if (utils.isFormData(requestData)) {
-      delete requestHeaders['Content-Type']; // Let the browser set it
-    }
-
-    var request = new XMLHttpRequest();
-    var loadEvent = 'onreadystatechange';
-    var xDomain = false;
-
-    // For IE 8/9 CORS support
-    // Only supports POST and GET calls and doesn't returns the response headers.
-    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
-    if (process.env.NODE_ENV !== 'test' &&
-        typeof window !== 'undefined' &&
-        window.XDomainRequest && !('withCredentials' in request) &&
-        !isURLSameOrigin(config.url)) {
-      request = new window.XDomainRequest();
-      loadEvent = 'onload';
-      xDomain = true;
-      request.onprogress = function handleProgress() {};
-      request.ontimeout = function handleTimeout() {};
-    }
-
-    // HTTP basic authentication
-    if (config.auth) {
-      var username = config.auth.username || '';
-      var password = config.auth.password || '';
-      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
-    }
-
-    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
-
-    // Set the request timeout in MS
-    request.timeout = config.timeout;
-
-    // Listen for ready state
-    request[loadEvent] = function handleLoad() {
-      if (!request || (request.readyState !== 4 && !xDomain)) {
-        return;
-      }
-
-      // The request errored out and we didn't get a response, this will be
-      // handled by onerror instead
-      // With one exception: request that using file: protocol, most browsers
-      // will return status as 0 even though it's a successful request
-      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
-        return;
-      }
-
-      // Prepare the response
-      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
-      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
-      var response = {
-        data: responseData,
-        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
-        status: request.status === 1223 ? 204 : request.status,
-        statusText: request.status === 1223 ? 'No Content' : request.statusText,
-        headers: responseHeaders,
-        config: config,
-        request: request
-      };
-
-      settle(resolve, reject, response);
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle low level network errors
-    request.onerror = function handleError() {
-      // Real errors are hidden from us by the browser
-      // onerror should only fire if it's a network error
-      reject(createError('Network Error', config));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Handle timeout
-    request.ontimeout = function handleTimeout() {
-      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED'));
-
-      // Clean up request
-      request = null;
-    };
-
-    // Add xsrf header
-    // This is only done if running in a standard browser environment.
-    // Specifically not if we're in a web worker, or react-native.
-    if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(25);
-
-      // Add xsrf header
-      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
-          cookies.read(config.xsrfCookieName) :
-          undefined;
-
-      if (xsrfValue) {
-        requestHeaders[config.xsrfHeaderName] = xsrfValue;
-      }
-    }
-
-    // Add headers to the request
-    if ('setRequestHeader' in request) {
-      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
-        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
-          // Remove Content-Type if data is undefined
-          delete requestHeaders[key];
-        } else {
-          // Otherwise add header to the request
-          request.setRequestHeader(key, val);
-        }
-      });
-    }
-
-    // Add withCredentials to request if needed
-    if (config.withCredentials) {
-      request.withCredentials = true;
-    }
-
-    // Add responseType to request if needed
-    if (config.responseType) {
-      try {
-        request.responseType = config.responseType;
-      } catch (e) {
-        if (request.responseType !== 'json') {
-          throw e;
-        }
-      }
-    }
-
-    // Handle progress if needed
-    if (typeof config.onDownloadProgress === 'function') {
-      request.addEventListener('progress', config.onDownloadProgress);
-    }
-
-    // Not all browsers support upload events
-    if (typeof config.onUploadProgress === 'function' && request.upload) {
-      request.upload.addEventListener('progress', config.onUploadProgress);
-    }
-
-    if (config.cancelToken) {
-      // Handle cancellation
-      config.cancelToken.promise.then(function onCanceled(cancel) {
-        if (!request) {
-          return;
-        }
-
-        request.abort();
-        reject(cancel);
-        // Clean up request
-        request = null;
-      });
-    }
-
-    if (requestData === undefined) {
-      requestData = null;
-    }
-
-    // Send the request
-    request.send(requestData);
-  });
-};
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * A `Cancel` is an object that is thrown when an operation is canceled.
- *
- * @class
- * @param {string=} message The message.
- */
-function Cancel(message) {
-  this.message = message;
-}
-
-Cancel.prototype.toString = function toString() {
-  return 'Cancel' + (this.message ? ': ' + this.message : '');
-};
-
-Cancel.prototype.__CANCEL__ = true;
-
-module.exports = Cancel;
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function isCancel(value) {
-  return !!(value && value.__CANCEL__);
-};
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var enhanceError = __webpack_require__(19);
-
-/**
- * Create an Error with the specified message, config, error code, and response.
- *
- * @param {string} message The error message.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- @ @param {Object} [response] The response.
- * @returns {Error} The created error.
- */
-module.exports = function createError(message, config, code, response) {
-  var error = new Error(message);
-  return enhanceError(error, config, code, response);
-};
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function bind(fn, thisArg) {
-  return function wrap() {
-    var args = new Array(arguments.length);
-    for (var i = 0; i < args.length; i++) {
-      args[i] = arguments[i];
-    }
-    return fn.apply(thisArg, args);
-  };
-};
-
-
-/***/ }),
-/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -11152,7 +10600,7 @@ return jQuery;
 
 
 /***/ }),
-/* 9 */
+/* 2 */
 /***/ (function(module, exports) {
 
 module.exports = function normalizeComponent (
@@ -11205,6 +10653,558 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(0);
+var normalizeHeaderName = __webpack_require__(28);
+
+var PROTECTION_PREFIX = /^\)\]\}',?\n/;
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(5);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(5);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      data = data.replace(PROTECTION_PREFIX, '');
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMehtodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(0);
+var settle = __webpack_require__(20);
+var buildURL = __webpack_require__(23);
+var parseHeaders = __webpack_require__(29);
+var isURLSameOrigin = __webpack_require__(27);
+var createError = __webpack_require__(8);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(22);
+
+module.exports = function xhrAdapter(config) {
+  return new Promise(function dispatchXhrRequest(resolve, reject) {
+    var requestData = config.data;
+    var requestHeaders = config.headers;
+
+    if (utils.isFormData(requestData)) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
+    var request = new XMLHttpRequest();
+    var loadEvent = 'onreadystatechange';
+    var xDomain = false;
+
+    // For IE 8/9 CORS support
+    // Only supports POST and GET calls and doesn't returns the response headers.
+    // DON'T do this for testing b/c XMLHttpRequest is mocked, not XDomainRequest.
+    if (process.env.NODE_ENV !== 'test' &&
+        typeof window !== 'undefined' &&
+        window.XDomainRequest && !('withCredentials' in request) &&
+        !isURLSameOrigin(config.url)) {
+      request = new window.XDomainRequest();
+      loadEvent = 'onload';
+      xDomain = true;
+      request.onprogress = function handleProgress() {};
+      request.ontimeout = function handleTimeout() {};
+    }
+
+    // HTTP basic authentication
+    if (config.auth) {
+      var username = config.auth.username || '';
+      var password = config.auth.password || '';
+      requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
+    }
+
+    request.open(config.method.toUpperCase(), buildURL(config.url, config.params, config.paramsSerializer), true);
+
+    // Set the request timeout in MS
+    request.timeout = config.timeout;
+
+    // Listen for ready state
+    request[loadEvent] = function handleLoad() {
+      if (!request || (request.readyState !== 4 && !xDomain)) {
+        return;
+      }
+
+      // The request errored out and we didn't get a response, this will be
+      // handled by onerror instead
+      // With one exception: request that using file: protocol, most browsers
+      // will return status as 0 even though it's a successful request
+      if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf('file:') === 0)) {
+        return;
+      }
+
+      // Prepare the response
+      var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+      var responseData = !config.responseType || config.responseType === 'text' ? request.responseText : request.response;
+      var response = {
+        data: responseData,
+        // IE sends 1223 instead of 204 (https://github.com/mzabriskie/axios/issues/201)
+        status: request.status === 1223 ? 204 : request.status,
+        statusText: request.status === 1223 ? 'No Content' : request.statusText,
+        headers: responseHeaders,
+        config: config,
+        request: request
+      };
+
+      settle(resolve, reject, response);
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle low level network errors
+    request.onerror = function handleError() {
+      // Real errors are hidden from us by the browser
+      // onerror should only fire if it's a network error
+      reject(createError('Network Error', config));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Handle timeout
+    request.ontimeout = function handleTimeout() {
+      reject(createError('timeout of ' + config.timeout + 'ms exceeded', config, 'ECONNABORTED'));
+
+      // Clean up request
+      request = null;
+    };
+
+    // Add xsrf header
+    // This is only done if running in a standard browser environment.
+    // Specifically not if we're in a web worker, or react-native.
+    if (utils.isStandardBrowserEnv()) {
+      var cookies = __webpack_require__(25);
+
+      // Add xsrf header
+      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
+          cookies.read(config.xsrfCookieName) :
+          undefined;
+
+      if (xsrfValue) {
+        requestHeaders[config.xsrfHeaderName] = xsrfValue;
+      }
+    }
+
+    // Add headers to the request
+    if ('setRequestHeader' in request) {
+      utils.forEach(requestHeaders, function setRequestHeader(val, key) {
+        if (typeof requestData === 'undefined' && key.toLowerCase() === 'content-type') {
+          // Remove Content-Type if data is undefined
+          delete requestHeaders[key];
+        } else {
+          // Otherwise add header to the request
+          request.setRequestHeader(key, val);
+        }
+      });
+    }
+
+    // Add withCredentials to request if needed
+    if (config.withCredentials) {
+      request.withCredentials = true;
+    }
+
+    // Add responseType to request if needed
+    if (config.responseType) {
+      try {
+        request.responseType = config.responseType;
+      } catch (e) {
+        if (request.responseType !== 'json') {
+          throw e;
+        }
+      }
+    }
+
+    // Handle progress if needed
+    if (typeof config.onDownloadProgress === 'function') {
+      request.addEventListener('progress', config.onDownloadProgress);
+    }
+
+    // Not all browsers support upload events
+    if (typeof config.onUploadProgress === 'function' && request.upload) {
+      request.upload.addEventListener('progress', config.onUploadProgress);
+    }
+
+    if (config.cancelToken) {
+      // Handle cancellation
+      config.cancelToken.promise.then(function onCanceled(cancel) {
+        if (!request) {
+          return;
+        }
+
+        request.abort();
+        reject(cancel);
+        // Clean up request
+        request = null;
+      });
+    }
+
+    if (requestData === undefined) {
+      requestData = null;
+    }
+
+    // Send the request
+    request.send(requestData);
+  });
+};
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * A `Cancel` is an object that is thrown when an operation is canceled.
+ *
+ * @class
+ * @param {string=} message The message.
+ */
+function Cancel(message) {
+  this.message = message;
+}
+
+Cancel.prototype.toString = function toString() {
+  return 'Cancel' + (this.message ? ': ' + this.message : '');
+};
+
+Cancel.prototype.__CANCEL__ = true;
+
+module.exports = Cancel;
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isCancel(value) {
+  return !!(value && value.__CANCEL__);
+};
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var enhanceError = __webpack_require__(19);
+
+/**
+ * Create an Error with the specified message, config, error code, and response.
+ *
+ * @param {string} message The error message.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ @ @param {Object} [response] The response.
+ * @returns {Error} The created error.
+ */
+module.exports = function createError(message, config, code, response) {
+  var error = new Error(message);
+  return enhanceError(error, config, code, response);
+};
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function bind(fn, thisArg) {
+  return function wrap() {
+    var args = new Array(arguments.length);
+    for (var i = 0; i < args.length; i++) {
+      args[i] = arguments[i];
+    }
+    return fn.apply(thisArg, args);
+  };
+};
+
+
+/***/ }),
 /* 10 */
 /***/ (function(module, exports) {
 
@@ -11237,8 +11237,12 @@ module.exports = g;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Customer_vue__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Customer_vue__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Customer_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Customer_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_CustomerCreate_vue__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_CustomerCreate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_CustomerCreate_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_noty__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_noty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_noty__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -11246,7 +11250,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(33);
+__webpack_require__(35);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -11256,9 +11260,14 @@ __webpack_require__(33);
 
 
 
+
+// plugins
+
+window.noty = __WEBPACK_IMPORTED_MODULE_2_noty___default.a;
+
 var app = new Vue({
   el: '#app',
-  components: { Customer: __WEBPACK_IMPORTED_MODULE_0__components_Customer_vue___default.a }
+  components: { Customer: __WEBPACK_IMPORTED_MODULE_0__components_Customer_vue___default.a, CustomerCreate: __WEBPACK_IMPORTED_MODULE_1__components_CustomerCreate_vue___default.a }
 });
 
 /***/ }),
@@ -11281,9 +11290,9 @@ module.exports = __webpack_require__(14);
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(7);
+var bind = __webpack_require__(9);
 var Axios = __webpack_require__(16);
-var defaults = __webpack_require__(1);
+var defaults = __webpack_require__(3);
 
 /**
  * Create an instance of Axios
@@ -11316,9 +11325,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(4);
+axios.Cancel = __webpack_require__(6);
 axios.CancelToken = __webpack_require__(15);
-axios.isCancel = __webpack_require__(5);
+axios.isCancel = __webpack_require__(7);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -11339,7 +11348,7 @@ module.exports.default = axios;
 "use strict";
 
 
-var Cancel = __webpack_require__(4);
+var Cancel = __webpack_require__(6);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -11403,7 +11412,7 @@ module.exports = CancelToken;
 "use strict";
 
 
-var defaults = __webpack_require__(1);
+var defaults = __webpack_require__(3);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(17);
 var dispatchRequest = __webpack_require__(18);
@@ -11556,8 +11565,8 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(21);
-var isCancel = __webpack_require__(5);
-var defaults = __webpack_require__(1);
+var isCancel = __webpack_require__(7);
+var defaults = __webpack_require__(3);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.
@@ -11666,7 +11675,7 @@ module.exports = function enhanceError(error, config, code, response) {
 "use strict";
 
 
-var createError = __webpack_require__(6);
+var createError = __webpack_require__(8);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -12114,7 +12123,7 @@ module.exports = function spread(callback) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CustomerSearch_vue__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CustomerSearch_vue__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CustomerSearch_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CustomerSearch_vue__);
 //
 //
@@ -12132,6 +12141,240 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 /* 32 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Error_vue__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Error_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Error_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	components: { error: __WEBPACK_IMPORTED_MODULE_0__Error_vue___default.a },
+	props: ['auth', 'date', 'token'],
+	data: function data() {
+		return {
+			authUser: {},
+			errors: [],
+			isError: false,
+			icList: [],
+			emailList: [],
+			customerRecord: {}
+		};
+	},
+	created: function created() {
+		this.authUser = JSON.parse(this.auth);
+
+		// http request
+		this.loadIc();
+		// this.loadEmails();
+	},
+
+	methods: {
+		columnResultConvertToArray: function columnResultConvertToArray() {
+			var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+			var column = arguments[1];
+
+			var result = data.map(function (response) {
+				var newResult = [];
+				var data = response[column];
+
+				newResult.push(data != null ? data.trim() : '');
+
+				return newResult;
+			});
+
+			return _.flatten(result);
+		},
+		loadIc: function loadIc() {
+			var _this = this;
+
+			var action = '/customers/loadIc/' + this.authUser.AllowedtblCustomer.trim();
+
+			axios.get(action).then(function (response) {
+				return _this.icList = _this.columnResultConvertToArray(response.data, 'IC');
+			});
+		},
+		loadEmails: function loadEmails() {
+			var _this2 = this;
+
+			var action = '/customers/loadEmails/' + this.authUser.AllowedtblCustomer.trim();
+
+			axios.get(action).then(function (response) {
+				return _this2.emailList = _this2.columnResultConvertToArray(response.data, 'Email');
+			});
+		},
+		setDate: function setDate() {
+			return $('input[type=date]').val('2017-03-17');
+		},
+		postCustomer: function postCustomer() {
+			var _this3 = this;
+
+			var form = document.getElementById('customer-create');
+			var action = '/customers/?table=' + this.authUser.AllowedtblCustomer;
+			var data = new FormData(form);
+			var ic = $('input[name=ic]').val().trim().toUpperCase();
+			// let email = $('input[name=email]').val().trim().toUpperCase();
+
+			// check if ic exist
+			if (this.icList.indexOf(ic) != -1) {
+				this.errors = [];
+
+				// notify that the ic exist.
+				noty({
+					layout: 'bottomLeft',
+					theme: 'relax', // or relax
+					type: 'error', // success, error, warning, information, notification
+					text: 'IC Number is already exists.',
+					timeout: 5000
+				});
+			} else {
+				axios.post(action, data).then(function (response) {
+					var data = response.data;
+
+					if (data.isFail) {
+						_this3.errors = data.errors;
+						_this3.isError = true;
+					} else {
+						_this3.isError = false;
+						_this3.customerRecord = data.records;
+						_this3.icList.push(data.records.IC);
+
+						// clear inputs and set date
+						form.reset();
+						_this3.setDate();
+
+						// notify that new record save.
+						noty({
+							layout: 'bottomLeft',
+							theme: 'relax', // or relax
+							type: 'success', // success, error, warning, information, notification
+							text: 'New customer successfully added.',
+							timeout: 5000
+						});
+					}
+				});
+			}
+		}
+	}
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(1)))
+
+/***/ }),
+/* 33 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12376,11 +12619,28 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 33 */
+/* 34 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	props: ['errors']
+};
+
+/***/ }),
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-window._ = __webpack_require__(35);
+window._ = __webpack_require__(37);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -12388,9 +12648,9 @@ window._ = __webpack_require__(35);
  * code may be modified to fit the specific needs of your application.
  */
 
-window.$ = window.jQuery = __webpack_require__(8);
+window.$ = window.jQuery = __webpack_require__(1);
 
-__webpack_require__(34);
+__webpack_require__(36);
 
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces
@@ -12398,7 +12658,7 @@ __webpack_require__(34);
  * and simple, leaving you to focus on building your next great project.
  */
 
-window.Vue = __webpack_require__(40);
+window.Vue = __webpack_require__(47);
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -12427,7 +12687,7 @@ window.axios.defaults.headers.common = {
 // });
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(jQuery) {/*!
@@ -14808,10 +15068,10 @@ if (typeof jQuery === 'undefined') {
 
 }(jQuery);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -31900,17 +32160,1901 @@ if (typeof jQuery === 'undefined') {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10), __webpack_require__(41)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10), __webpack_require__(48)(module)))
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(9)(
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!function(root, factory) {
+	 if (true) {
+		 !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(1)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	 } else if (typeof exports === 'object') {
+		 module.exports = factory(require('jquery'));
+	 } else {
+		 factory(root.jQuery);
+	 }
+}(this, function($) {
+
+/*!
+ @package noty - jQuery Notification Plugin
+ @version version: 2.4.1
+ @contributors https://github.com/needim/noty/graphs/contributors
+
+ @documentation Examples and Documentation - http://needim.github.com/noty/
+
+ @license Licensed under the MIT licenses: http://www.opensource.org/licenses/mit-license.php
+ */
+
+if (typeof Object.create !== 'function') {
+  Object.create = function (o) {
+    function F() {
+    }
+
+    F.prototype = o;
+    return new F();
+  };
+}
+
+var NotyObject = {
+
+  init: function (options) {
+
+    // Mix in the passed in options with the default options
+    this.options = $.extend({}, $.noty.defaults, options);
+
+    this.options.layout = (this.options.custom) ? $.noty.layouts['inline'] : $.noty.layouts[this.options.layout];
+
+    if ($.noty.themes[this.options.theme]) {
+      this.options.theme = $.noty.themes[this.options.theme];
+      if (this.options.theme.template)
+        this.options.template = this.options.theme.template;
+
+      if (this.options.theme.animation)
+        this.options.animation = this.options.theme.animation;
+    }
+    else {
+      this.options.themeClassName = this.options.theme;
+    }
+
+    this.options = $.extend({}, this.options, this.options.layout.options);
+
+    if (this.options.id) {
+      if ($.noty.store[this.options.id]) {
+        return $.noty.store[this.options.id];
+      }
+    } else {
+      this.options.id = 'noty_' + (new Date().getTime() * Math.floor(Math.random() * 1000000));
+    }
+
+    // Build the noty dom initial structure
+    this._build();
+
+    // return this so we can chain/use the bridge with less code.
+    return this;
+  }, // end init
+
+  _build: function () {
+
+    // Generating noty bar
+    var $bar = $('<div class="noty_bar noty_type_' + this.options.type + '"></div>').attr('id', this.options.id);
+    $bar.append(this.options.template).find('.noty_text').html(this.options.text);
+
+    this.$bar = (this.options.layout.parent.object !== null) ? $(this.options.layout.parent.object).css(this.options.layout.parent.css).append($bar) : $bar;
+
+    if (this.options.themeClassName)
+      this.$bar.addClass(this.options.themeClassName).addClass('noty_container_type_' + this.options.type);
+
+    // Set buttons if available
+    if (this.options.buttons) {
+
+      var $buttons;
+      // Try find container for buttons in presented template, and create it if not found
+      if (this.$bar.find('.noty_buttons').length > 0) {
+        $buttons = this.$bar.find('.noty_buttons');
+      } else {
+        $buttons = $('<div/>').addClass('noty_buttons');
+        (this.options.layout.parent.object !== null) ? this.$bar.find('.noty_bar').append($buttons) : this.$bar.append($buttons);
+      }
+
+      var self = this;
+
+      $.each(this.options.buttons, function (i, button) {
+        var $button = $('<button/>').addClass((button.addClass) ? button.addClass : 'gray').html(button.text).attr('id', button.id ? button.id : 'button-' + i)
+            .attr('title', button.title)
+            .appendTo($buttons)
+            .on('click', function (event) {
+              if ($.isFunction(button.onClick)) {
+                button.onClick.call($button, self, event);
+              }
+            });
+      });
+    } else {
+      // If buttons is not available, then remove containers if exist
+      this.$bar.find('.noty_buttons').remove();
+    }
+
+    if (this.options.progressBar && this.options.timeout) {
+      var $progressBar = $('<div/>').addClass('noty_progress_bar');
+      (this.options.layout.parent.object !== null) ? this.$bar.find('.noty_bar').append($progressBar) : this.$bar.append($progressBar);
+    }
+
+    // For easy access
+    this.$message     = this.$bar.find('.noty_message');
+    this.$closeButton = this.$bar.find('.noty_close');
+    this.$buttons     = this.$bar.find('.noty_buttons');
+    this.$progressBar = this.$bar.find('.noty_progress_bar');
+
+    $.noty.store[this.options.id] = this; // store noty for api
+
+  }, // end _build
+
+  show: function () {
+
+    var self = this;
+
+    (self.options.custom) ? self.options.custom.find(self.options.layout.container.selector).append(self.$bar) : $(self.options.layout.container.selector).append(self.$bar);
+
+    if (self.options.theme && self.options.theme.style)
+      self.options.theme.style.apply(self);
+
+    ($.type(self.options.layout.css) === 'function') ? this.options.layout.css.apply(self.$bar) : self.$bar.css(this.options.layout.css || {});
+
+    self.$bar.addClass(self.options.layout.addClass);
+
+    self.options.layout.container.style.apply($(self.options.layout.container.selector), [self.options.within]);
+
+    self.showing = true;
+
+    if (self.options.theme && self.options.theme.style)
+      self.options.theme.callback.onShow.apply(this);
+
+    if ($.inArray('click', self.options.closeWith) > -1)
+      self.$bar.css('cursor', 'pointer').on('click', function (evt) {
+        self.stopPropagation(evt);
+        if (self.options.callback.onCloseClick) {
+          self.options.callback.onCloseClick.apply(self);
+        }
+        self.close();
+      });
+
+    if ($.inArray('hover', self.options.closeWith) > -1)
+      self.$bar.one('mouseenter', function () {
+        self.close();
+      });
+
+    if ($.inArray('button', self.options.closeWith) > -1)
+      self.$closeButton.one('click', function (evt) {
+        self.stopPropagation(evt);
+        self.close();
+      });
+
+    if ($.inArray('button', self.options.closeWith) == -1)
+      self.$closeButton.remove();
+
+    if (self.options.callback.beforeShow)
+      self.options.callback.beforeShow.apply(self);
+
+    if (typeof self.options.animation.open == 'string') {
+      self.animationTypeOpen = 'css';
+      self.$bar.css('min-height', self.$bar.innerHeight());
+      self.$bar.on('click', function (e) {
+        self.wasClicked = true;
+      });
+      self.$bar.show();
+
+      if (self.options.callback.onShow)
+        self.options.callback.onShow.apply(self);
+
+      self.$bar.addClass(self.options.animation.open).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+        if (self.options.callback.afterShow) self.options.callback.afterShow.apply(self);
+        self.showing = false;
+        self.shown   = true;
+        self.bindTimeout();
+        if (self.hasOwnProperty('wasClicked')) {
+          self.$bar.off('click', function (e) {
+            self.wasClicked = true;
+          });
+          self.close();
+        }
+      });
+
+    } else if (typeof self.options.animation.open == 'object' && self.options.animation.open == null) {
+      self.animationTypeOpen = 'none';
+      self.showing           = false;
+      self.shown             = true;
+      self.$bar.show();
+      self.bindTimeout();
+
+      if (self.options.callback.onShow)
+        self.options.callback.onShow.apply(self);
+
+      self.$bar.queue(function () {
+        if (self.options.callback.afterShow)
+          self.options.callback.afterShow.apply(self);
+      });
+
+    } else {
+      self.animationTypeOpen = 'anim';
+
+      if (self.options.callback.onShow)
+        self.options.callback.onShow.apply(self);
+
+      self.$bar.animate(
+          self.options.animation.open,
+          self.options.animation.speed,
+          self.options.animation.easing,
+          function () {
+            if (self.options.callback.afterShow) self.options.callback.afterShow.apply(self);
+            self.showing = false;
+            self.shown   = true;
+            self.bindTimeout();
+          });
+    }
+
+    return this;
+
+  }, // end show
+
+  bindTimeout: function () {
+    var self = this;
+
+    // If noty is have a timeout option
+    if (self.options.timeout) {
+
+      if (self.options.progressBar && self.$progressBar) {
+        self.$progressBar.css({
+          transition: 'all ' + self.options.timeout + 'ms linear',
+          width: '0%'
+        });
+      }
+
+      self.queueClose(self.options.timeout);
+      self.$bar.on('mouseenter', self.dequeueClose.bind(self));
+      self.$bar.on('mouseleave', self.queueClose.bind(self, self.options.timeout));
+    }
+
+  },
+
+  dequeueClose: function () {
+    var self = this;
+
+    if (self.options.progressBar) {
+      this.$progressBar.css({
+        transition: 'none',
+        width: '100%'
+      });
+    }
+
+    if (!this.closeTimer) return;
+    clearTimeout(this.closeTimer);
+    this.closeTimer = null;
+  },
+
+  queueClose: function (timeout) {
+    var self = this;
+
+    if (self.options.progressBar) {
+      self.$progressBar.css({
+        transition: 'all ' + self.options.timeout + 'ms linear',
+        width: '0%'
+      });
+    }
+
+    if (this.closeTimer) return;
+    self.closeTimer = window.setTimeout(function () {
+      self.close();
+    }, timeout);
+    return self.closeTimer;
+  },
+
+  close: function () {
+    if (this.$progressBar) {
+      this.$progressBar.remove();
+    }
+
+    if (this.closeTimer) this.dequeueClose();
+
+    if (this.closed) return;
+    if (this.$bar && this.$bar.hasClass('i-am-closing-now')) return;
+
+    var self = this;
+
+    if (this.showing && (this.animationTypeOpen == 'anim' || this.animationTypeOpen == 'none')) {
+      self.$bar.queue(
+          function () {
+            self.close.apply(self);
+          }
+      );
+      return;
+    } else if (this.showing && this.animationTypeOpen == 'css') {
+      self.$bar.on('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+        self.close();
+      });
+    }
+
+    if (!this.shown && !this.showing) { // If we are still waiting in the queue just delete from queue
+      var queue = [];
+      $.each($.noty.queue, function (i, n) {
+        if (n.options.id != self.options.id) {
+          queue.push(n);
+        }
+      });
+      $.noty.queue = queue;
+      return;
+    }
+
+    self.$bar.addClass('i-am-closing-now');
+
+    if (self.options.callback.onClose) {
+      self.options.callback.onClose.apply(self);
+    }
+
+    if (typeof self.options.animation.close == 'string') {
+      self.$bar.removeClass(self.options.animation.open).addClass(self.options.animation.close).one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+        if (self.options.callback.afterClose) self.options.callback.afterClose.apply(self);
+        self.closeCleanUp();
+      });
+
+    } else if (typeof self.options.animation.close == 'object' && self.options.animation.close == null) {
+      self.$bar.dequeue().hide(0, function () {
+        if (self.options.callback.afterClose) self.options.callback.afterClose.apply(self);
+        self.closeCleanUp();
+      });
+
+    } else {
+      self.$bar.clearQueue().stop().animate(
+          self.options.animation.close,
+          self.options.animation.speed,
+          self.options.animation.easing,
+          function () {
+            if (self.options.callback.afterClose) self.options.callback.afterClose.apply(self);
+          })
+          .promise().done(function () {
+        self.closeCleanUp();
+      });
+    }
+
+  }, // end close
+
+  closeCleanUp: function () {
+
+    var self = this;
+
+    // Modal Cleaning
+    if (self.options.modal) {
+      $.notyRenderer.setModalCount(-1);
+      if ($.notyRenderer.getModalCount() == 0 && !$.noty.queue.length) $('.noty_modal').fadeOut(self.options.animation.fadeSpeed, function () {
+        $(this).remove();
+      });
+    }
+
+    // Layout Cleaning
+    $.notyRenderer.setLayoutCountFor(self, -1);
+    if ($.notyRenderer.getLayoutCountFor(self) == 0) $(self.options.layout.container.selector).remove();
+
+    // Make sure self.$bar has not been removed before attempting to remove it
+    if (typeof self.$bar !== 'undefined' && self.$bar !== null) {
+
+      if (typeof self.options.animation.close == 'string') {
+        self.$bar.css('transition', 'all 10ms ease').css('border', 0).css('margin', 0).height(0);
+        self.$bar.one('transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd', function () {
+          self.$bar.remove();
+          self.$bar   = null;
+          self.closed = true;
+
+          if (self.options.theme.callback && self.options.theme.callback.onClose) {
+            self.options.theme.callback.onClose.apply(self);
+          }
+
+          self.handleNext();
+        });
+      } else {
+        self.$bar.remove();
+        self.$bar   = null;
+        self.closed = true;
+
+        self.handleNext();
+      }
+    } else {
+      self.handleNext();
+    }
+
+  }, // end close clean up
+
+  handleNext: function () {
+    var self = this;
+
+    delete $.noty.store[self.options.id]; // deleting noty from store
+
+    if (self.options.theme.callback && self.options.theme.callback.onClose) {
+      self.options.theme.callback.onClose.apply(self);
+    }
+
+    if (!self.options.dismissQueue) {
+      // Queue render
+      $.noty.ontap = true;
+
+      $.notyRenderer.render();
+    }
+
+    if (self.options.maxVisible > 0 && self.options.dismissQueue) {
+      $.notyRenderer.render();
+    }
+  },
+
+  setText: function (text) {
+    if (!this.closed) {
+      this.options.text = text;
+      this.$bar.find('.noty_text').html(text);
+    }
+    return this;
+  },
+
+  setType: function (type) {
+    if (!this.closed) {
+      this.options.type = type;
+      this.options.theme.style.apply(this);
+      this.options.theme.callback.onShow.apply(this);
+    }
+    return this;
+  },
+
+  setTimeout: function (time) {
+    if (!this.closed) {
+      var self             = this;
+      this.options.timeout = time;
+      self.$bar.delay(self.options.timeout).promise().done(function () {
+        self.close();
+      });
+    }
+    return this;
+  },
+
+  stopPropagation: function (evt) {
+    evt = evt || window.event;
+    if (typeof evt.stopPropagation !== "undefined") {
+      evt.stopPropagation();
+    }
+    else {
+      evt.cancelBubble = true;
+    }
+  },
+
+  closed : false,
+  showing: false,
+  shown  : false
+
+}; // end NotyObject
+
+$.notyRenderer = {};
+
+$.notyRenderer.init = function (options) {
+
+  // Renderer creates a new noty
+  var notification = Object.create(NotyObject).init(options);
+
+  if (notification.options.killer)
+    $.noty.closeAll();
+
+  (notification.options.force) ? $.noty.queue.unshift(notification) : $.noty.queue.push(notification);
+
+  $.notyRenderer.render();
+
+  return ($.noty.returns == 'object') ? notification : notification.options.id;
+};
+
+$.notyRenderer.render = function () {
+
+  var instance = $.noty.queue[0];
+
+  if ($.type(instance) === 'object') {
+    if (instance.options.dismissQueue) {
+      if (instance.options.maxVisible > 0) {
+        if ($(instance.options.layout.container.selector + ' > li').length < instance.options.maxVisible) {
+          $.notyRenderer.show($.noty.queue.shift());
+        }
+        else {
+
+        }
+      }
+      else {
+        $.notyRenderer.show($.noty.queue.shift());
+      }
+    }
+    else {
+      if ($.noty.ontap) {
+        $.notyRenderer.show($.noty.queue.shift());
+        $.noty.ontap = false;
+      }
+    }
+  }
+  else {
+    $.noty.ontap = true; // Queue is over
+  }
+
+};
+
+$.notyRenderer.show = function (notification) {
+
+  if (notification.options.modal) {
+    $.notyRenderer.createModalFor(notification);
+    $.notyRenderer.setModalCount(+1);
+  }
+
+  // Where is the container?
+  if (notification.options.custom) {
+    if (notification.options.custom.find(notification.options.layout.container.selector).length == 0) {
+      notification.options.custom.append($(notification.options.layout.container.object).addClass('i-am-new'));
+    }
+    else {
+      notification.options.custom.find(notification.options.layout.container.selector).removeClass('i-am-new');
+    }
+  }
+  else {
+    if ($(notification.options.layout.container.selector).length == 0) {
+      $('body').append($(notification.options.layout.container.object).addClass('i-am-new'));
+    }
+    else {
+      $(notification.options.layout.container.selector).removeClass('i-am-new');
+    }
+  }
+
+  $.notyRenderer.setLayoutCountFor(notification, +1);
+
+  notification.show();
+};
+
+$.notyRenderer.createModalFor = function (notification) {
+  if ($('.noty_modal').length == 0) {
+    var modal = $('<div/>').addClass('noty_modal').addClass(notification.options.theme).data('noty_modal_count', 0);
+
+    if (notification.options.theme.modal && notification.options.theme.modal.css)
+      modal.css(notification.options.theme.modal.css);
+
+    modal.prependTo($('body')).fadeIn(notification.options.animation.fadeSpeed);
+
+    if ($.inArray('backdrop', notification.options.closeWith) > -1)
+      modal.on('click', function () {
+        $.noty.closeAll();
+      });
+  }
+};
+
+$.notyRenderer.getLayoutCountFor = function (notification) {
+  return $(notification.options.layout.container.selector).data('noty_layout_count') || 0;
+};
+
+$.notyRenderer.setLayoutCountFor = function (notification, arg) {
+  return $(notification.options.layout.container.selector).data('noty_layout_count', $.notyRenderer.getLayoutCountFor(notification) + arg);
+};
+
+$.notyRenderer.getModalCount = function () {
+  return $('.noty_modal').data('noty_modal_count') || 0;
+};
+
+$.notyRenderer.setModalCount = function (arg) {
+  return $('.noty_modal').data('noty_modal_count', $.notyRenderer.getModalCount() + arg);
+};
+
+// This is for custom container
+$.fn.noty = function (options) {
+  options.custom = $(this);
+  return $.notyRenderer.init(options);
+};
+
+$.noty         = {};
+$.noty.queue   = [];
+$.noty.ontap   = true;
+$.noty.layouts = {};
+$.noty.themes  = {};
+$.noty.returns = 'object';
+$.noty.store   = {};
+
+$.noty.get = function (id) {
+  return $.noty.store.hasOwnProperty(id) ? $.noty.store[id] : false;
+};
+
+$.noty.close = function (id) {
+  return $.noty.get(id) ? $.noty.get(id).close() : false;
+};
+
+$.noty.setText = function (id, text) {
+  return $.noty.get(id) ? $.noty.get(id).setText(text) : false;
+};
+
+$.noty.setType = function (id, type) {
+  return $.noty.get(id) ? $.noty.get(id).setType(type) : false;
+};
+
+$.noty.clearQueue = function () {
+  $.noty.queue = [];
+};
+
+$.noty.closeAll = function () {
+  $.noty.clearQueue();
+  $.each($.noty.store, function (id, noty) {
+    noty.close();
+  });
+};
+
+var windowAlert = window.alert;
+
+$.noty.consumeAlert = function (options) {
+  window.alert = function (text) {
+    if (options)
+      options.text = text;
+    else
+      options = {text: text};
+
+    $.notyRenderer.init(options);
+  };
+};
+
+$.noty.stopConsumeAlert = function () {
+  window.alert = windowAlert;
+};
+
+$.noty.defaults = {
+  layout      : 'topRight',
+  theme       : 'relax',
+  type        : 'alert',
+  text        : '',
+  progressBar : false,
+  dismissQueue: true,
+  template    : '<div class="noty_message"><span class="noty_text"></span><div class="noty_close"></div></div>',
+  animation   : {
+    open     : {height: 'toggle'},
+    close    : {height: 'toggle'},
+    easing   : 'swing',
+    speed    : 500,
+    fadeSpeed: 'fast'
+  },
+  timeout     : false,
+  force       : false,
+  modal       : false,
+  maxVisible  : 5,
+  killer      : false,
+  closeWith   : ['click'],
+  callback    : {
+    beforeShow  : function () {
+    },
+    onShow      : function () {
+    },
+    afterShow   : function () {
+    },
+    onClose     : function () {
+    },
+    afterClose  : function () {
+    },
+    onCloseClick: function () {
+    }
+  },
+  buttons     : false
+};
+
+$(window).on('resize', function () {
+  $.each($.noty.layouts, function (index, layout) {
+    layout.container.style.apply($(layout.container.selector));
+  });
+});
+
+// Helpers
+window.noty = function noty(options) {
+  return $.notyRenderer.init(options);
+};
+
+$.noty.layouts.bottom = {
+    name     : 'bottom',
+    options  : {},
+    container: {
+        object  : '<ul id="noty_bottom_layout_container" />',
+        selector: 'ul#noty_bottom_layout_container',
+        style   : function() {
+            $(this).css({
+                bottom       : 0,
+                left         : '5%',
+                position     : 'fixed',
+                width        : '90%',
+                height       : 'auto',
+                margin       : 0,
+                padding      : 0,
+                listStyleType: 'none',
+                zIndex       : 9999999
+            });
+        }
+    },
+    parent   : {
+        object  : '<li />',
+        selector: 'li',
+        css     : {}
+    },
+    css      : {
+        display: 'none'
+    },
+    addClass : ''
+};
+
+$.noty.layouts.bottomCenter = {
+    name     : 'bottomCenter',
+    options  : { // overrides options
+
+    },
+    container: {
+        object  : '<ul id="noty_bottomCenter_layout_container" />',
+        selector: 'ul#noty_bottomCenter_layout_container',
+        style   : function() {
+            $(this).css({
+                bottom       : 20,
+                left         : 0,
+                position     : 'fixed',
+                width        : '310px',
+                height       : 'auto',
+                margin       : 0,
+                padding      : 0,
+                listStyleType: 'none',
+                zIndex       : 10000000
+            });
+
+            $(this).css({
+                left: ($(window).width() - $(this).outerWidth(false)) / 2 + 'px'
+            });
+        }
+    },
+    parent   : {
+        object  : '<li />',
+        selector: 'li',
+        css     : {}
+    },
+    css      : {
+        display: 'none',
+        width  : '310px'
+    },
+    addClass : ''
+};
+
+
+$.noty.layouts.bottomLeft = {
+    name     : 'bottomLeft',
+    options  : { // overrides options
+
+    },
+    container: {
+        object  : '<ul id="noty_bottomLeft_layout_container" />',
+        selector: 'ul#noty_bottomLeft_layout_container',
+        style   : function() {
+            $(this).css({
+                bottom       : 20,
+                left         : 20,
+                position     : 'fixed',
+                width        : '310px',
+                height       : 'auto',
+                margin       : 0,
+                padding      : 0,
+                listStyleType: 'none',
+                zIndex       : 10000000
+            });
+
+            if(window.innerWidth < 600) {
+                $(this).css({
+                    left: 5
+                });
+            }
+        }
+    },
+    parent   : {
+        object  : '<li />',
+        selector: 'li',
+        css     : {}
+    },
+    css      : {
+        display: 'none',
+        width  : '310px'
+    },
+    addClass : ''
+};
+$.noty.layouts.bottomRight = {
+    name     : 'bottomRight',
+    options  : { // overrides options
+
+    },
+    container: {
+        object  : '<ul id="noty_bottomRight_layout_container" />',
+        selector: 'ul#noty_bottomRight_layout_container',
+        style   : function() {
+            $(this).css({
+                bottom       : 20,
+                right        : 20,
+                position     : 'fixed',
+                width        : '310px',
+                height       : 'auto',
+                margin       : 0,
+                padding      : 0,
+                listStyleType: 'none',
+                zIndex       : 10000000
+            });
+
+            if(window.innerWidth < 600) {
+                $(this).css({
+                    right: 5
+                });
+            }
+        }
+    },
+    parent   : {
+        object  : '<li />',
+        selector: 'li',
+        css     : {}
+    },
+    css      : {
+        display: 'none',
+        width  : '310px'
+    },
+    addClass : ''
+};
+$.noty.layouts.center = {
+    name     : 'center',
+    options  : { // overrides options
+
+    },
+    container: {
+        object  : '<ul id="noty_center_layout_container" />',
+        selector: 'ul#noty_center_layout_container',
+        style   : function() {
+            $(this).css({
+                position     : 'fixed',
+                width        : '310px',
+                height       : 'auto',
+                margin       : 0,
+                padding      : 0,
+                listStyleType: 'none',
+                zIndex       : 10000000
+            });
+
+            // getting hidden height
+            var dupe = $(this).clone().css({visibility: "hidden", display: "block", position: "absolute", top: 0, left: 0}).attr('id', 'dupe');
+            $("body").append(dupe);
+            dupe.find('.i-am-closing-now').remove();
+            dupe.find('li').css('display', 'block');
+            var actual_height = dupe.height();
+            dupe.remove();
+
+            if($(this).hasClass('i-am-new')) {
+                $(this).css({
+                    left: ($(window).width() - $(this).outerWidth(false)) / 2 + 'px',
+                    top : ($(window).height() - actual_height) / 2 + 'px'
+                });
+            }
+            else {
+                $(this).animate({
+                    left: ($(window).width() - $(this).outerWidth(false)) / 2 + 'px',
+                    top : ($(window).height() - actual_height) / 2 + 'px'
+                }, 500);
+            }
+
+        }
+    },
+    parent   : {
+        object  : '<li />',
+        selector: 'li',
+        css     : {}
+    },
+    css      : {
+        display: 'none',
+        width  : '310px'
+    },
+    addClass : ''
+};
+$.noty.layouts.centerLeft = {
+    name     : 'centerLeft',
+    options  : { // overrides options
+
+    },
+    container: {
+        object  : '<ul id="noty_centerLeft_layout_container" />',
+        selector: 'ul#noty_centerLeft_layout_container',
+        style   : function() {
+            $(this).css({
+                left         : 20,
+                position     : 'fixed',
+                width        : '310px',
+                height       : 'auto',
+                margin       : 0,
+                padding      : 0,
+                listStyleType: 'none',
+                zIndex       : 10000000
+            });
+
+            // getting hidden height
+            var dupe = $(this).clone().css({visibility: "hidden", display: "block", position: "absolute", top: 0, left: 0}).attr('id', 'dupe');
+            $("body").append(dupe);
+            dupe.find('.i-am-closing-now').remove();
+            dupe.find('li').css('display', 'block');
+            var actual_height = dupe.height();
+            dupe.remove();
+
+            if($(this).hasClass('i-am-new')) {
+                $(this).css({
+                    top: ($(window).height() - actual_height) / 2 + 'px'
+                });
+            }
+            else {
+                $(this).animate({
+                    top: ($(window).height() - actual_height) / 2 + 'px'
+                }, 500);
+            }
+
+            if(window.innerWidth < 600) {
+                $(this).css({
+                    left: 5
+                });
+            }
+
+        }
+    },
+    parent   : {
+        object  : '<li />',
+        selector: 'li',
+        css     : {}
+    },
+    css      : {
+        display: 'none',
+        width  : '310px'
+    },
+    addClass : ''
+};
+
+$.noty.layouts.centerRight = {
+    name     : 'centerRight',
+    options  : { // overrides options
+
+    },
+    container: {
+        object  : '<ul id="noty_centerRight_layout_container" />',
+        selector: 'ul#noty_centerRight_layout_container',
+        style   : function() {
+            $(this).css({
+                right        : 20,
+                position     : 'fixed',
+                width        : '310px',
+                height       : 'auto',
+                margin       : 0,
+                padding      : 0,
+                listStyleType: 'none',
+                zIndex       : 10000000
+            });
+
+            // getting hidden height
+            var dupe = $(this).clone().css({visibility: "hidden", display: "block", position: "absolute", top: 0, left: 0}).attr('id', 'dupe');
+            $("body").append(dupe);
+            dupe.find('.i-am-closing-now').remove();
+            dupe.find('li').css('display', 'block');
+            var actual_height = dupe.height();
+            dupe.remove();
+
+            if($(this).hasClass('i-am-new')) {
+                $(this).css({
+                    top: ($(window).height() - actual_height) / 2 + 'px'
+                });
+            }
+            else {
+                $(this).animate({
+                    top: ($(window).height() - actual_height) / 2 + 'px'
+                }, 500);
+            }
+
+            if(window.innerWidth < 600) {
+                $(this).css({
+                    right: 5
+                });
+            }
+
+        }
+    },
+    parent   : {
+        object  : '<li />',
+        selector: 'li',
+        css     : {}
+    },
+    css      : {
+        display: 'none',
+        width  : '310px'
+    },
+    addClass : ''
+};
+$.noty.layouts.inline = {
+    name     : 'inline',
+    options  : {},
+    container: {
+        object  : '<ul class="noty_inline_layout_container" />',
+        selector: 'ul.noty_inline_layout_container',
+        style   : function() {
+            $(this).css({
+                width        : '100%',
+                height       : 'auto',
+                margin       : 0,
+                padding      : 0,
+                listStyleType: 'none',
+                zIndex       : 9999999
+            });
+        }
+    },
+    parent   : {
+        object  : '<li />',
+        selector: 'li',
+        css     : {}
+    },
+    css      : {
+        display: 'none'
+    },
+    addClass : ''
+};
+$.noty.layouts.top = {
+    name     : 'top',
+    options  : {},
+    container: {
+        object  : '<ul id="noty_top_layout_container" />',
+        selector: 'ul#noty_top_layout_container',
+        style   : function() {
+            $(this).css({
+                top          : 0,
+                left         : '5%',
+                position     : 'fixed',
+                width        : '90%',
+                height       : 'auto',
+                margin       : 0,
+                padding      : 0,
+                listStyleType: 'none',
+                zIndex       : 9999999
+            });
+        }
+    },
+    parent   : {
+        object  : '<li />',
+        selector: 'li',
+        css     : {}
+    },
+    css      : {
+        display: 'none'
+    },
+    addClass : ''
+};
+$.noty.layouts.topCenter = {
+    name     : 'topCenter',
+    options  : { // overrides options
+
+    },
+    container: {
+        object  : '<ul id="noty_topCenter_layout_container" />',
+        selector: 'ul#noty_topCenter_layout_container',
+        style   : function() {
+            $(this).css({
+                top          : 20,
+                left         : 0,
+                position     : 'fixed',
+                width        : '310px',
+                height       : 'auto',
+                margin       : 0,
+                padding      : 0,
+                listStyleType: 'none',
+                zIndex       : 10000000
+            });
+
+            $(this).css({
+                left: ($(window).width() - $(this).outerWidth(false)) / 2 + 'px'
+            });
+        }
+    },
+    parent   : {
+        object  : '<li />',
+        selector: 'li',
+        css     : {}
+    },
+    css      : {
+        display: 'none',
+        width  : '310px'
+    },
+    addClass : ''
+};
+
+$.noty.layouts.topLeft = {
+    name     : 'topLeft',
+    options  : { // overrides options
+
+    },
+    container: {
+        object  : '<ul id="noty_topLeft_layout_container" />',
+        selector: 'ul#noty_topLeft_layout_container',
+        style   : function() {
+            $(this).css({
+                top          : 20,
+                left         : 20,
+                position     : 'fixed',
+                width        : '310px',
+                height       : 'auto',
+                margin       : 0,
+                padding      : 0,
+                listStyleType: 'none',
+                zIndex       : 10000000
+            });
+
+            if(window.innerWidth < 600) {
+                $(this).css({
+                    left: 5
+                });
+            }
+        }
+    },
+    parent   : {
+        object  : '<li />',
+        selector: 'li',
+        css     : {}
+    },
+    css      : {
+        display: 'none',
+        width  : '310px'
+    },
+    addClass : ''
+};
+$.noty.layouts.topRight = {
+    name     : 'topRight',
+    options  : { // overrides options
+
+    },
+    container: {
+        object  : '<ul id="noty_topRight_layout_container" />',
+        selector: 'ul#noty_topRight_layout_container',
+        style   : function() {
+            $(this).css({
+                top          : 20,
+                right        : 20,
+                position     : 'fixed',
+                width        : '310px',
+                height       : 'auto',
+                margin       : 0,
+                padding      : 0,
+                listStyleType: 'none',
+                zIndex       : 10000000
+            });
+
+            if(window.innerWidth < 600) {
+                $(this).css({
+                    right: 5
+                });
+            }
+        }
+    },
+    parent   : {
+        object  : '<li />',
+        selector: 'li',
+        css     : {}
+    },
+    css      : {
+        display: 'none',
+        width  : '310px'
+    },
+    addClass : ''
+};
+$.noty.themes.bootstrapTheme = {
+  name    : 'bootstrapTheme',
+  modal   : {
+    css: {
+      position       : 'fixed',
+      width          : '100%',
+      height         : '100%',
+      backgroundColor: '#000',
+      zIndex         : 10000,
+      opacity        : 0.6,
+      display        : 'none',
+      left           : 0,
+      top            : 0,
+      wordBreak      : 'break-all'
+    }
+  },
+  style   : function () {
+
+    var containerSelector = this.options.layout.container.selector;
+    $(containerSelector).addClass('list-group');
+
+    this.$closeButton.append('<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>');
+    this.$closeButton.addClass('close');
+
+    this.$bar.addClass("list-group-item").css('padding', '0px').css('position', 'relative');
+
+    this.$progressBar.css({
+      position       : 'absolute',
+      left           : 0,
+      bottom         : 0,
+      height         : 4,
+      width          : '100%',
+      backgroundColor: '#000000',
+      opacity        : 0.2,
+      '-ms-filter'   : 'progid:DXImageTransform.Microsoft.Alpha(Opacity=20)',
+      filter         : 'alpha(opacity=20)'
+    });
+
+    switch (this.options.type) {
+      case 'alert':
+      case 'notification':
+        this.$bar.addClass("list-group-item-info");
+        break;
+      case 'warning':
+        this.$bar.addClass("list-group-item-warning");
+        break;
+      case 'error':
+        this.$bar.addClass("list-group-item-danger");
+        break;
+      case 'information':
+        this.$bar.addClass("list-group-item-info");
+        break;
+      case 'success':
+        this.$bar.addClass("list-group-item-success");
+        break;
+    }
+
+    this.$message.css({
+      textAlign: 'center',
+      padding  : '8px 10px 9px',
+      width    : 'auto',
+      position : 'relative'
+    });
+  },
+  callback: {
+    onShow : function () { },
+    onClose: function () { }
+  }
+};
+
+
+$.noty.themes.defaultTheme = {
+  name    : 'defaultTheme',
+  helpers : {
+    borderFix: function () {
+      if (this.options.dismissQueue) {
+        var selector = this.options.layout.container.selector + ' ' + this.options.layout.parent.selector;
+        switch (this.options.layout.name) {
+          case 'top':
+            $(selector).css({borderRadius: '0px 0px 0px 0px'});
+            $(selector).last().css({borderRadius: '0px 0px 5px 5px'});
+            break;
+          case 'topCenter':
+          case 'topLeft':
+          case 'topRight':
+          case 'bottomCenter':
+          case 'bottomLeft':
+          case 'bottomRight':
+          case 'center':
+          case 'centerLeft':
+          case 'centerRight':
+          case 'inline':
+            $(selector).css({borderRadius: '0px 0px 0px 0px'});
+            $(selector).first().css({'border-top-left-radius': '5px', 'border-top-right-radius': '5px'});
+            $(selector).last().css({'border-bottom-left-radius': '5px', 'border-bottom-right-radius': '5px'});
+            break;
+          case 'bottom':
+            $(selector).css({borderRadius: '0px 0px 0px 0px'});
+            $(selector).first().css({borderRadius: '5px 5px 0px 0px'});
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  },
+  modal   : {
+    css: {
+      position       : 'fixed',
+      width          : '100%',
+      height         : '100%',
+      backgroundColor: '#000',
+      zIndex         : 10000,
+      opacity        : 0.6,
+      display        : 'none',
+      left           : 0,
+      top            : 0
+    }
+  },
+  style   : function () {
+
+    this.$bar.css({
+      overflow  : 'hidden',
+      background: "url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAoCAQAAAClM0ndAAAAhklEQVR4AdXO0QrCMBBE0bttkk38/w8WRERpdyjzVOc+HxhIHqJGMQcFFkpYRQotLLSw0IJ5aBdovruMYDA/kT8plF9ZKLFQcgF18hDj1SbQOMlCA4kao0iiXmah7qBWPdxpohsgVZyj7e5I9KcID+EhiDI5gxBYKLBQYKHAQoGFAoEks/YEGHYKB7hFxf0AAAAASUVORK5CYII=') repeat-x scroll left top #fff",
+      position  : 'relative'
+    });
+
+    this.$progressBar.css({
+      position       : 'absolute',
+      left           : 0,
+      bottom         : 0,
+      height         : 4,
+      width          : '100%',
+      backgroundColor: '#000000',
+      opacity        : 0.2,
+      '-ms-filter'   : 'progid:DXImageTransform.Microsoft.Alpha(Opacity=20)',
+      filter         : 'alpha(opacity=20)'
+    });
+
+    this.$message.css({
+      textAlign: 'center',
+      padding  : '8px 10px 9px',
+      width    : 'auto',
+      position : 'relative'
+    });
+
+    this.$closeButton.css({
+      position  : 'absolute',
+      top       : 4, right: 4,
+      width     : 10, height: 10,
+      background: "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAQAAAAnOwc2AAAAxUlEQVR4AR3MPUoDURSA0e++uSkkOxC3IAOWNtaCIDaChfgXBMEZbQRByxCwk+BasgQRZLSYoLgDQbARxry8nyumPcVRKDfd0Aa8AsgDv1zp6pYd5jWOwhvebRTbzNNEw5BSsIpsj/kurQBnmk7sIFcCF5yyZPDRG6trQhujXYosaFoc+2f1MJ89uc76IND6F9BvlXUdpb6xwD2+4q3me3bysiHvtLYrUJto7PD/ve7LNHxSg/woN2kSz4txasBdhyiz3ugPGetTjm3XRokAAAAASUVORK5CYII=)",
+      display   : 'none',
+      cursor    : 'pointer'
+    });
+
+    this.$buttons.css({
+      padding        : 5,
+      textAlign      : 'right',
+      borderTop      : '1px solid #ccc',
+      backgroundColor: '#fff'
+    });
+
+    this.$buttons.find('button').css({
+      marginLeft: 5
+    });
+
+    this.$buttons.find('button:first').css({
+      marginLeft: 0
+    });
+
+    this.$bar.on({
+      mouseenter: function () {
+        $(this).find('.noty_close').stop().fadeTo('normal', 1);
+      },
+      mouseleave: function () {
+        $(this).find('.noty_close').stop().fadeTo('normal', 0);
+      }
+    });
+
+    switch (this.options.layout.name) {
+      case 'top':
+        this.$bar.css({
+          borderRadius: '0px 0px 5px 5px',
+          borderBottom: '2px solid #eee',
+          borderLeft  : '2px solid #eee',
+          borderRight : '2px solid #eee',
+          boxShadow   : "0 2px 4px rgba(0, 0, 0, 0.1)"
+        });
+        break;
+      case 'topCenter':
+      case 'center':
+      case 'bottomCenter':
+      case 'inline':
+        this.$bar.css({
+          borderRadius: '5px',
+          border      : '1px solid #eee',
+          boxShadow   : "0 2px 4px rgba(0, 0, 0, 0.1)"
+        });
+        this.$message.css({textAlign: 'center'});
+        break;
+      case 'topLeft':
+      case 'topRight':
+      case 'bottomLeft':
+      case 'bottomRight':
+      case 'centerLeft':
+      case 'centerRight':
+        this.$bar.css({
+          borderRadius: '5px',
+          border      : '1px solid #eee',
+          boxShadow   : "0 2px 4px rgba(0, 0, 0, 0.1)"
+        });
+        this.$message.css({textAlign: 'left'});
+        break;
+      case 'bottom':
+        this.$bar.css({
+          borderRadius: '5px 5px 0px 0px',
+          borderTop   : '2px solid #eee',
+          borderLeft  : '2px solid #eee',
+          borderRight : '2px solid #eee',
+          boxShadow   : "0 -2px 4px rgba(0, 0, 0, 0.1)"
+        });
+        break;
+      default:
+        this.$bar.css({
+          border   : '2px solid #eee',
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
+        });
+        break;
+    }
+
+    switch (this.options.type) {
+      case 'alert':
+      case 'notification':
+        this.$bar.css({backgroundColor: '#FFF', borderColor: '#CCC', color: '#444'});
+        break;
+      case 'warning':
+        this.$bar.css({backgroundColor: '#FFEAA8', borderColor: '#FFC237', color: '#826200'});
+        this.$buttons.css({borderTop: '1px solid #FFC237'});
+        break;
+      case 'error':
+        this.$bar.css({backgroundColor: 'red', borderColor: 'darkred', color: '#FFF'});
+        this.$message.css({fontWeight: 'bold'});
+        this.$buttons.css({borderTop: '1px solid darkred'});
+        break;
+      case 'information':
+        this.$bar.css({backgroundColor: '#57B7E2', borderColor: '#0B90C4', color: '#FFF'});
+        this.$buttons.css({borderTop: '1px solid #0B90C4'});
+        break;
+      case 'success':
+        this.$bar.css({backgroundColor: 'lightgreen', borderColor: '#50C24E', color: 'darkgreen'});
+        this.$buttons.css({borderTop: '1px solid #50C24E'});
+        break;
+      default:
+        this.$bar.css({backgroundColor: '#FFF', borderColor: '#CCC', color: '#444'});
+        break;
+    }
+  },
+  callback: {
+    onShow : function () {
+      $.noty.themes.defaultTheme.helpers.borderFix.apply(this);
+    },
+    onClose: function () {
+      $.noty.themes.defaultTheme.helpers.borderFix.apply(this);
+    }
+  }
+};
+
+$.noty.themes.metroui = {
+  name    : 'metroui',
+  helpers : {},
+  modal   : {
+    css: {
+      position       : 'fixed',
+      width          : '100%',
+      height         : '100%',
+      backgroundColor: '#000',
+      zIndex         : 10000,
+      opacity        : 0.6,
+      display        : 'none',
+      left           : 0,
+      top            : 0
+    }
+  },
+  style   : function () {
+
+    this.$bar.css({
+      overflow    : 'hidden',
+      margin      : '4px 0',
+      borderRadius: '0',
+      position    : 'relative'
+    });
+
+    this.$progressBar.css({
+      position       : 'absolute',
+      left           : 0,
+      bottom         : 0,
+      height         : 4,
+      width          : '100%',
+      backgroundColor: '#000000',
+      opacity        : 0.2,
+      '-ms-filter'   : 'progid:DXImageTransform.Microsoft.Alpha(Opacity=20)',
+      filter         : 'alpha(opacity=20)'
+    });
+
+    this.$message.css({
+      textAlign: 'center',
+      padding  : '1.25rem',
+      width    : 'auto',
+      position : 'relative'
+    });
+
+    this.$closeButton.css({
+      position  : 'absolute',
+      top       : '.25rem', right: '.25rem',
+      width     : 10, height: 10,
+      background: "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAQAAAAnOwc2AAAAxUlEQVR4AR3MPUoDURSA0e++uSkkOxC3IAOWNtaCIDaChfgXBMEZbQRByxCwk+BasgQRZLSYoLgDQbARxry8nyumPcVRKDfd0Aa8AsgDv1zp6pYd5jWOwhvebRTbzNNEw5BSsIpsj/kurQBnmk7sIFcCF5yyZPDRG6trQhujXYosaFoc+2f1MJ89uc76IND6F9BvlXUdpb6xwD2+4q3me3bysiHvtLYrUJto7PD/ve7LNHxSg/woN2kSz4txasBdhyiz3ugPGetTjm3XRokAAAAASUVORK5CYII=)",
+      display   : 'none',
+      cursor    : 'pointer'
+    });
+
+    this.$buttons.css({
+      padding        : 5,
+      textAlign      : 'right',
+      borderTop      : '1px solid #ccc',
+      backgroundColor: '#fff'
+    });
+
+    this.$buttons.find('button').css({
+      marginLeft: 5
+    });
+
+    this.$buttons.find('button:first').css({
+      marginLeft: 0
+    });
+
+    this.$bar.on({
+      mouseenter: function () {
+        $(this).find('.noty_close').stop().fadeTo('normal', 1);
+      },
+      mouseleave: function () {
+        $(this).find('.noty_close').stop().fadeTo('normal', 0);
+      }
+    });
+
+    switch (this.options.layout.name) {
+      case 'top':
+        this.$bar.css({
+          border   : 'none',
+          boxShadow: "0 0 5px 0 rgba(0, 0, 0, 0.3)"
+        });
+        break;
+      case 'topCenter':
+      case 'center':
+      case 'bottomCenter':
+      case 'inline':
+        this.$bar.css({
+          border   : 'none',
+          boxShadow: "0 0 5px 0 rgba(0, 0, 0, 0.3)"
+        });
+        this.$message.css({textAlign: 'center'});
+        break;
+      case 'topLeft':
+      case 'topRight':
+      case 'bottomLeft':
+      case 'bottomRight':
+      case 'centerLeft':
+      case 'centerRight':
+        this.$bar.css({
+          border   : 'none',
+          boxShadow: "0 0 5px 0 rgba(0, 0, 0, 0.3)"
+        });
+        this.$message.css({textAlign: 'left'});
+        break;
+      case 'bottom':
+        this.$bar.css({
+          border   : 'none',
+          boxShadow: "0 0 5px 0 rgba(0, 0, 0, 0.3)"
+        });
+        break;
+      default:
+        this.$bar.css({
+          border   : 'none',
+          boxShadow: "0 0 5px 0 rgba(0, 0, 0, 0.3)"
+        });
+        break;
+    }
+
+    switch (this.options.type) {
+      case 'alert':
+      case 'notification':
+        this.$bar.css({backgroundColor: '#fff', border: 'none', color: '#1d1d1d'});
+        break;
+      case 'warning':
+        this.$bar.css({backgroundColor: '#FA6800', border: 'none', color: '#fff'});
+        this.$buttons.css({borderTop: '1px solid #FA6800'});
+        break;
+      case 'error':
+        this.$bar.css({backgroundColor: '#CE352C', border: 'none', color: '#fff'});
+        this.$message.css({fontWeight: 'bold'});
+        this.$buttons.css({borderTop: '1px solid #CE352C'});
+        break;
+      case 'information':
+        this.$bar.css({backgroundColor: '#1BA1E2', border: 'none', color: '#fff'});
+        this.$buttons.css({borderTop: '1px solid #1BA1E2'});
+        break;
+      case 'success':
+        this.$bar.css({backgroundColor: '#60A917', border: 'none', color: '#fff'});
+        this.$buttons.css({borderTop: '1px solid #50C24E'});
+        break;
+      default:
+        this.$bar.css({backgroundColor: '#fff', border: 'none', color: '#1d1d1d'});
+        break;
+    }
+  },
+  callback: {
+    onShow : function () {
+
+    },
+    onClose: function () {
+
+    }
+  }
+};
+$.noty.themes.relax = {
+  name    : 'relax',
+  helpers : {},
+  modal   : {
+    css: {
+      position       : 'fixed',
+      width          : '100%',
+      height         : '100%',
+      backgroundColor: '#000',
+      zIndex         : 10000,
+      opacity        : 0.6,
+      display        : 'none',
+      left           : 0,
+      top            : 0
+    }
+  },
+  style   : function () {
+
+    this.$bar.css({
+      overflow    : 'hidden',
+      margin      : '4px 0',
+      borderRadius: '2px',
+      position    : 'relative'
+    });
+
+    this.$progressBar.css({
+      position       : 'absolute',
+      left           : 0,
+      bottom         : 0,
+      height         : 4,
+      width          : '100%',
+      backgroundColor: '#000000',
+      opacity        : 0.2,
+      '-ms-filter'   : 'progid:DXImageTransform.Microsoft.Alpha(Opacity=20)',
+      filter         : 'alpha(opacity=20)'
+    });
+
+    this.$message.css({
+      textAlign: 'center',
+      padding  : '10px',
+      width    : 'auto',
+      position : 'relative'
+    });
+
+    this.$closeButton.css({
+      position  : 'absolute',
+      top       : 4, right: 4,
+      width     : 10, height: 10,
+      background: "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAQAAAAnOwc2AAAAxUlEQVR4AR3MPUoDURSA0e++uSkkOxC3IAOWNtaCIDaChfgXBMEZbQRByxCwk+BasgQRZLSYoLgDQbARxry8nyumPcVRKDfd0Aa8AsgDv1zp6pYd5jWOwhvebRTbzNNEw5BSsIpsj/kurQBnmk7sIFcCF5yyZPDRG6trQhujXYosaFoc+2f1MJ89uc76IND6F9BvlXUdpb6xwD2+4q3me3bysiHvtLYrUJto7PD/ve7LNHxSg/woN2kSz4txasBdhyiz3ugPGetTjm3XRokAAAAASUVORK5CYII=)",
+      display   : 'none',
+      cursor    : 'pointer'
+    });
+
+    this.$buttons.css({
+      padding        : 5,
+      textAlign      : 'right',
+      borderTop      : '1px solid #ccc',
+      backgroundColor: '#fff'
+    });
+
+    this.$buttons.find('button').css({
+      marginLeft: 5
+    });
+
+    this.$buttons.find('button:first').css({
+      marginLeft: 0
+    });
+
+    this.$bar.on({
+      mouseenter: function () {
+        $(this).find('.noty_close').stop().fadeTo('normal', 1);
+      },
+      mouseleave: function () {
+        $(this).find('.noty_close').stop().fadeTo('normal', 0);
+      }
+    });
+
+    switch (this.options.layout.name) {
+      case 'top':
+        this.$bar.css({
+          borderBottom: '2px solid #eee',
+          borderLeft  : '2px solid #eee',
+          borderRight : '2px solid #eee',
+          borderTop   : '2px solid #eee',
+          boxShadow   : "0 2px 4px rgba(0, 0, 0, 0.1)"
+        });
+        break;
+      case 'topCenter':
+      case 'center':
+      case 'bottomCenter':
+      case 'inline':
+        this.$bar.css({
+          border   : '1px solid #eee',
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
+        });
+        this.$message.css({textAlign: 'center'});
+        break;
+      case 'topLeft':
+      case 'topRight':
+      case 'bottomLeft':
+      case 'bottomRight':
+      case 'centerLeft':
+      case 'centerRight':
+        this.$bar.css({
+          border   : '1px solid #eee',
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
+        });
+        this.$message.css({textAlign: 'left'});
+        break;
+      case 'bottom':
+        this.$bar.css({
+          borderTop   : '2px solid #eee',
+          borderLeft  : '2px solid #eee',
+          borderRight : '2px solid #eee',
+          borderBottom: '2px solid #eee',
+          boxShadow   : "0 -2px 4px rgba(0, 0, 0, 0.1)"
+        });
+        break;
+      default:
+        this.$bar.css({
+          border   : '2px solid #eee',
+          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
+        });
+        break;
+    }
+
+    switch (this.options.type) {
+      case 'alert':
+      case 'notification':
+        this.$bar.css({backgroundColor: '#FFF', borderColor: '#dedede', color: '#444'});
+        break;
+      case 'warning':
+        this.$bar.css({backgroundColor: '#FFEAA8', borderColor: '#FFC237', color: '#826200'});
+        this.$buttons.css({borderTop: '1px solid #FFC237'});
+        break;
+      case 'error':
+        this.$bar.css({backgroundColor: '#FF8181', borderColor: '#e25353', color: '#FFF'});
+        this.$message.css({fontWeight: 'bold'});
+        this.$buttons.css({borderTop: '1px solid darkred'});
+        break;
+      case 'information':
+        this.$bar.css({backgroundColor: '#78C5E7', borderColor: '#3badd6', color: '#FFF'});
+        this.$buttons.css({borderTop: '1px solid #0B90C4'});
+        break;
+      case 'success':
+        this.$bar.css({backgroundColor: '#BCF5BC', borderColor: '#7cdd77', color: 'darkgreen'});
+        this.$buttons.css({borderTop: '1px solid #50C24E'});
+        break;
+      default:
+        this.$bar.css({backgroundColor: '#FFF', borderColor: '#CCC', color: '#444'});
+        break;
+    }
+  },
+  callback: {
+    onShow : function () {
+
+    },
+    onClose: function () {
+
+    }
+  }
+};
+
+$.noty.themes.semanticUI = {
+  name: 'semanticUI',
+
+  template: '<div class="ui message"><div class="content"><div class="header"></div></div></div>',
+
+  animation: {
+    open : {
+      animation: 'fade',
+      duration : '800ms'
+    },
+    close: {
+      animation: 'fade left',
+      duration : '800ms'
+    }
+  },
+
+  modal   : {
+    css: {
+      position       : 'fixed',
+      width          : '100%',
+      height         : '100%',
+      backgroundColor: '#000',
+      zIndex         : 10000,
+      opacity        : 0.6,
+      display        : 'none',
+      left           : 0,
+      top            : 0
+    }
+  },
+  style   : function () {
+    this.$message = this.$bar.find('.ui.message');
+
+    this.$message.find('.header').html(this.options.header);
+    this.$message.find('.content').append(this.options.text);
+
+    this.$bar.css({
+      margin  : '0.5em',
+      position: 'relative'
+    });
+
+    if (this.options.icon) {
+      this.$message.addClass('icon').prepend($('<i/>').addClass(this.options.icon));
+    }
+
+    this.$progressBar.css({
+      position       : 'absolute',
+      left           : 0,
+      bottom         : 0,
+      height         : 4,
+      width          : '100%',
+      backgroundColor: '#000000',
+      opacity        : 0.2,
+      '-ms-filter'   : 'progid:DXImageTransform.Microsoft.Alpha(Opacity=20)',
+      filter         : 'alpha(opacity=20)'
+    });
+
+    switch (this.options.size) {
+      case 'mini':
+        this.$message.addClass('mini');
+        break;
+      case 'tiny':
+        this.$message.addClass('tiny');
+        break;
+      case 'small':
+        this.$message.addClass('small');
+        break;
+      case 'large':
+        this.$message.addClass('large');
+        break;
+      case 'big':
+        this.$message.addClass('big');
+        break;
+      case 'huge':
+        this.$message.addClass('huge');
+        break;
+      case 'massive':
+        this.$message.addClass('massive');
+        break;
+    }
+
+    switch (this.options.type) {
+      case 'info':
+        this.$message.addClass('info');
+        break;
+      case 'warning':
+        this.$message.addClass('warning');
+        break;
+      case 'error':
+        this.$message.addClass('error');
+        break;
+      case 'negative':
+        this.$message.addClass('negative');
+        break;
+      case 'success':
+        this.$message.addClass('success');
+        break;
+      case 'positive':
+        this.$message.addClass('positive');
+        break;
+      case 'floating':
+        this.$message.addClass('floating');
+        break;
+    }
+  },
+  callback: {
+    onShow : function () {
+      // Enable transition
+      this.$bar.addClass('transition');
+      // Actual transition
+      this.$bar.transition(this.options.animation.open);
+    },
+    onClose: function () {
+      this.$bar.transition(this.options.animation.close);
+    }
+  }
+};
+
+
+return window.noty;
+
+});
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(31),
   /* template */
-  __webpack_require__(39),
+  __webpack_require__(46),
   /* scopeId */
   null,
   /* cssModules */
@@ -31937,14 +34081,48 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 37 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var Component = __webpack_require__(9)(
+var Component = __webpack_require__(2)(
   /* script */
   __webpack_require__(32),
   /* template */
-  __webpack_require__(38),
+  __webpack_require__(43),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\laravel\\development\\northern\\resources\\assets\\js\\components\\CustomerCreate.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] CustomerCreate.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2dc61c0a", Component.options)
+  } else {
+    hotAPI.reload("data-v-2dc61c0a", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(33),
+  /* template */
+  __webpack_require__(45),
   /* scopeId */
   null,
   /* cssModules */
@@ -31971,7 +34149,346 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 38 */
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(34),
+  /* template */
+  __webpack_require__(44),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\laravel\\development\\northern\\resources\\assets\\js\\components\\Error.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Error.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5c9ce1a8", Component.options)
+  } else {
+    hotAPI.reload("data-v-5c9ce1a8", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "customer-create"
+  }, [_c('form', {
+    staticClass: "form-inline",
+    attrs: {
+      "method": "POST",
+      "id": "customer-create",
+      "role": "form"
+    },
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.postCustomer($event)
+      }
+    }
+  }, [_c('legend', [_vm._v("Enter new customer details")]), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "hidden",
+      "name": "_token"
+    },
+    domProps: {
+      "value": _vm.token
+    }
+  }), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('div', {
+    staticClass: "customer-create__other"
+  }, [_c('h3', [_vm._v("Other Information")]), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "dob"
+    }
+  }, [_vm._v("DOB")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "date",
+      "name": "dob"
+    },
+    domProps: {
+      "value": _vm.date
+    }
+  }), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "occupation"
+    }
+  }, [_vm._v("Occupation")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "occupation"
+    }
+  }), _vm._v(" "), _c('br'), _c('br'), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "gender"
+    }
+  }, [_vm._v("Gender")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "radio",
+      "name": "gender",
+      "value": "female",
+      "checked": ""
+    }
+  }), _vm._v(" "), _c('span', [_vm._v("Female")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "radio",
+      "name": "gender",
+      "value": "male"
+    }
+  }), _vm._v(" "), _c('span', [_vm._v("Male")]), _vm._v(" "), _c('br'), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "homephone"
+    }
+  }, [_vm._v("Home phone")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "homephone"
+    }
+  }), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "handphone"
+    }
+  }, [_vm._v("Hand phone")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "handphone"
+    }
+  }), _vm._v(" "), _c('br'), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "email"
+    }
+  }, [_vm._v("Email")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "email"
+    }
+  }), _vm._v(" "), _c('br'), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "remarks"
+    }
+  }, [_vm._v("Remarks")]), _vm._v(" "), _c('textarea', {
+    staticClass: "form-control",
+    attrs: {
+      "name": "remarks",
+      "rows": "3"
+    }
+  })]), _vm._v(" "), (_vm.isError) ? _c('error', {
+    attrs: {
+      "errors": _vm.errors
+    }
+  }) : _vm._e(), _vm._v(" "), _vm._m(2)], 1)])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "customer-create__primary-info"
+  }, [_c('label', {
+    attrs: {
+      "for": "id"
+    }
+  }, [_vm._v("ID")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "id"
+    }
+  }), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "ic"
+    }
+  }, [_vm._v("IC")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "ic"
+    }
+  }), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "salutation"
+    }
+  }, [_vm._v("Salutation")]), _vm._v(" "), _c('select', {
+    staticClass: "form-control",
+    attrs: {
+      "name": "salutation"
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "mr"
+    }
+  }, [_vm._v("Mr")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "ms"
+    }
+  }, [_vm._v("Ms")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "mrs"
+    }
+  }, [_vm._v("Mrs")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "mdm"
+    }
+  }, [_vm._v("Mdm")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "dr"
+    }
+  }, [_vm._v("Dr")])]), _vm._v(" "), _c('br'), _vm._v(" "), _c('div', {
+    staticClass: "customer-create__name"
+  }, [_c('label', {
+    attrs: {
+      "for": "surname"
+    }
+  }, [_vm._v("Surname")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "surname"
+    }
+  }), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "firstname"
+    }
+  }, [_vm._v("Firstname")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "firstname"
+    }
+  })])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "customer-create__address"
+  }, [_c('h3', [_vm._v("Address")]), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "block"
+    }
+  }, [_vm._v("Block / House no")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "block"
+    }
+  }), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "unit_no"
+    }
+  }, [_vm._v("Unit Number")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "unit_no"
+    }
+  }), _vm._v(" "), _c('br'), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "building"
+    }
+  }, [_vm._v("Building")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "building"
+    }
+  }), _vm._v(" "), _c('br'), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "street"
+    }
+  }, [_vm._v("Street")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "street"
+    }
+  }), _vm._v(" "), _c('br'), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "country"
+    }
+  }, [_vm._v("Country")]), _vm._v(" "), _c('select', {
+    staticClass: "form-control",
+    attrs: {
+      "name": "country"
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "singapore"
+    }
+  }, [_vm._v("Singapore")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "other"
+    }
+  }, [_vm._v("Other")])]), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "postcode"
+    }
+  }, [_vm._v("Postcode")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "postcode"
+    }
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "customer-create__buttons"
+  }, [_c('button', {
+    staticClass: "btn btn-info",
+    attrs: {
+      "type": "submit"
+    }
+  }, [_vm._v("Save")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-danger",
+    attrs: {
+      "type": "button"
+    }
+  }, [_vm._v("Close")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-2dc61c0a", module.exports)
+  }
+}
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('ul', {
+    staticClass: "alert alert-danger"
+  }, _vm._l((_vm.errors), function(error) {
+    return _c('li', [_vm._v(_vm._s(error[0]))])
+  }))
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5c9ce1a8", module.exports)
+  }
+}
+
+/***/ }),
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -32192,7 +34709,7 @@ if (false) {
 }
 
 /***/ }),
-/* 39 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -32213,7 +34730,7 @@ if (false) {
 }
 
 /***/ }),
-/* 40 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -41411,10 +43928,10 @@ Vue$3.compile = compileToFunctions;
 
 module.exports = Vue$3;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(10)))
 
 /***/ }),
-/* 41 */
+/* 48 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -41442,7 +43959,7 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 42 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(11);

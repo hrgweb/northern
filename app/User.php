@@ -12,5 +12,5 @@ class User extends Authenticatable
     protected $guarded = ['ID'];
     protected $hidden = ['password', 'remember_token'];
     protected $table = 'dboOutletShared.tblOnlineAppAccessList';
-    protected $primaryKey = 'ID';
+    protected $primaryKey = 'ID';  
 }

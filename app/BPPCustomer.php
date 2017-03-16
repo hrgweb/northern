@@ -2,11 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
+use App\ClassTrait\Customerable;
 
-class BPPCustomer extends Model
+class BPPCustomer extends BaseModel
 {
-    protected $guarded = ['CustID'];
+	use Customerable;
+
     protected $table = 'dboBPP.tblCustomer';
-    protected $primaryKey = 'CustID';
 }
