@@ -1,6 +1,6 @@
 <template>
 	<div class="customer-create">
-		<form method="POST" class="form-inline" id="customer-create" role="form" @submit.prevent="postCustomer">
+		<form method="POST" class="form-inline" id="customer-create" role="form">
 			<legend>Enter new customer details</legend>
 
 			<!-- sanitize against attacks -->
@@ -103,8 +103,8 @@
 			<error v-if="isError" :errors="errors"></error>
 
 			<div class="customer-create__buttons">
-				<button type="submit" class="btn btn-info">Save</button>
-				<button type="button" class="btn btn-danger">Close</button>
+				<button type="submit" class="btn btn-info" @click.prevent="postCustomer">Save</button>
+				<button type="button" class="btn btn-danger" @click.prevent="goToHome">Close</button>
 			</div>
 		</form>
 	</div>
@@ -205,6 +205,9 @@
 						}
 					});
 				}
+			},
+			goToHome() {
+				window.location = '/home';
 			}
 		}
 	}

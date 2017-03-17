@@ -3,7 +3,7 @@
 @section ('content')
 	<div class="container">
 		<div class="login">
-			<h1>Staff Login</h1> <hr>
+			<h2>Staff Login</h2>
 
 			<form action="/login" method="POST" role="form">
 				{{ csrf_field() }}
@@ -20,7 +20,7 @@
 					<input type="password" name="password" class="form-control" id="password">
 				</div>	
 			
-				<button type="submit" class="btn btn-primary">Sign In</button>
+				<button type="submit" class="btn btn-info">Sign In</button>
 			</form>
 		</div>
 	</div>

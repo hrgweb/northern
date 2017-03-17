@@ -12368,6 +12368,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					}
 				});
 			}
+		},
+		goToHome: function goToHome() {
+			window.location = '/home';
 		}
 	}
 };
@@ -34195,12 +34198,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "method": "POST",
       "id": "customer-create",
       "role": "form"
-    },
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.postCustomer($event)
-      }
     }
   }, [_c('legend', [_vm._v("Enter new customer details")]), _vm._v(" "), _c('input', {
     attrs: {
@@ -34298,7 +34295,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "errors": _vm.errors
     }
-  }) : _vm._e(), _vm._v(" "), _vm._m(2)], 1)])
+  }) : _vm._e(), _vm._v(" "), _c('div', {
+    staticClass: "customer-create__buttons"
+  }, [_c('button', {
+    staticClass: "btn btn-info",
+    attrs: {
+      "type": "submit"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.postCustomer($event)
+      }
+    }
+  }, [_vm._v("Save")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-danger",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.goToHome($event)
+      }
+    }
+  }, [_vm._v("Close")])])], 1)])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "customer-create__primary-info"
@@ -34445,20 +34466,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "name": "postcode"
     }
   })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "customer-create__buttons"
-  }, [_c('button', {
-    staticClass: "btn btn-info",
-    attrs: {
-      "type": "submit"
-    }
-  }, [_vm._v("Save")]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-danger",
-    attrs: {
-      "type": "button"
-    }
-  }, [_vm._v("Close")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

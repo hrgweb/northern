@@ -1,11 +1,41 @@
+body { 
+	background: $bodyBgColor;
+	font-family: 'Roboto', 'sans-serif';
+}
+h1, h2, h3, h4, legend, th { color: $textColor; }
+th { font-family: tahoma; }
+label { 
+	color: $textColor;
+    font-family: tahoma;
+    font-size: 1em;
+    font-weight: normal;
+}
+
+.navbar-default { 
+	background: $navBgColor;
+	position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    border-bottom: 1px solid $borderColor;
+}
+
 .alert-danger {
     padding-left: 2em;
 }
 
 .login {
-	width: 350px;
-    max-width: 350px;
-    background: #e1e4e6;
-    padding: .5em 1.5em 1.5em;
-    margin: 7em auto;
+    background: $elementBgColor;
+    width: $loginWidth;
+    max-width: $loginWidth;
+    margin: 10em auto;
+    border: 1px solid $borderColor;
+
+    h2 {
+        background: $navBgColor;
+        padding: 0.7em 0.5em 0.4em;
+        margin: 0;
+    }
+
+    form { padding: 1em; }
 }

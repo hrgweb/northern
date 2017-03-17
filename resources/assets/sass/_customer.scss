@@ -1,14 +1,12 @@
-.customer-create input:focus, textarea:focus {
-    background: #ea939a;
-    color: #fff;
-    border: 1px solid #ef2828;
-}
+.customer, .customer-create { margin-top: 6em !important; }
+
+.customer { color: #545353; }
 
 .customer-search__controls {
-	background: #e7eae5;
+	background: $elementBgColor;
     padding: 1em .5em;
     margin-top: 1em;
-    border: 1px solid #dadada;
+    border: 1px solid $borderColor;
     overflow: hidden;
 }
 
@@ -24,31 +22,43 @@
 	}
 }
 
+.login input,
+.customer-create input,
+.customer-search__controls input {
+    border: 1px solid $borderColor;
+    border-radius: 0px;
+    margin-right: 2em;
+}
+
+.login input:focus,
+.customer-create input:focus, textarea:focus,
+.customer-search__controls input:focus, {
+    background: $inputFocusColor;
+    color: $white;
+    border: 1px solid $red !important;
+}
+
 .customer-create {
     width: 790px;
     max-width: 790px;
-    background: #e7eae5;
+    background: $elementBgColor;
     padding: 0.7em 1em .5em;
     margin: 0 auto 3em;
-    border: 1px solid #dadada;
+    border: 1px solid $borderColor;
 
     h3 {
 		font-size: 1.3em;
-    	font-weight: bold;
+    	font-family: 'sans-serif';
+    	font-weight: normal;
+		margin: 1.5em 0 0.5em;
     }
 
     label {
 	    margin-right: 0.5em;
-	    font-size: 1.3em;
+	    font-size: 1em;
 	    font-weight: normal;
 	    position: relative;
 	    top: 0.3em;
-	}
-
-    input {
-	    border: 1px solid #bbb5b5;
-	    border-radius: 0px;
-	    margin-right: 2em;
 	}
 
 	input[name=salutation],
