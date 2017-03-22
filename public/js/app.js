@@ -12125,18 +12125,42 @@ module.exports = function spread(callback) {
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CustomerSearch_vue__ = __webpack_require__(41);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CustomerSearch_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CustomerSearch_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CustomerEdit_vue__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CustomerEdit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__CustomerEdit_vue__);
 //
 //
 //
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = {
-	components: { CustomerSearch: __WEBPACK_IMPORTED_MODULE_0__CustomerSearch_vue___default.a },
-	props: ['auth']
+	components: { CustomerSearch: __WEBPACK_IMPORTED_MODULE_0__CustomerSearch_vue___default.a, CustomerEdit: __WEBPACK_IMPORTED_MODULE_1__CustomerEdit_vue___default.a },
+	props: ['auth', 'date', 'token'],
+	data: function data() {
+		return {
+			showEditForm: false,
+			record: {}
+		};
+	},
+
+	methods: {
+		editRecord: function editRecord(customer) {
+			this.showEditForm = true;
+			this.record = customer;
+		}
+	}
 };
 
 /***/ }),
@@ -12492,6 +12516,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
 	props: ['auth'],
@@ -12617,6 +12645,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					this.columnToUse = 'email';
 					break;
 			}
+		},
+		editRecord: function editRecord(customer) {
+			this.$emit('isedited', customer);
 		}
 	}
 };
@@ -34697,8 +34728,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "table table-bordered table-hover"
   }, [_c('caption', [_c('h3', [_vm._v("\n\t\t\t\t\tCustomer Records\n\t\t\t\t\t"), _c('span', {
     staticClass: "label label-danger"
-  }, [_vm._v(_vm._s(_vm.filterCustomersByColumn.length))])])]), _vm._v(" "), _c('thead', [_c('tr', [_c('th', [_vm._v("CustID")]), _vm._v(" "), _c('th', [_vm._v("IC")]), _vm._v(" "), _c('th', [_vm._v("Firstname")]), _vm._v(" "), _c('th', [_vm._v("Lastname")]), _vm._v(" "), _c('th', [_vm._v("Hand Phone No")]), _vm._v(" "), _c('th', [_vm._v("Home Phone No")]), _vm._v(" "), _c('th', [_vm._v("Email")]), _vm._v(" "), _c('th', [_vm._v("Country")]), _vm._v(" "), _c('th', [_vm._v("Building")]), _vm._v(" "), _c('th', [_vm._v("Block")]), _vm._v(" "), _c('th', [_vm._v("Postcode")]), _vm._v(" "), _c('th', [_vm._v("Street")]), _vm._v(" "), _c('th', [_vm._v("Gender")]), _vm._v(" "), _c('th', [_vm._v("Salutation")]), _vm._v(" "), _c('th', [_vm._v("Unit")])])]), _vm._v(" "), (_vm.filterCustomersByColumn.length > 0) ? _c('tbody', _vm._l((_vm.filterCustomersByColumn), function(customer) {
-    return _c('tr', [_c('td', [_vm._v(_vm._s(customer.CustID))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.IC))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.FirstName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Surname))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.HandPhone))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.HomePhone))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Email))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Country))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Building))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Block))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Postcode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Street))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Gender))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Salutation))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Unit))])])
+  }, [_vm._v(_vm._s(_vm.filterCustomersByColumn.length))])])]), _vm._v(" "), _c('thead', [_c('tr', [_c('th', [_vm._v("CustID")]), _vm._v(" "), _c('th', [_vm._v("IC")]), _vm._v(" "), _c('th', [_vm._v("Firstname")]), _vm._v(" "), _c('th', [_vm._v("Lastname")]), _vm._v(" "), _c('th', [_vm._v("Hand Phone No")]), _vm._v(" "), _c('th', [_vm._v("Home Phone No")]), _vm._v(" "), _c('th', [_vm._v("Email")]), _vm._v(" "), _c('th', [_vm._v("Country")]), _vm._v(" "), _c('th', [_vm._v("Building")]), _vm._v(" "), _c('th', [_vm._v("Block")]), _vm._v(" "), _c('th', [_vm._v("Postcode")]), _vm._v(" "), _c('th', [_vm._v("Street")]), _vm._v(" "), _c('th', [_vm._v("Gender")]), _vm._v(" "), _c('th', [_vm._v("Salutation")]), _vm._v(" "), _c('th', [_vm._v("Unit")]), _vm._v(" "), _c('th', [_vm._v("Action")])])]), _vm._v(" "), (_vm.filterCustomersByColumn.length > 0) ? _c('tbody', _vm._l((_vm.filterCustomersByColumn), function(customer) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(customer.CustID))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.IC))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.FirstName))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Surname))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.HandPhone))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.HomePhone))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Email))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Country))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Building))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Block))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Postcode))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Street))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Gender))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Salutation))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(customer.Unit))]), _vm._v(" "), _c('td', {
+      attrs: {
+        "colspan": "2"
+      }
+    }, [_c('button', {
+      staticClass: "btn btn-warning",
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": function($event) {
+          _vm.editRecord(customer)
+        }
+      }
+    }, [_vm._v("Edit")])])])
   })) : _c('tbody', [_c('tr', [_c('td', {
     attrs: {
       "colspan": "15"
@@ -34725,8 +34770,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('customer-search', {
     attrs: {
       "auth": _vm.auth
+    },
+    on: {
+      "isedited": _vm.editRecord
     }
-  })], 1)
+  }), _vm._v(" "), (_vm.showEditForm) ? _c('customer-edit', {
+    attrs: {
+      "auth": _vm.auth,
+      "date": _vm.date,
+      "token": _vm.token,
+      "customer": _vm.record
+    },
+    on: {
+      "isedited": function($event) {
+        _vm.showEditForm = false
+      }
+    }
+  }) : _vm._e()], 1)
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -43972,6 +44032,756 @@ module.exports = function(module) {
 __webpack_require__(11);
 module.exports = __webpack_require__(12);
 
+
+/***/ }),
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */,
+/* 57 */,
+/* 58 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Error_vue__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Error_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Error_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	components: { error: __WEBPACK_IMPORTED_MODULE_0__Error_vue___default.a },
+	props: ['auth', 'date', 'token', 'customer'],
+	data: function data() {
+		return {
+			authUser: {},
+			record: {
+				sex: ''
+			}
+		};
+	},
+	created: function created() {
+		this.authUser = JSON.parse(this.auth);
+		this.record = this.customer;
+	},
+
+	methods: {
+		updateCustomer: function updateCustomer() {
+			console.log(this.record);
+		},
+		closeForm: function closeForm() {
+			this.$emit('isedited');
+		}
+	}
+};
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(2)(
+  /* script */
+  __webpack_require__(58),
+  /* template */
+  __webpack_require__(60),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\laravel\\development\\northern\\resources\\assets\\js\\components\\CustomerEdit.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] CustomerEdit.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-63e9d798", Component.options)
+  } else {
+    hotAPI.reload("data-v-63e9d798", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "Customer__edit-overlay"
+  }, [_c('div', {
+    staticClass: "Customer__edit-scroll"
+  }, [_c('div', {
+    staticClass: "Customer__edit"
+  }, [_c('button', {
+    staticClass: "btn btn-danger",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.$emit('isedited')
+      }
+    }
+  }, [_vm._v("x")]), _vm._v(" "), _c('h2', [_vm._v("Edit Record")]), _vm._v(" "), _c('div', {
+    staticClass: "customer-create__primary-info"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-xs-6 col-sm-6 col-md-6 col-lg-6 split_input"
+  }, [_c('label', {
+    attrs: {
+      "for": "ic"
+    }
+  }, [_vm._v("IC")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.record.IC),
+      expression: "record.IC"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "ic"
+    },
+    domProps: {
+      "value": (_vm.record.IC)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.record.IC = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-6 col-md-6 col-lg-6 split_input"
+  }, [_c('label', {
+    attrs: {
+      "for": "salutation"
+    }
+  }, [_vm._v("Salutation")]), _vm._v(" "), _c('select', {
+    staticClass: "form-control",
+    attrs: {
+      "name": "salutation"
+    }
+  }, [_c('option', {
+    domProps: {
+      "value": _vm.record.Salutation
+    }
+  }, [_vm._v(_vm._s(_vm.record.Salutation))]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "mr"
+    }
+  }, [_vm._v("Mr")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "ms"
+    }
+  }, [_vm._v("Ms")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "mrs"
+    }
+  }, [_vm._v("Mrs")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "mdm"
+    }
+  }, [_vm._v("Mdm")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "dr"
+    }
+  }, [_vm._v("Dr")])]), _vm._v(" "), _c('br')])]), _vm._v(" "), _c('div', {
+    staticClass: "customer-create__name"
+  }, [_c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-xs-6 col-sm-6 col-md-6 col-lg-6 split_input"
+  }, [_c('label', {
+    attrs: {
+      "for": "surname"
+    }
+  }, [_vm._v("Surname")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.record.Surname),
+      expression: "record.Surname"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "surname"
+    },
+    domProps: {
+      "value": (_vm.record.Surname)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.record.Surname = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-6 col-md-6 col-lg-6 split_input"
+  }, [_c('label', {
+    attrs: {
+      "for": "firstname"
+    }
+  }, [_vm._v("Firstname")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.record.FirstName),
+      expression: "record.FirstName"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "firstname"
+    },
+    domProps: {
+      "value": (_vm.record.FirstName)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.record.FirstName = $event.target.value
+      }
+    }
+  })])])])]), _vm._v(" "), _c('div', {
+    staticClass: "customer-create__address"
+  }, [_c('h3', [_vm._v("Address")]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-xs-6 col-sm-6 col-md-6 col-lg-6 split_input"
+  }, [_c('label', {
+    attrs: {
+      "for": "block"
+    }
+  }, [_vm._v("Block / House no")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.record.Block),
+      expression: "record.Block"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "block"
+    },
+    domProps: {
+      "value": (_vm.record.Block)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.record.Block = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-6 col-md-6 col-lg-6 split_input"
+  }, [_c('label', {
+    attrs: {
+      "for": "unit_no"
+    }
+  }, [_vm._v("Unit Number")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.record.Unit),
+      expression: "record.Unit"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "unit_no"
+    },
+    domProps: {
+      "value": (_vm.record.Unit)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.record.Unit = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('br')])]), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "building"
+    }
+  }, [_vm._v("Building")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.record.Building),
+      expression: "record.Building"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "building"
+    },
+    domProps: {
+      "value": (_vm.record.Building)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.record.Building = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('br'), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "street"
+    }
+  }, [_vm._v("Street")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.record.Street),
+      expression: "record.Street"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "street"
+    },
+    domProps: {
+      "value": (_vm.record.Street)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.record.Street = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('br'), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-xs-6 col-sm-6 col-md-6 col-lg-6 split_input"
+  }, [_c('label', {
+    attrs: {
+      "for": "country"
+    }
+  }, [_vm._v("Country")]), _vm._v(" "), _c('select', {
+    staticClass: "form-control",
+    attrs: {
+      "name": "country"
+    }
+  }, [_c('option', {
+    domProps: {
+      "value": _vm.record.Country
+    }
+  }, [_vm._v(_vm._s(_vm.record.Country))]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "singapore"
+    }
+  }, [_vm._v("Singapore")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "other"
+    }
+  }, [_vm._v("Other")])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-6 col-md-6 col-lg-6 split_input"
+  }, [_c('label', {
+    attrs: {
+      "for": "postcode"
+    }
+  }, [_vm._v("Postcode")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.record.Postcode),
+      expression: "record.Postcode"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "postcode"
+    },
+    domProps: {
+      "value": (_vm.record.Postcode)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.record.Postcode = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('div', {
+    staticClass: "customer-create__other"
+  }, [_c('h3', [_vm._v("Other Information")]), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-6 col-md-6 col-lg-6 split_input"
+  }, [_c('label', {
+    attrs: {
+      "for": "occupation"
+    }
+  }, [_vm._v("Occupation")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.record.Occupation),
+      expression: "record.Occupation"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "occupation"
+    },
+    domProps: {
+      "value": (_vm.record.Occupation)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.record.Occupation = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('br'), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "gender"
+    }
+  }, [_vm._v("Gender")]), _vm._v(" "), _c('b', [_vm._v(_vm._s(_vm.record.Gender))]), _c('br'), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.record.sex),
+      expression: "record.sex"
+    }],
+    attrs: {
+      "type": "radio",
+      "name": "gender",
+      "value": "female",
+      "checked": ""
+    },
+    domProps: {
+      "checked": _vm._q(_vm.record.sex, "female")
+    },
+    on: {
+      "__c": function($event) {
+        _vm.record.sex = "female"
+      }
+    }
+  }), _vm._v(" "), _c('span', [_vm._v("Female")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.record.sex),
+      expression: "record.sex"
+    }],
+    attrs: {
+      "type": "radio",
+      "name": "gender",
+      "value": "male"
+    },
+    domProps: {
+      "checked": _vm._q(_vm.record.sex, "male")
+    },
+    on: {
+      "__c": function($event) {
+        _vm.record.sex = "male"
+      }
+    }
+  }), _vm._v(" "), _c('span', [_vm._v("Male")]), _vm._v(" "), _c('br'), _c('br'), _vm._v(" "), _c('div', {
+    staticClass: "row"
+  }, [_c('div', {
+    staticClass: "col-xs-6 col-sm-6 col-md-6 col-lg-6 split_input"
+  }, [_c('label', {
+    attrs: {
+      "for": "homephone"
+    }
+  }, [_vm._v("Home phone")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.record.HomePhone),
+      expression: "record.HomePhone"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "homephone"
+    },
+    domProps: {
+      "value": (_vm.record.HomePhone)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.record.HomePhone = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-6 col-sm-6 col-md-6 col-lg-6 split_input"
+  }, [_c('label', {
+    attrs: {
+      "for": "handphone"
+    }
+  }, [_vm._v("Hand phone")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.record.HandPhone),
+      expression: "record.HandPhone"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "handphone"
+    },
+    domProps: {
+      "value": (_vm.record.HandPhone)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.record.HandPhone = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('br')])]), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "email"
+    }
+  }, [_vm._v("Email")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.record.Email),
+      expression: "record.Email"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "name": "email"
+    },
+    domProps: {
+      "value": (_vm.record.Email)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.record.Email = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('br'), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "remarks"
+    }
+  }, [_vm._v("Remarks")]), _vm._v(" "), _c('textarea', {
+    staticClass: "form-control",
+    attrs: {
+      "name": "remarks",
+      "rows": "3"
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "customer-create__buttons"
+  }, [_c('button', {
+    staticClass: "btn btn-info",
+    attrs: {
+      "type": "submit"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.updateCustomer($event)
+      }
+    }
+  }, [_vm._v("Save")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-danger",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.closeForm($event)
+      }
+    }
+  }, [_vm._v("Close")])])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "col-xs-6 col-sm-6 col-md-6 col-lg-6 split_input"
+  }, [_c('label', {
+    attrs: {
+      "for": "dob"
+    }
+  }, [_vm._v("DOB")]), _vm._v(" "), _c('input', {
+    staticClass: "form-control",
+    attrs: {
+      "type": "date",
+      "name": "dob"
+    }
+  })])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-63e9d798", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

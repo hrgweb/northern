@@ -75,6 +75,7 @@
 						<th>Unit</th>
 						<!-- <th>System</th> -->
 						<!-- <th>Occupation</th> -->
+						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody v-if="filterCustomersByColumn.length > 0">
@@ -96,6 +97,9 @@
 						<td>{{ customer.Unit }}</td>
 						<!-- <td>{{ customer.System }}</td> -->
 						<!-- <td>{{ customer.Occupation }}</td> -->
+						<td colspan="2">
+							<button type="button" class="btn btn-warning" @click="editRecord(customer)">Edit</button>
+						</td>
 					</tr>
 				</tbody>
 				<tbody v-else>
@@ -216,6 +220,9 @@
 						this.columnToUse = 'email';
 						break;
 				}
+			},
+			editRecord(customer) {
+				this.$emit('isedited', customer);
 			}
 		}
 	}
