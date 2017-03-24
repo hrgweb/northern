@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BPECustomer;
 use App\BPPCustomer;
+use App\Http\Requests\CustomerRequest;
 use App\PACustomer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +32,6 @@ class CustomersController extends Controller
 	public function store()
 	{
 		$table = trim(request('table'));
-		// $validate = "unique:{$table},Email";
 
 		$validator = Validator::make(request()->all(), [
 			'id' => 'numeric|max:2147483647',
@@ -42,10 +42,8 @@ class CustomersController extends Controller
 			'handphone' => 'min:8|numeric|nullable',
 		]);
 
-		// check if validator fails
-		if ($validator->fails()) {
-            return ['isFail' => true, 'errors' => $validator->errors()];
-        }
+		// check if validator fails then return errors
+		if ($validator->fails()) return ['isFail' => true, 'errors' => $validator->errors()];
 
         // post new customer
         $data = [
@@ -87,6 +85,45 @@ class CustomersController extends Controller
         return ['isFail' => false, 'records' => $result];
 	}
 
+	public function update($customer)
+	{
+		$table = request('table');
+
+		$validator = Validator::make(request()->all(), [
+            'IC' => 'string|nullable',
+            'Postcode' => 'numeric|nullable',
+            'Email' => 'email|nullable',
+            'HomePhone' => 'min:8|numeric|nullable',
+            'HandPhone' => 'min:8|numeric|nullable',
+        ]);
+
+        // check if validator fails then return errors
+        if ($validator->fails()) return ['isFail' => true, 'errors' => $validator->errors()];
+
+        // remove the key from collection/object
+        $data = collect(request()->all())->except(['table']);
+
+        // convert object into associative array
+        $data = json_decode(json_encode($data), true);
+
+        $result = [];
+
+        switch ($table) {
+            case 'dboBPP.tblCustomer':
+            	$result = BPPCustomer::findOrFail($customer)->update($data);
+                break;
+            case 'dboBPE.tblCustomer':
+            	$result = BPECustomer::findOrFail($customer)->update($data);
+                break;
+            case 'dboPA.tblCustomer':
+            	$result = PACustomer::findOrFail($customer)->update($data);
+                break;
+        }
+
+        // return ['isFail' => false, 'records' => $data, 'result' => $result];
+        return ['isFail' => false, 'records' => $data];
+	}
+
 	public function search()
 	{
 		return request()->all();
@@ -111,8 +148,30 @@ class CustomersController extends Controller
 		// table to use to load customer data
 		$table = $table . '.tblCustomer';
 
-		// $records = DB::table($table)->get();					// orig
-		$records =  DB::table($table)->limit(15)->get();		// tmp
+		// orig
+		$records = DB::select(DB::raw("
+				SELECT TOP 10 [CustID]
+					,[IC]
+					,[Salutation]
+					,[Surname]
+					,[FirstName]
+					,[Block]
+					,[Unit]
+					,[Building]
+					,[Street]
+					,[Country]
+					,[Postcode]
+					, CONVERT(DATE, [DOB]) DOB
+					,[Gender]
+					,[Occupation]
+					,[HomePhone]
+					,[HandPhone]
+					,[Email]
+					,[Remark]
+					,[SYSTEM]
+				FROM $table
+				WHERE DOB IS NOT NULL
+			"));
 
 		return ['records' => $records, 'table' => $table];
 	}

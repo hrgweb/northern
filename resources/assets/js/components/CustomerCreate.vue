@@ -18,12 +18,12 @@
 				<!-- salutation -->
 				<label for="salutation">Salutation</label>
 				<select name="salutation" class="form-control">
-					<option value="mr">Mr</option>
-					<option value="ms">Ms</option>
-					<option value="mrs">Mrs</option>
-					<option value="mdm">Mdm</option>
-					<option value="dr">Dr</option>
-				</select> <br>
+					<option value="MR">MR</option>
+					<option value="MS">MS</option>
+					<option value="MRS">MRS</option>
+					<option value="MDM">MDM</option>
+					<option value="DR">DR</option>
+				</select> <br><br>
 
 				<div class="customer-create__name">
 					<!-- surname -->
@@ -165,9 +165,12 @@
 				const data = new FormData(form);
 				let ic = $('input[name=ic]').val().trim().toUpperCase();
 				// let email = $('input[name=email]').val().trim().toUpperCase();
+				
+				// check if ic is null
+				ic = (ic.length > 0) ? ic : '';
 
 				// check if ic exist
-				if (this.icList.indexOf(ic) != -1) {
+				if (this.icList.length > 0 && this.icList.indexOf(ic) != -1) {
 					this.errors = [];
 
 					// notify that the ic exist.

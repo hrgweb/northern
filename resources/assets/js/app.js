@@ -13,8 +13,12 @@ require('./bootstrap');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+ import { store } from './components/store/store.js';
+
 import Customer from './components/Customer.vue';
 import CustomerCreate from './components/CustomerCreate.vue';
+
+window.store = store;
 
 // plugins
 import noty from 'noty';
@@ -22,5 +26,6 @@ window.noty = noty;
 
 const app = new Vue({
     el: '#app',
-    components: { Customer, CustomerCreate }
+    components: { Customer, CustomerCreate },
+    store
 });

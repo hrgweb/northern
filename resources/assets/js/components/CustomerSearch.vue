@@ -1,7 +1,7 @@
 <template>
 	<div class="customer-search">
 		<h2>Search for Customer 
-			<b>[{{ tblCustomer }}]</b>
+			<b>[{{ table }}]</b>
 		</h2>
 
 		<div class="customer-search__controls">
@@ -72,14 +72,14 @@
 						<th>Street</th>
 						<th>Gender</th>
 						<th>Salutation</th>
-						<th>Unit</th>
+						<!-- <th>Unit</th> -->
 						<!-- <th>System</th> -->
 						<!-- <th>Occupation</th> -->
 						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody v-if="filterCustomersByColumn.length > 0">
-					<tr v-for="customer in filterCustomersByColumn">
+					<tr v-for="(customer, index) in filterCustomersByColumn" @click="setIndex(index)">
 						<td>{{ customer.CustID }}</td>
 						<td>{{ customer.IC }}</td>
 						<td>{{ customer.FirstName }}</td>
@@ -94,7 +94,7 @@
 						<td>{{ customer.Street }}</td>
 						<td>{{ customer.Gender }}</td>
 						<td>{{ customer.Salutation }}</td>
-						<td>{{ customer.Unit }}</td>
+						<!-- <td>{{ customer.Unit }}</td> -->
 						<!-- <td>{{ customer.System }}</td> -->
 						<!-- <td>{{ customer.Occupation }}</td> -->
 						<td colspan="2">
@@ -114,12 +114,12 @@
 
 <script>
 	export default {
-		props: ['auth'],
+		props: ['auth', 'customers', 'table'],
 		data() {
 			return {
 				authUser: {},
-				customers: [],
-				tblCustomer: '',
+				// customers: [],
+				// tblCustomer: '',
 				icNo: '',
 				firstname: '',
 				lastname: '',
@@ -127,11 +127,11 @@
 				homePhoneNo: '',
 				email: '',
 				columnToUse: '',
+				recordIndex: 0,
 			}
 		},
 		created() {
-			this.authUser = JSON.parse(this.auth);
-			this.allCustomer();
+			this.authUser = this.auth;
 		},
 		computed: {
 			filterCustomersByColumn() {
@@ -162,41 +162,6 @@
 			}
 		},
 		methods: {
-			replaceNullRecordWithEmptyString(data) {
-				return data.map(elem => {
-					let nullValue = '';
-
-					return {
-						CustID: elem.CustID,
-						IC: (elem.IC != null) ? elem.IC : nullValue,
-						FirstName: (elem.FirstName != null) ? elem.FirstName : nullValue,
-						Surname: (elem.Surname != null) ? elem.Surname : nullValue,
-						HandPhone: (elem.HandPhone != null) ? elem.HandPhone : nullValue,
-						HomePhone: (elem.HomePhone != null) ? elem.HomePhone : nullValue,
-						Email: (elem.Email != null) ? elem.Email : nullValue,
-						Country: elem.Country,
-						Building: elem.Building,
-						Block: elem.Block,
-						Postcode: elem.Postcode,
-						Street: elem.Street,
-						Gender: (elem.Gender == 'M') ? 'Male' : 'Female',
-						Salutation: elem.Salutation,
-						Unit: elem.Unit,
-						System: elem.System,
-						Occupation: elem.Occupation
-					}
-				});
-			},
-			allCustomer() {
-				let tblCustomer = this.authUser.AllowedtblCustomer;
-
-				axios.get('/customers/allCustomer/' + tblCustomer).then(response => {
-					let data = response.data;
-
-					this.customers = this.replaceNullRecordWithEmptyString(data.records);
-					this.tblCustomer = data.table;
-				});
-			},
 			columnToSearch(event) {
 				let column = event.target.attributes.id.value;
 
@@ -223,7 +188,10 @@
 			},
 			editRecord(customer) {
 				this.$emit('isedited', customer);
-			}
+			},
+			setIndex(index) {
+				this.recordIndex = index;
+			},
 		}
 	}
 </script>
