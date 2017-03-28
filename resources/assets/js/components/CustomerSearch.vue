@@ -58,7 +58,7 @@
 				</caption>
 				<thead>
 					<tr>
-						<th>CustID</th>
+						<!-- <th>CustID</th> -->
 						<th>IC</th>
 						<th>Firstname</th>
 						<th>Lastname</th>
@@ -80,7 +80,7 @@
 				</thead>
 				<tbody v-if="filterCustomersByColumn.length > 0">
 					<tr v-for="(customer, index) in filterCustomersByColumn" @click="setIndex(index)">
-						<td>{{ customer.CustID }}</td>
+						<!-- <td>{{ customer.CustID }}</td> -->
 						<td>{{ customer.IC }}</td>
 						<td>{{ customer.FirstName }}</td>
 						<td>{{ customer.Surname }}</td>
@@ -99,6 +99,7 @@
 						<!-- <td>{{ customer.Occupation }}</td> -->
 						<td colspan="2">
 							<button type="button" class="btn btn-warning" @click="editRecord(customer)">Edit</button>
+							<button type="button" class="btn btn-info" @click="purchaseRecord(customer)">History</button>
 						</td>
 					</tr>
 				</tbody>
@@ -192,6 +193,9 @@
 			setIndex(index) {
 				this.recordIndex = index;
 			},
+			purchaseRecord(customer) {
+				this.$emit('ishistory', customer);
+			}
 		}
 	}
 </script>

@@ -6,6 +6,7 @@
 			:customers="customers"
 			:table="tblCustomer"
 			@isedited="editRecord"
+			@ishistory="purchaseRecord"
 		></customer-search>
 
 		<!-- Customer Edit -->
@@ -17,21 +18,33 @@
 			@isedited="showEditForm = false"
 			v-if="showEditForm"
 		></customer-edit>
+
+		<!-- Customer Purchase -->
+		<customer-purchase
+			:auth="authUser"
+			:customer="purchaseCustomerRecord"
+			@ishistory="showPurchaseForm = false"
+			v-if="showPurchaseForm"
+		></customer-purchase>
 	</div>
 </template>
 
 <script>
 	import CustomerSearch from './CustomerSearch.vue';
 	import CustomerEdit from './CustomerEdit.vue';
+	import CustomerPurchase from './CustomerPurchase.vue';
+
 
 	export default {
-		components: { CustomerSearch, CustomerEdit },
+		components: { CustomerSearch, CustomerEdit, CustomerPurchase },
 		props: ['auth', 'date', 'token'],
 		data() {
 			return {
 				authUser: {},
 		    	showEditForm: false,
+		    	showPurchaseForm: false, // tmp -false
 		    	record: {},
+		    	purchaseCustomerRecord: {},
 				customers: [],
 				tblCustomer: '',
 				icList: []
@@ -48,6 +61,10 @@
 			editRecord(customer) {
 				this.showEditForm = true;
 				this.record = customer;
+			},
+			purchaseRecord(customer) {
+				this.showPurchaseForm = true;
+				this.purchaseCustomerRecord = customer;
 			},
 			allCustomer() {
 				let tblCustomer = this.authUser.AllowedtblCustomer;

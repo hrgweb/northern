@@ -25,6 +25,7 @@ import noty from 'noty';
 window.noty = noty;
 
 const app = new Vue({
+	name: 'Northern',
     el: '#app',
     components: { Customer, CustomerCreate },
     store

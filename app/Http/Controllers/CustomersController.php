@@ -131,19 +131,7 @@ class CustomersController extends Controller
 
 	public function allCustomer($tblCustomer)
 	{
-		$table = '';
-
-		switch (trim($tblCustomer)) {
-			case 'dboBPP.tblCustomer':
-				$table = 'dboBPP';
-				break;
-			case 'dboBPE.tblCustomer':
-				$table = 'dboBPE';
-				break;
-			case 'dboPA.tblCustomer':
-				$table = 'dboPA';
-				break;
-		}
+		$table = auth()->user()->identifyTableName($tblCustomer);
 
 		// table to use to load customer data
 		$table = $table . '.tblCustomer';
@@ -170,6 +158,7 @@ class CustomersController extends Controller
 					,[Remark]
 					,[SYSTEM]
 				FROM $table
+				--WHERE CustID=3938
 				WHERE DOB IS NOT NULL
 			"));
 

@@ -25,6 +25,11 @@ select > option[value] {
 	table > tbody > tr:nth-child(even) {
 	    background: #D9EDF7;
 	}
+
+	table > thead > tr > th:last-child { 
+		min-width: 141px; 
+		text-align: center;
+	}
 }
 
 .login input,
@@ -133,7 +138,8 @@ select > option[value] {
 
 /*=============== Customer Edit ===============*/ 
 
-.Customer__edit-overlay {
+.Customer__edit-overlay,
+.Customer__purchase-overlay {
 	background: black;
     background: rgba(0, 0, 0, 0.8);
     position: fixed;
@@ -144,7 +150,8 @@ select > option[value] {
     z-index: 1000;
 }
 
-.Customer__edit-scroll {
+.Customer__edit-scroll,
+.Customer__purchase-scroll {
     position: fixed;
     top: 0;
     left: 0;
@@ -153,17 +160,10 @@ select > option[value] {
     overflow-y: scroll;
 }
 
-.Customer__edit {
-    background: $elementBgColor;
-    position: relative;
-    width: $editWidth;
-    max-width: $editWidth;
-    margin: 4em auto 2em;
-    padding: 1em;
-    border-radius: 2px;
-
-    > button {
-    	position: absolute;
+.Customer__edit,
+.Customer__purchase {
+	> button {
+		position: absolute;
 	    top: -0.2em;
 	    right: 0.1em;
 	    background: none;
@@ -171,13 +171,26 @@ select > option[value] {
 	    color: red;
 	    font-size: 2em;
 	    font-weight: bold;
-    }
+	}
 
-    h2 {
+	> h2 {
 	    margin: .5em 0;
 	    padding-bottom: 0.1em;
 	    border-bottom: 1px solid $borderColor;
 	}
+}
+
+.Customer__edit,
+.Customer__purchase {
+	background: $elementBgColor;
+    position: relative;
+    width: $editWidth;
+    margin: 4em auto 2em;
+    padding: 1em;
+    border-radius: 2px;
+}
+
+.Customer__edit {
 
 	textarea { margin-bottom: 3em; }
 
@@ -199,6 +212,78 @@ select > option[value] {
 	    font-size: 1.1em;
 	    margin-right: 0.2em;
 	}
+}
+
+/*=============== Customer Purchase ===============*/ 
+
+.Customer__purchase {
+	background: $elementBgColor;
+    font-family: tahoma;
+    width: 80%;
+}
+
+.Customer__purchase-info {
+    background: #3e483e;
+    color: $red1;
+    font-size: 1em;
+    padding: .5em 1em;
+    margin-bottom: 0.5em;
+    border: 1px solid #ece0e0;
+}
+
+.Customer__purchase-body table > tbody > tr > td.tmp,
+.Customer__purchase-receipt div.lens-tmp {
+	    font-size: 1.5em;
+	    color: $red2;
+	    text-align: center;
+	}
+
+.Customer__purchase-body {
+	
+}
+
+.Customer__purchase-body .records {
+    background: $red1;
+    color: $white;
+    padding: .5em 1em;
+    font-size: 1em;
+    font-family: calibri;
+    box-shadow: 0 0 5px 2px rgba(185, 24, 7, 0.2);
+
+	> li { 
+		margin-left: 1em; 
+
+		> a { color: $white; }
+	}
+}
+
+.Customer__purchase-info > b {
+    font-size: 1.1em;
+    text-transform: uppercase;
+}
+
+.Customer__purchase-receipt {
+	background: #3e483e;
+    color: $white;
+	padding: 1em;
+
+    h3 {
+    	margin-top: 0;
+		margin-bottom: 1em;
+	    color: $white;
+    }
+
+    p { letter-spacing: 0.1em; }
+
+    span {
+		letter-spacing: 0;
+	    font-size: 1.3em;
+	    color: #ff1919;
+    }
+
+    div.lens {
+
+    }
 }
 
 @media (min-width: 1200px) {
