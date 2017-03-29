@@ -16,19 +16,54 @@
 				<div class="Customer__purchase-body">
 					<div class="row">
 						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding-right: 0;">
-							<ul class="records">
-								<li v-if="isLoading">{{ msg }}</li>
-								<li v-for="(sale, index) in sales" v-else>
-									<a href="#" @click.prevent="showReceipt(sale, index)">
+							<div class="left-panel">
+								<!-- Customer -->
+								<ul class="records">
+									<li v-if="isLoading">{{ msg }}</li>
+									<li v-for="(sale, index) in sales" v-else>
+										<a href="#" @click.prevent="showReceipt(sale, index)">
+											<b>
+												{{ sale.ReceiptNo }} :
+												{{ sale.SaleDate }} :
+												{{ sale.TrayNo }} :
+												{{ sale.StaffName }}
+											</b>
+										</a>
+									</li>
+								</ul>
+
+								<!-- Dispense -->
+								<ul class="dispense">
+									<li v-for="dispense in dispenses">
 										<b>
-											{{ sale.ReceiptNo }} :
-											{{ sale.SaleDate }} :
-											{{ sale.TrayNo }} :
-											{{ sale.StaffName }}
+											{{ dispense.ClassName }} :
+											{{ dispense.DispID }}
 										</b>
-									</a>
-								</li>
-							</ul>
+
+										<!-- Sight Test -->
+										<ul class="sigt-test">
+											<li>
+												<b>
+													SIGHT TEST : 
+													{{ dispense.STID }} :
+													{{ dispense.OrderDate }}
+												</b>
+											</li>
+										</ul>
+									</li>
+								</ul>
+
+								<!-- ST -->
+								<ul class="st-detail">
+									<li v-for="st in sts">
+										<b>
+											ST : {{ st.STID }} :
+											{{ st.STDate }} :
+											{{ st.StaffName }}
+										</b>
+									</li>
+								</ul>
+							</div>
 						</div>
 
 						<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" v-if="receiptInfo">
@@ -213,10 +248,22 @@
 				contactObj: [],
 				isSpectacle: false,
 				isContact: false,
+				dispenses: [],
+				sts: []
+			}
+		},
+		computed: {
+			custID() {
+				return this.customer.CustID;
+			},
+			tableName() {
+				return '/?table=' + this.auth.AllowedtblCustomer.trim();
 			}
 		},
 		mounted() {
 			this.allPurchase();
+			this.dispenseLeft();
+			this.stLeft();
 		},
 		methods: {
 			prepareQuery(url) {
@@ -239,7 +286,7 @@
 				});
 			},
 			allPurchase() {
-				let url = '/purchases/'+this.customer.CustID+'/?table='+this.auth.AllowedtblCustomer.trim();
+				let url = '/purchases/'+this.custID+this.tableName;
 
 				axios.get(url).then(response => {
 					let data = response.data;
@@ -280,7 +327,7 @@
 				this.indexBefore = index;
 			},
 			salesTransaction() {
-				let url = '/purchases/transactions/'+this.receipt.ReceiptNo+'/?table='+this.auth.AllowedtblCustomer.trim();;
+				let url = '/purchases/transactions/'+this.receipt.ReceiptNo+this.tableName;
 
 				axios.get(url).then(response => {
 					let data = response.data;
@@ -297,7 +344,7 @@
 				})
 			},
 			dispenseRight() {
-				let url = '/purchases/dispenseRight/'+this.receipt.SaleID+'/?table='+this.auth.AllowedtblCustomer.trim();
+				let url = '/purchases/dispenseRight/'+this.receipt.SaleID+this.tableName;
 
 				axios.get(url).then(response => {
 					let data = response.data;
@@ -330,6 +377,20 @@
 
 				// contact obj is > 0
 				this.isContact = (this.contactObj.length > 0) ?  true : false;
+			},
+			dispenseLeft() {
+				let url = '/purchases/dispenseLeft/'+this.custID+this.tableName;
+
+				axios.get(url).then(response => {
+					this.dispenses = response.data;
+				});
+			},
+			stLeft() {
+				let url = '/purchases/stLeft/'+this.custID+this.tableName;
+
+				axios.get(url).then(response => {
+					this.sts = response.data;
+				});
 			}
 		}
 	}

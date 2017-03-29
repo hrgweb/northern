@@ -56,4 +56,35 @@ class PurchaseController extends Controller
             WHERE dispense.SaleID=?
         "), [$saleID]);
     }
+
+    public function dispenseLeft($custID)
+    {
+        $table = auth()->user()->identifyTableName(request('table'));
+        $dispense = $table.'.tblDispensing';
+        $class = $table.'.tblClass';
+
+        return DB::select(DB::raw("
+            SELECT class.ClassName, dispense.DispID, dispense.STID, CONVERT(DATE, dispense.OrderDate) OrderDate
+            FROM $dispense as dispense
+                JOIN $class as class
+            ON class.ClassID = dispense.ClassID
+            WHERE CustID=?
+        "), [$custID]);
+    }
+
+    public function stLeft($custID)
+    {
+        $table = auth()->user()->identifyTableName(request('table'));
+        $st = $table.'.tblST';
+
+        return DB::select(DB::raw("
+            SELECT STID, CONVERT(DATE, STDate) STDate, StaffName
+            FROM $st AS st
+                JOIN dboOutletShared.tblStaffShared AS staff
+            ON staff.StaffID = st.staffID
+            WHERE CustID=?
+
+        "), [$custID]);
+
+    }
 }

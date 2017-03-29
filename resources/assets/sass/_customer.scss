@@ -239,22 +239,26 @@ select > option[value] {
 	}
 
 .Customer__purchase-body {
-	
-}
 
-.Customer__purchase-body .records {
-    background: $red1;
-    color: $white;
-    padding: .5em 1em;
-    font-size: 1em;
-    font-family: calibri;
-    box-shadow: 0 0 5px 2px rgba(185, 24, 7, 0.2);
+	ul { 
+		padding-left: 0; 
+		margin-bottom: 0;
 
-	> li { 
-		margin-left: 1em; 
+		> li { 
+			margin-left: 1em; 
 
-		> a { color: $white; }
+			> a { color: $white; }
+		}
 	}
+	
+	div.left-panel {
+		background: $red1;
+	    color: $white;
+	    padding: .5em 1em;
+	    font-size: 1em;
+	    font-family: calibri;
+	    box-shadow: 0 0 5px 2px rgba(185, 24, 7, 0.2);
+	}	
 }
 
 .Customer__purchase-info > b {

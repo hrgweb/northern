@@ -132,8 +132,6 @@ class CustomersController extends Controller
 	public function allCustomer($tblCustomer)
 	{
 		$table = auth()->user()->identifyTableName($tblCustomer);
-
-		// table to use to load customer data
 		$table = $table . '.tblCustomer';
 
 		// orig
@@ -159,7 +157,7 @@ class CustomersController extends Controller
 					,[SYSTEM]
 				FROM $table
 				--WHERE CustID=3938
-				WHERE DOB IS NOT NULL
+				--WHERE DOB IS NOT NULL
 			"));
 
 		return ['records' => $records, 'table' => $table];
