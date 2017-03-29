@@ -48,6 +48,8 @@ Route::group(['prefix' => 'purchases'], function() {
 	Route::get('/{id}', 'PurchaseController@show');
 	Route::get('/transactions/{id}', 'PurchaseController@transaction');
 	Route::get('/dispenseRight/{id}', 'PurchaseController@dispenseRight');
+    Route::get('/dispenseLeft/{id}', 'PurchaseController@dispenseLeft');
+	Route::get('/stLeft/{id}', 'PurchaseController@stLeft');
 });
 
 

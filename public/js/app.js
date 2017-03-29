@@ -22162,6 +22162,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
 	props: ['auth', 'customer'],
@@ -22183,11 +22218,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			spectacleObj: [],
 			contactObj: [],
 			isSpectacle: false,
-			isContact: false
+			isContact: false,
+			dispenses: [],
+			sts: []
 		};
+	},
+
+	computed: {
+		custID: function custID() {
+			return this.customer.CustID;
+		},
+		tableName: function tableName() {
+			return '/?table=' + this.auth.AllowedtblCustomer.trim();
+		}
 	},
 	mounted: function mounted() {
 		this.allPurchase();
+		this.dispenseLeft();
+		this.stLeft();
 	},
 
 	methods: {
@@ -22215,7 +22263,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		allPurchase: function allPurchase() {
 			var _this2 = this;
 
-			var url = '/purchases/' + this.customer.CustID + '/?table=' + this.auth.AllowedtblCustomer.trim();
+			var url = '/purchases/' + this.custID + this.tableName;
 
 			axios.get(url).then(function (response) {
 				var data = response.data;
@@ -22255,7 +22303,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		salesTransaction: function salesTransaction() {
 			var _this3 = this;
 
-			var url = '/purchases/transactions/' + this.receipt.ReceiptNo + '/?table=' + this.auth.AllowedtblCustomer.trim();;
+			var url = '/purchases/transactions/' + this.receipt.ReceiptNo + this.tableName;
 
 			axios.get(url).then(function (response) {
 				var data = response.data;
@@ -22274,7 +22322,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		dispenseRight: function dispenseRight() {
 			var _this4 = this;
 
-			var url = '/purchases/dispenseRight/' + this.receipt.SaleID + '/?table=' + this.auth.AllowedtblCustomer.trim();
+			var url = '/purchases/dispenseRight/' + this.receipt.SaleID + this.tableName;
 
 			axios.get(url).then(function (response) {
 				var data = response.data;
@@ -22307,6 +22355,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			// contact obj is > 0
 			this.isContact = this.contactObj.length > 0 ? true : false;
+		},
+		dispenseLeft: function dispenseLeft() {
+			var _this5 = this;
+
+			var url = '/purchases/dispenseLeft/' + this.custID + this.tableName;
+
+			axios.get(url).then(function (response) {
+				_this5.dispenses = response.data;
+			});
+		},
+		stLeft: function stLeft() {
+			var _this6 = this;
+
+			var url = '/purchases/stLeft/' + this.custID + this.tableName;
+
+			axios.get(url).then(function (response) {
+				_this6.sts = response.data;
+			});
 		}
 	}
 };
@@ -44545,6 +44611,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticStyle: {
       "padding-right": "0"
     }
+  }, [_c('div', {
+    staticClass: "left-panel"
   }, [_c('ul', {
     staticClass: "records"
   }, [(_vm.isLoading) ? _c('li', [_vm._v(_vm._s(_vm.msg))]) : _vm._l((_vm.sales), function(sale, index) {
@@ -44558,8 +44626,18 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
           _vm.showReceipt(sale, index)
         }
       }
-    }, [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(sale.ReceiptNo) + " :\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(sale.SaleDate) + " :\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(sale.TrayNo) + " :\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(sale.StaffName) + "\n\t\t\t\t\t\t\t\t\t")])])])
-  })], 2)]), _vm._v(" "), (_vm.receiptInfo) ? _c('div', {
+    }, [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(sale.ReceiptNo) + " :\n\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(sale.SaleDate) + " :\n\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(sale.TrayNo) + " :\n\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(sale.StaffName) + "\n\t\t\t\t\t\t\t\t\t\t")])])])
+  })], 2), _vm._v(" "), _c('ul', {
+    staticClass: "dispense"
+  }, _vm._l((_vm.dispenses), function(dispense) {
+    return _c('li', [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(dispense.ClassName) + " :\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(dispense.DispID) + "\n\t\t\t\t\t\t\t\t\t")]), _vm._v(" "), _c('ul', {
+      staticClass: "sigt-test"
+    }, [_c('li', [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t\t\t\t\tSIGHT TEST : \n\t\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(dispense.STID) + " :\n\t\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(dispense.OrderDate) + "\n\t\t\t\t\t\t\t\t\t\t\t")])])])])
+  })), _vm._v(" "), _c('ul', {
+    staticClass: "st-detail"
+  }, _vm._l((_vm.sts), function(st) {
+    return _c('li', [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t\t\tST : " + _vm._s(st.STID) + " :\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(st.STDate) + " :\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(st.StaffName) + "\n\t\t\t\t\t\t\t\t\t")])])
+  }))])]), _vm._v(" "), (_vm.receiptInfo) ? _c('div', {
     staticClass: "col-xs-8 col-sm-8 col-md-8 col-lg-8"
   }, [_c('div', {
     staticClass: "Customer__purchase-receipt"
