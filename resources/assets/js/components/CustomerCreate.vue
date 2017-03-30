@@ -191,7 +191,7 @@
 						} else {
 							this.isError = false;
 							this.customerRecord = data.records;
-							this.icList.push(data.records.IC);
+							(data.records == true) && this.icList.push(data.records.IC);
 
 							// clear inputs and set date
 							form.reset();

@@ -21670,7 +21670,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					} else {
 						_this3.isError = false;
 						_this3.customerRecord = data.records;
-						_this3.icList.push(data.records.IC);
+						data.records == true && _this3.icList.push(data.records.IC);
 
 						// clear inputs and set date
 						form.reset();
