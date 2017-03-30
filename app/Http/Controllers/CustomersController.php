@@ -43,7 +43,7 @@ class CustomersController extends Controller
 		]);
 
 		// check if validator fails then return errors
-		if ($validator->fails()) return ['isFail' => true, 'errors' => $validator->errors()];
+		if ($validator->fails()) return response()->json(['isFail' => true, 'errors' => $validator->errors()]);
 
         // post new customer
         $data = [
@@ -82,7 +82,7 @@ class CustomersController extends Controller
 				break;
 		}
 
-        return ['isFail' => false, 'records' => $result];
+        return response()->json(['isFail' => false, 'records' => $result]);
 	}
 
 	public function update($customer)
@@ -98,7 +98,7 @@ class CustomersController extends Controller
         ]);
 
         // check if validator fails then return errors
-        if ($validator->fails()) return ['isFail' => true, 'errors' => $validator->errors()];
+        if ($validator->fails()) return response()->json(['isFail' => true, 'errors' => $validator->errors()]);
 
         // remove the key from collection/object
         $data = collect(request()->all())->except(['table']);
@@ -121,7 +121,7 @@ class CustomersController extends Controller
         }
 
         // return ['isFail' => false, 'records' => $data, 'result' => $result];
-        return ['isFail' => false, 'records' => $data];
+        return response()->json(['isFail' => false, 'records' => $data]);
 	}
 
 	public function search()
