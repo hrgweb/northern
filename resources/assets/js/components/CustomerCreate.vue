@@ -191,7 +191,6 @@
 						} else {
 							this.isError = false;
 							this.customerRecord = data.records;
-							console.log(data);
 							ic.length > 0 && this.icList.push(data.records.IC);
 
 							// clear inputs and set date

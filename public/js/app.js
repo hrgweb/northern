@@ -21670,7 +21670,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					} else {
 						_this3.isError = false;
 						_this3.customerRecord = data.records;
-						console.log(data);
 						ic.length > 0 && _this3.icList.push(data.records.IC);
 
 						// clear inputs and set date
