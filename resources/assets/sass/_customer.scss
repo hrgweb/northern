@@ -240,6 +240,7 @@ select > option[value] {
 
 .Customer__purchase-body {
 
+<<<<<<< HEAD
 	ul.records a { color: #95e087 !important; }
 	ul.dispense { color: #e6df88 !important; }
 	ul.st-detail { color: #3edbff; }
@@ -251,6 +252,15 @@ select > option[value] {
 		> li { 
 			margin-left: 1em; 
 
+=======
+	ul { 
+		padding-left: 0; 
+		margin-bottom: 0;
+
+		> li { 
+			margin-left: 1em; 
+
+>>>>>>> 2a9088417886509e2fb9eed7e3d02cc99d1f712f
 			> a { color: $white; }
 		}
 	}
