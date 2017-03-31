@@ -57,7 +57,7 @@ export const store = new Vuex.Store({
 		},
 		SET_AUTH_USER(state, user) {
 			state.authUser = user;
-		}
+		},
 	},
 	actions: {
 		ALL_CUSTOMER(context, table) {
@@ -71,6 +71,5 @@ export const store = new Vuex.Store({
 				return data;
 			});
 		},
-		
 	}
 });

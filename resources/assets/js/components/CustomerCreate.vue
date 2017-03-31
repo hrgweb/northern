@@ -8,8 +8,8 @@
 
 			<div class="customer-create__primary-info">
 				<!-- id -->
-				<label for="id">ID</label>
-				<input type="text" name="id" class="form-control">
+				<!-- <label for="id">ID</label> -->
+				<!-- <input type="text" name="id" class="form-control"> -->
 
 				<!-- ic -->
 				<label for="ic">IC</label>
@@ -124,14 +124,16 @@
 				icList: [],
 				emailList: [],
 				customerRecord: {},
+				lastID: 0
 			}
 		},
 		created() {
 			this.authUser = JSON.parse(this.auth);
 
 			// http request
-			this.loadIc();
 			// this.loadEmails();
+			this.loadIc();
+			this.customerLastId();
 		},
 		methods: {
 			columnResultConvertToArray(data=[], column) {
@@ -161,7 +163,7 @@
 			},
 			postCustomer() {
 				let form = document.getElementById('customer-create');
-				let action = '/customers?table=' + this.authUser.AllowedtblCustomer;
+				let action = '/customers?table=' + this.authUser.AllowedtblCustomer  + '&id=' + this.lastID;
 				const data = new FormData(form);
 				let ic = $('input[name=ic]').val().trim().toUpperCase();
 				// let email = $('input[name=email]').val().trim().toUpperCase();
@@ -213,6 +215,16 @@
 			},
 			goToHome() {
 				window.location = '/home';
+			},
+			customerLastId() {
+				let table = this.authUser.AllowedtblCustomer.trim();
+				let url = '/customers/customerID?table=' + table;
+
+				axios.get(url).then(response => {
+					let id = parseInt(response.data, 10) + 1;
+
+					this.lastID = id;
+				});
 			}
 		}
 	}

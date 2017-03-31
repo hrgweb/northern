@@ -47,7 +47,7 @@
 		    	purchaseCustomerRecord: {},
 				customers: [],
 				tblCustomer: '',
-				icList: []
+				icList: [],
 		    }
 		},
 		created() {

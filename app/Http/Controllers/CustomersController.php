@@ -136,7 +136,8 @@ class CustomersController extends Controller
 
 		// orig
 		$records = DB::select(DB::raw("
-				SELECT TOP 10 [CustID]
+				SELECT [CustID]
+				-- SELECT TOP 10 [CustID]
 					,[IC]
 					,[Salutation]
 					,[Surname]
@@ -182,5 +183,12 @@ class CustomersController extends Controller
 			// ->orderBy('Email', 'asc')
 			->orderBy('Email', 'desc')
 			->get();
+	}
+
+	public function getLastId()
+	{
+		$table = request('table');
+
+		return DB::table($table)->max('CustID');
 	}
 }

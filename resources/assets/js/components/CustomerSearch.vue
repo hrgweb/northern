@@ -64,7 +64,7 @@
 						<th>Lastname</th>
 						<th>Hand Phone No</th>
 						<th>Home Phone No</th>
-						<th>Email</th>
+						<!-- <th>Email</th> -->
 						<th>Country</th>
 						<th>Building</th>
 						<th>Block</th>
@@ -86,7 +86,7 @@
 						<td>{{ customer.Surname }}</td>
 						<td>{{ customer.HandPhone }}</td>
 						<td>{{ customer.HomePhone }}</td>
-						<td>{{ customer.Email }}</td>
+						<!-- <td>{{ customer.Email }}</td> -->
 						<td>{{ customer.Country }}</td>
 						<td>{{ customer.Building }}</td>
 						<td>{{ customer.Block }}</td>
@@ -105,7 +105,7 @@
 				</tbody>
 				<tbody v-else>
 					<tr>
-						<td colspan="15"><h2 class="text-center">No result found.</h2></td>
+						<td colspan="14"><h2 class="text-center">No result found.</h2></td>
 					</tr>
 				</tbody>
 			</table>

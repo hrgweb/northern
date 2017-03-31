@@ -264,7 +264,7 @@
 				isContact: false,
 				dispenses: [],
 				sts: [],
-				sort: 'ReceiptNo'
+				sort: 'ReceiptNo',
 			}
 		},
 		computed: {
