@@ -18,11 +18,11 @@
 						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding-right: 0;">
 							<div class="left-panel">
 								<!-- Sort -->
-								<!-- <select class="form-control" v-model="sort">
+								<select style="margin-bottom: 0.5em;" class="form-control" v-model="sort">
 									<option value="StaffName">STAFF NAME</option>
 									<option value="ReceiptNo">RECEIPT NO</option>
 									<option value="SaleDate">SALE DATE</option>
-								</select> -->
+								</select>
 
 								<!-- Customer -->
 								<ul class="records">
@@ -72,11 +72,11 @@
 								</ul>
 
 								<!-- tmp -->
-								<select class="form-control" v-model="sort">
+								<!-- <select class="form-control" v-model="sort">
 									<option value="StaffName">STAFF NAME</option>
 									<option value="ReceiptNo">RECEIPT NO</option>
 									<option value="SaleDate">SALE DATE</option>
-								</select>
+								</select> -->
 							</div>
 						</div>
 

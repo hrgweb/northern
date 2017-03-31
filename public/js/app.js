@@ -44653,31 +44653,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('div', {
     staticClass: "left-panel"
-  }, [_c('ul', {
-    staticClass: "records"
-  }, [(_vm.isLoading) ? _c('li', [_vm._v(_vm._s(_vm.msg))]) : _vm._l((_vm.sales), function(sale, index) {
-    return _c('li', [_c('a', {
-      attrs: {
-        "href": "#"
-      },
-      on: {
-        "click": function($event) {
-          $event.preventDefault();
-          _vm.showReceipt(sale, index)
-        }
-      }
-    }, [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(sale.ReceiptNo) + " :\n\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(sale.SaleDate) + " :\n\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(sale.TrayNo) + " :\n\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(sale.StaffName) + "\n\t\t\t\t\t\t\t\t\t\t")])])])
-  })], 2), _vm._v(" "), _c('ul', {
-    staticClass: "dispense"
-  }, _vm._l((_vm.dispenses), function(dispense) {
-    return _c('li', [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(dispense.ClassName) + " :\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(dispense.DispID) + "\n\t\t\t\t\t\t\t\t\t")]), _vm._v(" "), _c('ul', {
-      staticClass: "sigt-test"
-    }, [_c('li', [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t\t\t\t\tSIGHT TEST : \n\t\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(dispense.STID) + " :\n\t\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(dispense.OrderDate) + "\n\t\t\t\t\t\t\t\t\t\t\t")])])])])
-  })), _vm._v(" "), _c('ul', {
-    staticClass: "st-detail"
-  }, _vm._l((_vm.sts), function(st) {
-    return _c('li', [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t\t\tST : " + _vm._s(st.STID) + " :\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(st.STDate) + " :\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(st.StaffName) + "\n\t\t\t\t\t\t\t\t\t")])])
-  })), _vm._v(" "), _c('select', {
+  }, [_c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -44685,6 +44661,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "sort"
     }],
     staticClass: "form-control",
+    staticStyle: {
+      "margin-bottom": "0.5em"
+    },
     on: {
       "change": function($event) {
         var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
@@ -44708,7 +44687,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "SaleDate"
     }
-  }, [_vm._v("SALE DATE")])])])]), _vm._v(" "), (_vm.receiptInfo) ? _c('div', {
+  }, [_vm._v("SALE DATE")])]), _vm._v(" "), _c('ul', {
+    staticClass: "records"
+  }, [(_vm.isLoading) ? _c('li', [_vm._v(_vm._s(_vm.msg))]) : _vm._l((_vm.sales), function(sale, index) {
+    return _c('li', [_c('a', {
+      attrs: {
+        "href": "#"
+      },
+      on: {
+        "click": function($event) {
+          $event.preventDefault();
+          _vm.showReceipt(sale, index)
+        }
+      }
+    }, [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(sale.ReceiptNo) + " :\n\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(sale.SaleDate) + " :\n\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(sale.TrayNo) + " :\n\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(sale.StaffName) + "\n\t\t\t\t\t\t\t\t\t\t")])])])
+  })], 2), _vm._v(" "), _c('ul', {
+    staticClass: "dispense"
+  }, _vm._l((_vm.dispenses), function(dispense) {
+    return _c('li', [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(dispense.ClassName) + " :\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(dispense.DispID) + "\n\t\t\t\t\t\t\t\t\t")]), _vm._v(" "), _c('ul', {
+      staticClass: "sigt-test"
+    }, [_c('li', [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t\t\t\t\tSIGHT TEST : \n\t\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(dispense.STID) + " :\n\t\t\t\t\t\t\t\t\t\t\t\t" + _vm._s(dispense.OrderDate) + "\n\t\t\t\t\t\t\t\t\t\t\t")])])])])
+  })), _vm._v(" "), _c('ul', {
+    staticClass: "st-detail"
+  }, _vm._l((_vm.sts), function(st) {
+    return _c('li', [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t\t\tST : " + _vm._s(st.STID) + " :\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(st.STDate) + " :\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(st.StaffName) + "\n\t\t\t\t\t\t\t\t\t")])])
+  }))])]), _vm._v(" "), (_vm.receiptInfo) ? _c('div', {
     staticClass: "col-xs-8 col-sm-8 col-md-8 col-lg-8"
   }, [_c('div', {
     staticClass: "Customer__purchase-receipt"
