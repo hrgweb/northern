@@ -161,7 +161,7 @@
 			},
 			postCustomer() {
 				let form = document.getElementById('customer-create');
-				let action = '/customers/?table=' + this.authUser.AllowedtblCustomer;
+				let action = '/customers?table=' + this.authUser.AllowedtblCustomer;
 				const data = new FormData(form);
 				let ic = $('input[name=ic]').val().trim().toUpperCase();
 				// let email = $('input[name=email]').val().trim().toUpperCase();
@@ -192,6 +192,8 @@
 							this.isError = false;
 							this.customerRecord = data.records;
 							ic.length > 0 && this.icList.push(data.records.IC);
+
+							console.log(response);
 
 							// clear inputs and set date
 							form.reset();

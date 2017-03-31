@@ -22,6 +22,7 @@ class PurchaseController extends Controller
 				join $payment as payment
 			ON payment.PmtMethodID = sales.PmtMethodID
 			WHERE sales.CustID=?
+            ORDER BY sales.ReceiptNo DESC
 		"), [$custID]);
     }
 
@@ -69,6 +70,7 @@ class PurchaseController extends Controller
                 JOIN $class as class
             ON class.ClassID = dispense.ClassID
             WHERE CustID=?
+            ORDER BY dispense.DispID DESC
         "), [$custID]);
     }
 
@@ -83,8 +85,7 @@ class PurchaseController extends Controller
                 JOIN dboOutletShared.tblStaffShared AS staff
             ON staff.StaffID = st.staffID
             WHERE CustID=?
-
+            ORDER BY STID DESC
         "), [$custID]);
-
     }
 }

@@ -21640,7 +21640,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var _this3 = this;
 
 			var form = document.getElementById('customer-create');
-			var action = '/customers/?table=' + this.authUser.AllowedtblCustomer;
+			var action = '/customers?table=' + this.authUser.AllowedtblCustomer;
 			var data = new FormData(form);
 			var ic = $('input[name=ic]').val().trim().toUpperCase();
 			// let email = $('input[name=email]').val().trim().toUpperCase();
@@ -21671,6 +21671,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 						_this3.isError = false;
 						_this3.customerRecord = data.records;
 						ic.length > 0 && _this3.icList.push(data.records.IC);
+
+						console.log(response);
 
 						// clear inputs and set date
 						form.reset();
@@ -22197,6 +22199,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
 	props: ['auth', 'customer'],
@@ -22220,7 +22236,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			isSpectacle: false,
 			isContact: false,
 			dispenses: [],
-			sts: []
+			sts: [],
+			sort: 'ReceiptNo'
 		};
 	},
 
@@ -22232,6 +22249,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			return '/?table=' + this.auth.AllowedtblCustomer.trim();
 		}
 	},
+	watch: {
+		sort: function sort() {
+			var _this = this;
+
+			return this.sales.sort(function (a, b) {
+				var result = [];
+
+				if (_this.sort == 'ReceiptNo') {
+					result = a.ReceiptNo < b.ReceiptNo;
+				}
+
+				if (_this.sort == 'StaffName') {
+					result = a.StaffName < b.StaffName;
+				}
+
+				if (_this.sort == 'SaleDate') {
+					result = a.SaleDate < b.SaleDate;
+				}
+
+				return result;
+			});
+		}
+	},
 	mounted: function mounted() {
 		this.allPurchase();
 		this.dispenseLeft();
@@ -22240,7 +22280,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	methods: {
 		prepareQuery: function prepareQuery(url) {
-			var _this = this;
+			var _this2 = this;
 
 			axios.get(url).then(function (response) {
 				var data = response.data;
@@ -22251,17 +22291,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 				// check if there is data
 				if (data.length > 0) {
-					_this.isLoading = false;
+					_this2.isLoading = false;
 				} else if (data.length == 0) {
-					_this.msg = 'No purchased history.';
-					_this.isLoading = true;
+					_this2.msg = 'No purchased history.';
+					_this2.isLoading = true;
 				}
 
-				_this.sales = data;
+				_this2.sales = data;
 			});
 		},
 		allPurchase: function allPurchase() {
-			var _this2 = this;
+			var _this3 = this;
 
 			var url = '/purchases/' + this.custID + this.tableName;
 
@@ -22270,13 +22310,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 				// check if there is data
 				if (data.length > 0) {
-					_this2.isLoading = false;
+					_this3.isLoading = false;
 				} else if (data.length == 0) {
-					_this2.msg = 'No purchased history.';
-					_this2.isLoading = true;
+					_this3.msg = 'No purchased history.';
+					_this3.isLoading = true;
 				}
 
-				_this2.sales = data;
+				_this3.sales = data;
 			});
 		},
 		defaultMsg: function defaultMsg() {
@@ -22301,7 +22341,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.indexBefore = index;
 		},
 		salesTransaction: function salesTransaction() {
-			var _this3 = this;
+			var _this4 = this;
 
 			var url = '/purchases/transactions/' + this.receipt.ReceiptNo + this.tableName;
 
@@ -22310,17 +22350,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 				// check if there is data
 				if (data.length > 0) {
-					_this3.isLoadingItems = false;
+					_this4.isLoadingItems = false;
 				} else if (data.length == 0) {
-					_this3.msgItem = 'No purchased items.';
-					_this3.isLoadingItems = true;
+					_this4.msgItem = 'No purchased items.';
+					_this4.isLoadingItems = true;
 				}
 
-				_this3.items = data;
+				_this4.items = data;
 			});
 		},
 		dispenseRight: function dispenseRight() {
-			var _this4 = this;
+			var _this5 = this;
 
 			var url = '/purchases/dispenseRight/' + this.receipt.SaleID + this.tableName;
 
@@ -22329,14 +22369,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 				// check if there is data
 				if (data.length > 0) {
-					_this4.isLoadingLens = false;
+					_this5.isLoadingLens = false;
 				} else if (data.length == 0) {
-					_this4.msgLen = 'No found lens.';
-					_this4.isLoadingLens = true;
+					_this5.msgLen = 'No found lens.';
+					_this5.isLoadingLens = true;
 				}
 
-				_this4.lens = data;
-				_this4.countContactSpectacleLens(); // count contact and spectacle lens
+				_this5.lens = data;
+				_this5.countContactSpectacleLens(); // count contact and spectacle lens
 			});
 		},
 		countContactSpectacleLens: function countContactSpectacleLens() {
@@ -22357,21 +22397,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			this.isContact = this.contactObj.length > 0 ? true : false;
 		},
 		dispenseLeft: function dispenseLeft() {
-			var _this5 = this;
+			var _this6 = this;
 
 			var url = '/purchases/dispenseLeft/' + this.custID + this.tableName;
 
 			axios.get(url).then(function (response) {
-				_this5.dispenses = response.data;
+				_this6.dispenses = response.data;
 			});
 		},
 		stLeft: function stLeft() {
-			var _this6 = this;
+			var _this7 = this;
 
 			var url = '/purchases/stLeft/' + this.custID + this.tableName;
 
 			axios.get(url).then(function (response) {
-				_this6.sts = response.data;
+				_this7.sts = response.data;
 			});
 		}
 	}
@@ -44637,7 +44677,38 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "st-detail"
   }, _vm._l((_vm.sts), function(st) {
     return _c('li', [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t\t\tST : " + _vm._s(st.STID) + " :\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(st.STDate) + " :\n\t\t\t\t\t\t\t\t\t\t" + _vm._s(st.StaffName) + "\n\t\t\t\t\t\t\t\t\t")])])
-  }))])]), _vm._v(" "), (_vm.receiptInfo) ? _c('div', {
+  })), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.sort),
+      expression: "sort"
+    }],
+    staticClass: "form-control",
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.sort = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "StaffName"
+    }
+  }, [_vm._v("STAFF NAME")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "ReceiptNo"
+    }
+  }, [_vm._v("RECEIPT NO")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "SaleDate"
+    }
+  }, [_vm._v("SALE DATE")])])])]), _vm._v(" "), (_vm.receiptInfo) ? _c('div', {
     staticClass: "col-xs-8 col-sm-8 col-md-8 col-lg-8"
   }, [_c('div', {
     staticClass: "Customer__purchase-receipt"

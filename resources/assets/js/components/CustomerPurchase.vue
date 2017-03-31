@@ -17,6 +17,13 @@
 					<div class="row">
 						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="padding-right: 0;">
 							<div class="left-panel">
+								<!-- Sort -->
+								<!-- <select class="form-control" v-model="sort">
+									<option value="StaffName">STAFF NAME</option>
+									<option value="ReceiptNo">RECEIPT NO</option>
+									<option value="SaleDate">SALE DATE</option>
+								</select> -->
+
 								<!-- Customer -->
 								<ul class="records">
 									<li v-if="isLoading">{{ msg }}</li>
@@ -63,6 +70,13 @@
 										</b>
 									</li>
 								</ul>
+
+								<!-- tmp -->
+								<select class="form-control" v-model="sort">
+									<option value="StaffName">STAFF NAME</option>
+									<option value="ReceiptNo">RECEIPT NO</option>
+									<option value="SaleDate">SALE DATE</option>
+								</select>
 							</div>
 						</div>
 
@@ -249,7 +263,8 @@
 				isSpectacle: false,
 				isContact: false,
 				dispenses: [],
-				sts: []
+				sts: [],
+				sort: 'ReceiptNo'
 			}
 		},
 		computed: {
@@ -258,7 +273,28 @@
 			},
 			tableName() {
 				return '/?table=' + this.auth.AllowedtblCustomer.trim();
-			}
+			},			
+		},
+		watch: {
+			sort() {
+		    	return this.sales.sort((a,b) => {
+			      	let result = [];
+			        
+			      	if(this.sort == 'ReceiptNo') {
+			        	result = a.ReceiptNo < b.ReceiptNo
+			        }
+			        
+			        if(this.sort == 'StaffName') {
+			        	result = a.StaffName < b.StaffName
+			        }
+			        
+			        if(this.sort == 'SaleDate') {
+			        	result = a.SaleDate < b.SaleDate
+			        }
+			        
+			        return result;
+		      });
+		    },
 		},
 		mounted() {
 			this.allPurchase();

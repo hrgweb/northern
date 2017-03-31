@@ -70,7 +70,7 @@ class CustomersController extends Controller
 
         $result = [];
 
-        switch (trim($table)) {
+        /*switch (trim($table)) {
 			case 'dboBPP.tblCustomer':
 				$result = BPPCustomer::insert($data);
 				break;
@@ -80,7 +80,7 @@ class CustomersController extends Controller
 			case 'dboPA.tblCustomer':
 				$result = PACustomer::insert($data);
 				break;
-		}
+		}*/
 
         return response()->json(['isFail' => false, 'records' => $result]);
 	}
