@@ -136,8 +136,8 @@ class CustomersController extends Controller
 
 		// orig
 		$records = DB::select(DB::raw("
-				SELECT [CustID]
-				-- SELECT TOP 10 [CustID]
+				SELECT TOP 10 [CustID]
+				--SELECT [CustID]
 					,[IC]
 					,[Salutation]
 					,[Surname]

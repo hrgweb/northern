@@ -5,10 +5,9 @@
 }
 
 .dashboard {
-    width: $dashboardWidth;
-    max-width: $dashboardWidth;
+    width: 100%;
     margin: 0 auto;
-    margin-top: 10em;
+    margin-top: 8em;
     padding-bottom: 2em;
     background: $elementBgColor;
     border-radius: 0.2em;
@@ -24,14 +23,22 @@
 }
 
 .dashboard__actions {
+    padding: 1em 2em 0;
     align-items: center;
     justify-content: center;
 
 	> a {
 	    margin-bottom: 1em;
-	    padding: 3.5em;
-	    width: $loginWidth;
-	    max-width: $loginWidth;
+	    padding: 3.5em 1em;
+	    width: 100%;
 	    text-align: center;
 	}
+}
+
+@media screen and (min-width: 768px) {
+    .dashboard { width: 70%; }
+}
+
+@media screen and (min-width: 992px) {
+    .dashboard { width: 50%; }
 }
