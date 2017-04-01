@@ -21424,12 +21424,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	created: function created() {
 		this.authUser = JSON.parse(this.auth);
-		this.allCustomer();
+		// this.allCustomer();
 	},
 	mounted: function mounted() {
 		store.commit('SET_AUTH_USER', this.authUser);
 	},
 
+	watch: {
+		authUser: function authUser() {
+			this.tblCustomer = this.authUser.AllowedtblCustomer;
+		}
+	},
 	methods: {
 		editRecord: function editRecord(customer) {
 			this.showEditForm = true;
@@ -22547,19 +22552,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = {
 	props: ['auth', 'customers', 'table'],
 	data: function data() {
 		return {
 			authUser: {},
-			// customers: [],
-			// tblCustomer: '',
 			icNo: '',
 			firstname: '',
 			lastname: '',
@@ -22567,7 +22565,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			homePhoneNo: '',
 			email: '',
 			columnToUse: '',
-			recordIndex: 0
+			recordIndex: 0,
+			msg: 'CHOOSE COLUMN TO SEACH AND HIT ENTER TO FIND.',
+			isNotSearch: true,
+			query: '',
+			listCustomers: []
 		};
 	},
 	created: function created() {
@@ -22649,6 +22651,46 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		purchaseRecord: function purchaseRecord(customer) {
 			this.$emit('ishistory', customer);
+		},
+		prepareSearch: function prepareSearch(query, column) {
+			var _this2 = this;
+
+			var url = '/customers/search?query=' + query + '&column=' + column + '&table=' + this.authUser.AllowedtblCustomer;
+
+			axios.get(url).then(function (response) {
+				_this2.listCustomers = response.data;
+				if (_this2.listCustomers.length > 0) {
+					_this2.isNotSearch = false;
+				} else {
+					_this2.isNotSearch = true;
+					_this2.msg = 'NO RESULTS FOUND FOR: "' + query + '"';
+				}
+			});
+		},
+		startSearch: function startSearch() {
+			// Loading message
+			this.msg = 'FETCHING DATA...';
+
+			switch (this.columnToUse.trim()) {
+				case 'ic_no':
+					this.prepareSearch(this.icNo, 'IC');
+					break;
+				case 'first_name':
+					this.prepareSearch(this.firstname, 'FirstName');
+					break;
+				case 'last_name':
+					this.prepareSearch(this.lastname, 'Surname');
+					break;
+				case 'handphone_no':
+					this.prepareSearch(this.handPhoneNo, 'HandPhone');
+					break;
+				case 'homephone_no':
+					this.prepareSearch(this.homePhoneNo, 'HomePhone');
+					break;
+				case 'email':
+					this.prepareSearch(this.email, 'Email');
+					break;
+			}
 		}
 	}
 };
@@ -45413,6 +45455,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "focus": _vm.columnToSearch,
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+        _vm.startSearch($event)
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.icNo = $event.target.value
@@ -45442,6 +45488,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "focus": _vm.columnToSearch,
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+        _vm.startSearch($event)
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.firstname = $event.target.value
@@ -45473,6 +45523,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "focus": _vm.columnToSearch,
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+        _vm.startSearch($event)
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.lastname = $event.target.value
@@ -45502,6 +45556,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "focus": _vm.columnToSearch,
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+        _vm.startSearch($event)
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.handPhoneNo = $event.target.value
@@ -45533,6 +45591,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "focus": _vm.columnToSearch,
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+        _vm.startSearch($event)
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.homePhoneNo = $event.target.value
@@ -45562,20 +45624,24 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     },
     on: {
       "focus": _vm.columnToSearch,
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+        _vm.startSearch($event)
+      },
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.email = $event.target.value
       }
     }
-  })])])])]), _vm._v(" "), (_vm.customers.length <= 0) ? _c('div', [_c('br'), _c('h2', {
+  })])])])]), _vm._v(" "), (_vm.listCustomers.length <= 0) ? _c('div', [_c('br'), _c('h2', {
     staticClass: "text-center"
-  }, [_vm._v("FETCHING CUSTOMER DATA.... PLEASE WAIT")])]) : _c('div', {
+  }, [_vm._v(_vm._s(_vm.msg))])]) : _c('div', {
     staticClass: "customer-search__records"
   }, [_c('table', {
     staticClass: "table table-bordered table-hover"
   }, [_c('caption', [_c('h3', [_vm._v("\n\t\t\t\t\tCustomer Records\n\t\t\t\t\t"), _c('span', {
     staticClass: "label label-danger"
-  }, [_vm._v(_vm._s(_vm.filterCustomersByColumn.length))])])]), _vm._v(" "), _c('thead', [_c('tr', [_c('th', [_vm._v("IC")]), _vm._v(" "), _c('th', [_vm._v("Firstname")]), _vm._v(" "), _c('th', [_vm._v("Lastname")]), _vm._v(" "), _c('th', [_vm._v("Hand Phone No")]), _vm._v(" "), _c('th', [_vm._v("Home Phone No")]), _vm._v(" "), _c('th', [_vm._v("Country")]), _vm._v(" "), _c('th', [_vm._v("Building")]), _vm._v(" "), _c('th', [_vm._v("Block")]), _vm._v(" "), _c('th', [_vm._v("Postcode")]), _vm._v(" "), _c('th', [_vm._v("Street")]), _vm._v(" "), _c('th', [_vm._v("Gender")]), _vm._v(" "), _c('th', [_vm._v("Salutation")]), _vm._v(" "), _c('th', [_vm._v("Action")])])]), _vm._v(" "), (_vm.filterCustomersByColumn.length > 0) ? _c('tbody', _vm._l((_vm.filterCustomersByColumn), function(customer, index) {
+  }, [_vm._v(_vm._s(_vm.listCustomers.length))])])]), _vm._v(" "), _c('thead', [_c('tr', [_c('th', [_vm._v("IC")]), _vm._v(" "), _c('th', [_vm._v("Firstname")]), _vm._v(" "), _c('th', [_vm._v("Lastname")]), _vm._v(" "), _c('th', [_vm._v("Hand Phone No")]), _vm._v(" "), _c('th', [_vm._v("Home Phone No")]), _vm._v(" "), _c('th', [_vm._v("Country")]), _vm._v(" "), _c('th', [_vm._v("Building")]), _vm._v(" "), _c('th', [_vm._v("Block")]), _vm._v(" "), _c('th', [_vm._v("Postcode")]), _vm._v(" "), _c('th', [_vm._v("Street")]), _vm._v(" "), _c('th', [_vm._v("Gender")]), _vm._v(" "), _c('th', [_vm._v("Salutation")]), _vm._v(" "), _c('th', [_vm._v("Action")])])]), _vm._v(" "), _c('tbody', _vm._l((_vm.listCustomers), function(customer, index) {
     return _c('tr', {
       on: {
         "click": function($event) {
@@ -45607,13 +45673,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         }
       }
     }, [_vm._v("History")])])])
-  })) : _c('tbody', [_c('tr', [_c('td', {
-    attrs: {
-      "colspan": "14"
-    }
-  }, [_c('h2', {
-    staticClass: "text-center"
-  }, [_vm._v("No result found.")])])])])])])])
+  }))])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

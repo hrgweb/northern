@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Validator;
 
 class CustomersController extends Controller
 {
+	private $column;
+	private $table;
+	private $query;
+
 	public function __construct()
 	{
 		$this->middleware('auth');
@@ -190,5 +194,47 @@ class CustomersController extends Controller
 		$table = request('table');
 
 		return DB::table($table)->max('CustID');
+	}
+
+	private function prepareToSearch()
+	{
+		return DB::table($this->table)
+			->where($this->column, 'LIKE', $this->query.'%')
+			->get();
+	}
+
+	public function searchCustomer()
+	{
+		$this->column = request('column');
+		$this->query = request('query');
+		$this->table = request('table');
+
+		// return 'column: '. $this->column . ', query: ' . $this->query . ', table: ' . $this->table;
+
+		$results = '';
+
+		// column to use in search
+		switch(trim($this->column)) {
+			case 'IC':
+				$results = $this->prepareToSearch();
+				break;
+			case 'FirstName':
+				$results = $this->prepareToSearch();
+				break;
+			case 'Surname':
+				$results = $this->prepareToSearch();
+				break;
+			case 'HandPhone':
+				$results = $this->prepareToSearch();
+				break;
+			case 'HomePhone':
+				$results = $this->prepareToSearch();
+				break;
+			case 'Email':
+				$results = $this->prepareToSearch();
+				break;
+		}
+
+		return response()->json($results);
 	}
 }

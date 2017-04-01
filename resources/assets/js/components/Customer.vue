@@ -52,10 +52,15 @@
 		},
 		created() {
 			this.authUser = JSON.parse(this.auth);
-			this.allCustomer();
+			// this.allCustomer();
 		},
 		mounted() {
 			store.commit('SET_AUTH_USER', this.authUser);
+		},
+		watch: {
+			authUser() {
+				this.tblCustomer = this.authUser.AllowedtblCustomer;
+			}
 		},
 		methods: {
 			editRecord(customer) {

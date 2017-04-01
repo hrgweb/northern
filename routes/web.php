@@ -24,6 +24,7 @@ Route::group(['prefix' => 'customers'], function() {
     Route::post('/', 'CustomersController@store');
     Route::put('/{customer}', 'CustomersController@update');
     Route::get('/customerID', 'CustomersController@getLastId');
+    Route::get('/search', 'CustomersController@searchCustomer'); 
     Route::get('/allCustomer/{tblCustomer}', 'CustomersController@allCustomer'); 
     Route::get('/loadIc/{tblCustomer}', 'CustomersController@loadIc');
     Route::get('/loadEmails/{tblCustomer}', 'CustomersController@loadEmails'); 
