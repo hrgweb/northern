@@ -111,8 +111,8 @@
 
 						<!-- gender -->
 						<label for="gender">Gender</label><br>
-						<input type="radio" name="gender" value="Female" checked v-model="record.Gender"> <span>Female</span>
-						<input type="radio" name="gender" value="Male" v-model="record.Gender"> <span>Male</span> <br><br>
+						<input type="radio" name="gender" value="F" checked v-model="record.Gender"> <span>Female</span>
+						<input type="radio" name="gender" value="M" v-model="record.Gender"> <span>Male</span> <br><br>
 
 
 						<div class="row">
@@ -156,7 +156,7 @@
 
 	export default {
 		components: { error },
-		props: ['auth', 'token', 'customer', 'ic'],
+		props: ['auth', 'token', 'customer'],
 		data() {
 			return {
 				authUser: {},
@@ -164,16 +164,13 @@
 				errors: [],
 				isError: false,
 				customerRecord: {},
-				icList: []
+				// icList: []
 			}
-		},
-		computed: {
-			
 		},
 		created() {
 			this.authUser = JSON.parse(this.auth);
 			this.record = this.customer;
-			this.icList = this.ic;
+			// this.icList = this.ic;
 		},
 		methods: {
 			columnResultConvertToArray(data=[], column) {
@@ -190,61 +187,42 @@
 			},
 			updateCustomer(event) {
 				let record = this.record;
-				let action = 'customers/' + record.CustID + '/?table=' + this.authUser.AllowedtblCustomer.trim();
-				let ic = $('input[name=ic]').val().trim().toUpperCase();
+				let action = '/customers/' + record.CustID + '?table=' + this.authUser.AllowedtblCustomer.trim();
 
 				// change update button text to updating
 				event.target.innerHTML = 'Updating...';
 
-				// check if ic is null
-				ic = (ic.length > 0) ? ic : '';
+				// update record
+				axios.put(action, record).then(response => {
+					let data = response.data;
 
-				// check if ic exist
-				if (this.icList.length > 0 && this.icList.indexOf(ic) != -1) {
-					this.errors = [];
 					event.target.innerHTML = 'Update';
 
-					// notify that the ic exist.
-					noty({
-						layout: 'bottomLeft',
-						theme: 'relax', // or relax
-						type: 'error', // success, error, warning, information, notification
-						text: `IC Number is already exists.`,
-						timeout: 5000,
-					});
-				} else {
-					axios.put(action, record).then(response => {
-						let data = response.data;
+					if (data.isFail) {
+						this.errors = data.errors;
+						this.isError = true;
+					} else {
+						this.isError = false;
+						this.customerRecord = data.records;
 
-						event.target.innerHTML = 'Update';
+						let vm = this;
+						let time = 2000;
 
-						if (data.isFail) {
-							this.errors = data.errors;
-							this.isError = true;
-						} else {
-							this.isError = false;
-							this.customerRecord = data.records;
-							this.icList.push(data.records.IC);
+						// close after 5sec
+						setTimeout(function() {
+							vm.$emit('isedited');
+						}, time);
 
-							let vm = this;
-							let time = 2000;
-
-							// close after 5sec
-							setTimeout(function() {
-								vm.$emit('isedited');
-							}, time);
-
-							// notify that new record save.
-							noty({
-								layout: 'bottomLeft',
-								theme: 'relax', // or relax
-								type: 'success', // success, error, warning, information, notification
-								text: `Customer successfully updated.`,
-								timeout: time,
-							});
-						}
-					});
-				}
+						// notify that new record save.
+						noty({
+							layout: 'bottomLeft',
+							theme: 'relax', // or relax
+							type: 'success', // success, error, warning, information, notification
+							text: `Customer successfully updated.`,
+							timeout: time,
+						});
+					}
+				});
 			},
 			closeForm() {
 				this.$emit('isedited');

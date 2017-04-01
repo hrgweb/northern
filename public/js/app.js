@@ -21401,7 +21401,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 
@@ -21418,8 +21417,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			record: {},
 			purchaseCustomerRecord: {},
 			customers: [],
-			tblCustomer: '',
-			icList: []
+			tblCustomer: ''
 		};
 	},
 	created: function created() {
@@ -21721,7 +21719,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Error_vue__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Error_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Error_vue__);
 //
@@ -21882,23 +21880,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = {
 	components: { error: __WEBPACK_IMPORTED_MODULE_0__Error_vue___default.a },
-	props: ['auth', 'token', 'customer', 'ic'],
+	props: ['auth', 'token', 'customer'],
 	data: function data() {
 		return {
 			authUser: {},
 			record: {},
 			errors: [],
 			isError: false,
-			customerRecord: {},
-			icList: []
+			customerRecord: {}
 		};
 	},
-
-	computed: {},
 	created: function created() {
 		this.authUser = JSON.parse(this.auth);
 		this.record = this.customer;
-		this.icList = this.ic;
+		// this.icList = this.ic;
 	},
 
 	methods: {
@@ -21921,68 +21916,48 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var _this = this;
 
 			var record = this.record;
-			var action = 'customers/' + record.CustID + '/?table=' + this.authUser.AllowedtblCustomer.trim();
-			var ic = $('input[name=ic]').val().trim().toUpperCase();
+			var action = '/customers/' + record.CustID + '?table=' + this.authUser.AllowedtblCustomer.trim();
 
 			// change update button text to updating
 			event.target.innerHTML = 'Updating...';
 
-			// check if ic is null
-			ic = ic.length > 0 ? ic : '';
+			// update record
+			axios.put(action, record).then(function (response) {
+				var data = response.data;
 
-			// check if ic exist
-			if (this.icList.length > 0 && this.icList.indexOf(ic) != -1) {
-				this.errors = [];
 				event.target.innerHTML = 'Update';
 
-				// notify that the ic exist.
-				noty({
-					layout: 'bottomLeft',
-					theme: 'relax', // or relax
-					type: 'error', // success, error, warning, information, notification
-					text: 'IC Number is already exists.',
-					timeout: 5000
-				});
-			} else {
-				axios.put(action, record).then(function (response) {
-					var data = response.data;
+				if (data.isFail) {
+					_this.errors = data.errors;
+					_this.isError = true;
+				} else {
+					_this.isError = false;
+					_this.customerRecord = data.records;
 
-					event.target.innerHTML = 'Update';
+					var vm = _this;
+					var time = 2000;
 
-					if (data.isFail) {
-						_this.errors = data.errors;
-						_this.isError = true;
-					} else {
-						_this.isError = false;
-						_this.customerRecord = data.records;
-						_this.icList.push(data.records.IC);
+					// close after 5sec
+					setTimeout(function () {
+						vm.$emit('isedited');
+					}, time);
 
-						var vm = _this;
-						var time = 2000;
-
-						// close after 5sec
-						setTimeout(function () {
-							vm.$emit('isedited');
-						}, time);
-
-						// notify that new record save.
-						noty({
-							layout: 'bottomLeft',
-							theme: 'relax', // or relax
-							type: 'success', // success, error, warning, information, notification
-							text: 'Customer successfully updated.',
-							timeout: time
-						});
-					}
-				});
-			}
+					// notify that new record save.
+					noty({
+						layout: 'bottomLeft',
+						theme: 'relax', // or relax
+						type: 'success', // success, error, warning, information, notification
+						text: 'Customer successfully updated.',
+						timeout: time
+					});
+				}
+			});
 		},
 		closeForm: function closeForm() {
 			this.$emit('isedited');
 		}
 	}
 };
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(2)))
 
 /***/ }),
 /* 36 */
@@ -45239,15 +45214,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "radio",
       "name": "gender",
-      "value": "Female",
+      "value": "F",
       "checked": ""
     },
     domProps: {
-      "checked": _vm._q(_vm.record.Gender, "Female")
+      "checked": _vm._q(_vm.record.Gender, "F")
     },
     on: {
       "__c": function($event) {
-        _vm.record.Gender = "Female"
+        _vm.record.Gender = "F"
       }
     }
   }), _vm._v(" "), _c('span', [_vm._v("Female")]), _vm._v(" "), _c('input', {
@@ -45260,14 +45235,14 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "type": "radio",
       "name": "gender",
-      "value": "Male"
+      "value": "M"
     },
     domProps: {
-      "checked": _vm._q(_vm.record.Gender, "Male")
+      "checked": _vm._q(_vm.record.Gender, "M")
     },
     on: {
       "__c": function($event) {
-        _vm.record.Gender = "Male"
+        _vm.record.Gender = "M"
       }
     }
   }), _vm._v(" "), _c('span', [_vm._v("Male")]), _vm._v(" "), _c('br'), _c('br'), _vm._v(" "), _c('div', {
@@ -45704,8 +45679,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "auth": _vm.auth,
       "token": _vm.token,
-      "customer": _vm.record,
-      "ic": _vm.icList
+      "customer": _vm.record
     },
     on: {
       "isedited": function($event) {

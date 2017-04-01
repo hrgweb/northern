@@ -198,9 +198,28 @@ class CustomersController extends Controller
 
 	private function prepareToSearch()
 	{
-		return DB::table($this->table)
-			->where($this->column, 'LIKE', $this->query.'%')
-			->get();
+		return DB::select(DB::raw("
+			SELECT [CustID]
+		      ,[IC]
+		      ,[Salutation]
+		      ,[Surname]
+		      ,[FirstName]
+		      ,[Block]
+		      ,[Unit]
+		      ,[Building]
+		      ,[Street]
+		      ,[Country]
+		      ,[Postcode]
+		      ,CONVERT(DATE, [DOB]) AS DOB
+		      ,[Gender]
+		      ,[Occupation]
+		      ,[HomePhone]
+		      ,[HandPhone]
+		      ,[Email]
+		      ,[Remark]
+		      ,[System]
+		    FROM $this->table
+		  	WHERE " . $this->column . " LIKE '" . $this->query . "%'"));
 	}
 
 	public function searchCustomer()

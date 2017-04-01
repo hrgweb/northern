@@ -14,7 +14,6 @@
 			:auth="auth" 
 			:token="token" 
 			:customer="record"
-			:ic="icList"
 			@isedited="showEditForm = false"
 			v-if="showEditForm"
 		></customer-edit>
@@ -34,7 +33,6 @@
 	import CustomerEdit from './CustomerEdit.vue';
 	import CustomerPurchase from './CustomerPurchase.vue';
 
-
 	export default {
 		components: { CustomerSearch, CustomerEdit, CustomerPurchase },
 		props: ['auth', 'date', 'token'],
@@ -47,7 +45,7 @@
 		    	purchaseCustomerRecord: {},
 				customers: [],
 				tblCustomer: '',
-				icList: [],
+				// icList: [],
 		    }
 		},
 		created() {

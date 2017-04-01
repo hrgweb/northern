@@ -3,7 +3,26 @@
 // tmp
 Route::get('query', function() {
 	return DB::select(DB::raw("
-        SELECT MAX(CustID) CustID FROM dboBPP.tblCustomer 
+        SELECT [CustID]
+          ,[IC]
+          ,[Salutation]
+          ,[Surname]
+          ,[FirstName]
+          ,[Block]
+          ,[Unit]
+          ,[Building]
+          ,[Street]
+          ,[Country]
+          ,[Postcode]
+          ,CONVERT(DATE, [DOB]) AS DOB
+          ,[Gender]
+          ,[Occupation]
+          ,[HomePhone]
+          ,[HandPhone]
+          ,[Email]
+          ,[Remark]
+          ,[System]
+      FROM [dboBPP].[tblCustomer]
     "));
 });
 
