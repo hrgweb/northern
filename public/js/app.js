@@ -22332,6 +22332,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			this.indexBefore = index;
 		},
+		removeExceedZeros: function removeExceedZeros(data) {
+			return data.map(function (item) {
+				return {
+					Barcode: item.Barcode,
+					Description: item.Description,
+					Selling: Number(item.Selling).toFixed(2),
+					TranTotal: Number(item.TranTotal).toFixed(2)
+				};
+			});
+		},
 		salesTransaction: function salesTransaction() {
 			var _this4 = this;
 
@@ -22348,7 +22358,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					_this4.isLoadingItems = true;
 				}
 
-				_this4.items = data;
+				// this.items = data;
+				_this4.items = _this4.removeExceedZeros(data);
 			});
 		},
 		dispenseRight: function dispenseRight() {

@@ -349,6 +349,16 @@
 
 				this.indexBefore = index;
 			},
+			removeExceedZeros(data) {
+				return data.map(item => {
+					return {
+						Barcode: item.Barcode,
+						Description: item.Description,
+						Selling: Number(item.Selling).toFixed(2),
+						TranTotal: Number(item.TranTotal).toFixed(2)
+					};
+				});
+			},
 			salesTransaction() {
 				let url = '/purchases/transactions/'+this.receipt.ReceiptNo+this.tableName;
 
@@ -363,7 +373,8 @@
 						this.isLoadingItems =  true;
 					}
 
-					this.items = data;
+					// this.items = data;
+					this.items = this.removeExceedZeros(data);
 				})
 			},
 			dispenseRight() {

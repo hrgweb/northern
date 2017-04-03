@@ -2,27 +2,23 @@
 
 // tmp
 Route::get('query', function() {
+    // DB::listen(functioN($query) { var_dump($query->sql); });
+
+    return DB::table('dboBPP.tblSalesTran')
+        ->selectRaw('Barcode, Description, Qty, ROUND(Selling, 2) AS Selling, ROUND(TranTotal, 2) AS TranTotal')
+        ->where('ReceiptNo', '326146')
+        ->get();
+
+    /*return "
+        SELECT Barcode, Description, Qty, ROUND(Selling, 2) AS Selling, ROUND(TranTotal, 2) AS TranTotal
+        FROM dboBPP.tblSalesTran
+        WHERE ReceiptNo=326146
+    ";*/
+
 	return DB::select(DB::raw("
-        SELECT [CustID]
-          ,[IC]
-          ,[Salutation]
-          ,[Surname]
-          ,[FirstName]
-          ,[Block]
-          ,[Unit]
-          ,[Building]
-          ,[Street]
-          ,[Country]
-          ,[Postcode]
-          ,CONVERT(DATE, [DOB]) AS DOB
-          ,[Gender]
-          ,[Occupation]
-          ,[HomePhone]
-          ,[HandPhone]
-          ,[Email]
-          ,[Remark]
-          ,[System]
-      FROM [dboBPP].[tblCustomer]
+        SELECT Barcode, Description, Qty, ROUND(Selling, 2) AS Selling, ROUND(TranTotal, 2) AS TranTotal 
+        FROM dboBPP.tblSalesTran 
+        WHERE ReceiptNo=326146
     "));
 });
 

@@ -31,11 +31,10 @@ class PurchaseController extends Controller
         $table = auth()->user()->identifyTableName(request('table'));
         $salesTran = $table.'.tblSalesTran';
 
-    	return DB::select(DB::raw("
-    		SELECT Barcode, Description, Qty, Selling, TranTotal
-    		FROM $salesTran 
-    		WHERE ReceiptNo=?
-		"), [$receiptNo]);
+        return DB::table($salesTran)
+            ->selectRaw('Barcode, Description, Qty, ROUND(Selling, 2) AS Selling, ROUND(TranTotal, 2) AS TranTotal')
+            ->where('ReceiptNo', $receiptNo)
+            ->get();
     }
 
     public function dispenseRight($saleID)
