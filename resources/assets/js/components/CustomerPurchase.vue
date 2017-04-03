@@ -142,11 +142,10 @@
 													<tr>
 														<td>
 															<b>Right</b> &nbsp;&nbsp;
-															<!-- {{ len.SPHRRX }}{{ len.CYLRRX }}X{{ len.AXISRRX }} -->
 														</td>
 														<td>{{ len.VA5 }}</td>
 														<td>
-															{{ len.SPHRRX }}{{ len.CYLRRX }}X{{ len.AXISRRX }}
+															{{ len.SPHRRX }}{{ len.CYLRRX }}{{ (len.AXISRRX != null || len.AXISRRX != undefined) ? 'X' + len.AXISRRX : len.AXISRRX }}
 														</td>
 														<td>{{ len.ADDRX }}</td>
 														<td>{{ len.PDRRX }}</td>
@@ -155,12 +154,10 @@
 													<tr>
 														<td>
 															<b>Left</b> &nbsp;&nbsp;
-															<!-- {{ len.SSPHRRX }}{{ len.SCYLRRX }}X{{ len.SAXISRRX }} -->
 														</td>
 														<td>{{ len.VA6 }}</td>
 														<td>
-															<!-- {{ len.SSPHRLX }}{{ len.SCYLRLX }}X{{ len.SAXISRLX }} -->
-															{{ len.SPHRLX }}{{ len.CYLRLX }}X{{ len.AXISRLX }}
+															{{ len.SPHRLX }}{{ len.CYLRLX }}{{ (len.AXISRLX != null || len.AXISRLX != undefined) ? 'X' + len.AXISRLX : len.AXISRLX }}
 														</td>
 														<td>{{ len.ADDRLX }}</td>
 														<td>{{ len.PDRLX }}</td>
@@ -195,11 +192,10 @@
 													<tr>
 														<td>
 															<b>Right</b> &nbsp;&nbsp;
-															<!-- {{ len.SPHRRX }}{{ len.CYLRRX }}X{{ len.AXISRRX }} -->
 														</td>
 														<td>{{ len.VA5 }}</td>
 														<td>
-															{{ len.SPHRRX }}{{ len.CYLRRX }}X{{ len.AXISRRX }}
+															{{ len.SPHRRX }}{{ len.CYLRRX }}{{ (len.AXISRRX != null || len.AXISRRX != undefined) ? 'X' + len.AXISRRX : len.AXISRRX }}
 														</td>
 														<td>{{ len.ADDRX }}</td>
 														<td>{{ len.PDRRX }}</td>
@@ -208,12 +204,10 @@
 													<tr>
 														<td>
 															<b>Left</b> &nbsp;&nbsp;
-															<!-- {{ len.SSPHRRX }}{{ len.SCYLRRX }}X{{ len.SAXISRRX }} -->
 														</td>
 														<td>{{ len.VA6 }}</td>
 														<td>
-															<!-- {{ len.SSPHRLX }}{{ len.SCYLRLX }}X{{ len.SAXISRLX }} -->
-															{{ len.SPHRLX }}{{ len.CYLRLX }}X{{ len.AXISRLX }}
+															{{ len.SPHRLX }}{{ len.CYLRLX }}{{ (len.AXISRLX != null || len.AXISRLX != undefined) ? 'X' + len.AXISRLX : len.AXISRLX }}
 														</td>
 														<td>{{ len.ADDRLX }}</td>
 														<td>{{ len.PDRLX }}</td>
@@ -257,7 +251,7 @@
 				isContact: false,
 				dispenses: [],
 				sts: [],
-				sort: 'ReceiptNo',
+				sort: 'ReceiptNo'
 			}
 		},
 		computed: {
@@ -266,7 +260,7 @@
 			},
 			tableName() {
 				return '/?table=' + this.auth.AllowedtblCustomer.trim();
-			},			
+			}			
 		},
 		watch: {
 			sort() {
@@ -287,7 +281,7 @@
 			        
 			        return result;
 		      });
-		    },
+		    }
 		},
 		mounted() {
 			this.allPurchase();
@@ -386,7 +380,7 @@
 						this.isLoadingLens =  true;
 					}
 
-					this.lens = data;		
+					this.lens = data;
 					this.countContactSpectacleLens(); // count contact and spectacle lens
 				});
 			},
