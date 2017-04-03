@@ -70,13 +70,6 @@
 										</b>
 									</li>
 								</ul>
-
-								<!-- tmp -->
-								<!-- <select class="form-control" v-model="sort">
-									<option value="StaffName">STAFF NAME</option>
-									<option value="ReceiptNo">RECEIPT NO</option>
-									<option value="SaleDate">SALE DATE</option>
-								</select> -->
 							</div>
 						</div>
 

@@ -121,10 +121,15 @@
 				authUser: {},
 				errors: [],
 				isError: false,
-				icList: [],
+				// icList: [],
 				emailList: [],
 				customerRecord: {},
-				lastID: 0
+				lastID: 0,
+			}
+		},
+		computed: {
+			tableName() {
+				return '?table=' + this.authUser.AllowedtblCustomer;
 			}
 		},
 		created() {
@@ -132,7 +137,7 @@
 
 			// http request
 			// this.loadEmails();
-			this.loadIc();
+			// this.loadIc();
 			this.customerLastId();
 		},
 		methods: {
@@ -163,55 +168,53 @@
 			},
 			postCustomer() {
 				let form = document.getElementById('customer-create');
-				let action = '/customers?table=' + this.authUser.AllowedtblCustomer  + '&id=' + this.lastID;
+				let action = '/customers' + this.tableName  + '&id=' + this.lastID;
 				const data = new FormData(form);
-				let ic = $('input[name=ic]').val().trim().toUpperCase();
-				// let email = $('input[name=email]').val().trim().toUpperCase();
-				
-				// check if ic is null
-				ic = (ic.length > 0) ? ic : '';
 
-				// check if ic exist
-				if (this.icList.length > 0 && this.icList.indexOf(ic) != -1) {
-					this.errors = [];
+				// check if response promise return 1 then it exist
+				this.isIcExist(data.get('ic')).then(response => {
+					if (parseInt(response, 10) > 0) {
+						// notify that ic exist
+						noty({
+							layout: 'bottomLeft',
+							theme: 'relax', // or relax
+							type: 'error', // success, error, warning, information, notification
+							text: `This ic number already exist.`,
+							timeout: 5000,
+						});
+					} else {
+						axios.post(action, data).then(response => {
+							let data = response.data;
 
-					// notify that the ic exist.
-					noty({
-						layout: 'bottomLeft',
-						theme: 'relax', // or relax
-						type: 'error', // success, error, warning, information, notification
-						text: `IC Number is already exists.`,
-						timeout: 5000,
-					});
-				} else {
-					axios.post(action, data).then(response => {
-						let data = response.data;
+							if (data.isFail) {
+								this.errors = data.errors;
+								this.isError = true;
+							} else {
+								this.isError = false;
+								this.customerRecord = data.records;
 
-						if (data.isFail) {
-							this.errors = data.errors;
-							this.isError = true;
-						} else {
-							this.isError = false;
-							this.customerRecord = data.records;
-							ic.length > 0 && this.icList.push(data.records.IC);
+								// clear inputs and set date
+								form.reset();
+								this.setDate();
 
-							console.log(response);
+								let vm = this;
+								let duration = 2500;
 
-							// clear inputs and set date
-							form.reset();
-							this.setDate();
+								// notify that new record save.
+								noty({
+									layout: 'bottomLeft',
+									theme: 'relax', // or relax
+									type: 'success', // success, error, warning, information, notification
+									text: `New customer successfully added.`,
+									timeout: duration,
+								});
 
-							// notify that new record save.
-							noty({
-								layout: 'bottomLeft',
-								theme: 'relax', // or relax
-								type: 'success', // success, error, warning, information, notification
-								text: `New customer successfully added.`,
-								timeout: 5000,
-							});
-						}
-					});
-				}
+								// redirect to homepage
+								setTimeout(vm.goToHome, duration);
+							}
+						});
+					}
+				});
 			},
 			goToHome() {
 				window.location = '/home';
@@ -225,6 +228,11 @@
 
 					this.lastID = id;
 				});
+			},
+			isIcExist(ic) {
+				ic = (ic.length > 0) ? ic.toUpperCase().trim() : 'empty';
+
+				return axios.get('/customers/checkIc/'+ic+this.tableName).then(response => response.data);
 			}
 		}
 	}

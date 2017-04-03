@@ -47,6 +47,7 @@ Route::group(['prefix' => 'customers'], function() {
     Route::get('/allCustomer/{tblCustomer}', 'CustomersController@allCustomer'); 
     Route::get('/loadIc/{tblCustomer}', 'CustomersController@loadIc');
     Route::get('/loadEmails/{tblCustomer}', 'CustomersController@loadEmails'); 
+    Route::get('/checkIc/{email}', 'CustomersController@isIcExist'); 
 });
 
 // PurchaseController

@@ -256,4 +256,11 @@ class CustomersController extends Controller
 
 		return response()->json($results);
 	}
+
+	public function isIcExist($ic)
+	{
+		$table = request('table');
+
+		return DB::table($table)->where('IC', $ic)->count();
+	}
 }

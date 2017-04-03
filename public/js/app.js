@@ -21589,18 +21589,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			authUser: {},
 			errors: [],
 			isError: false,
-			icList: [],
+			// icList: [],
 			emailList: [],
 			customerRecord: {},
 			lastID: 0
 		};
+	},
+
+	computed: {
+		tableName: function tableName() {
+			return '?table=' + this.authUser.AllowedtblCustomer;
+		}
 	},
 	created: function created() {
 		this.authUser = JSON.parse(this.auth);
 
 		// http request
 		// this.loadEmails();
-		this.loadIc();
+		// this.loadIc();
 		this.customerLastId();
 	},
 
@@ -21645,55 +21651,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			var _this3 = this;
 
 			var form = document.getElementById('customer-create');
-			var action = '/customers?table=' + this.authUser.AllowedtblCustomer + '&id=' + this.lastID;
+			var action = '/customers' + this.tableName + '&id=' + this.lastID;
 			var data = new FormData(form);
-			var ic = $('input[name=ic]').val().trim().toUpperCase();
-			// let email = $('input[name=email]').val().trim().toUpperCase();
 
-			// check if ic is null
-			ic = ic.length > 0 ? ic : '';
+			// check if response promise return 1 then it exist
+			this.isIcExist(data.get('ic')).then(function (response) {
+				if (parseInt(response, 10) > 0) {
+					// notify that ic exist
+					noty({
+						layout: 'bottomLeft',
+						theme: 'relax', // or relax
+						type: 'error', // success, error, warning, information, notification
+						text: 'This ic number already exist.',
+						timeout: 5000
+					});
+				} else {
+					axios.post(action, data).then(function (response) {
+						var data = response.data;
 
-			// check if ic exist
-			if (this.icList.length > 0 && this.icList.indexOf(ic) != -1) {
-				this.errors = [];
+						if (data.isFail) {
+							_this3.errors = data.errors;
+							_this3.isError = true;
+						} else {
+							_this3.isError = false;
+							_this3.customerRecord = data.records;
 
-				// notify that the ic exist.
-				noty({
-					layout: 'bottomLeft',
-					theme: 'relax', // or relax
-					type: 'error', // success, error, warning, information, notification
-					text: 'IC Number is already exists.',
-					timeout: 5000
-				});
-			} else {
-				axios.post(action, data).then(function (response) {
-					var data = response.data;
+							// clear inputs and set date
+							form.reset();
+							_this3.setDate();
 
-					if (data.isFail) {
-						_this3.errors = data.errors;
-						_this3.isError = true;
-					} else {
-						_this3.isError = false;
-						_this3.customerRecord = data.records;
-						ic.length > 0 && _this3.icList.push(data.records.IC);
+							var vm = _this3;
+							var duration = 2500;
 
-						console.log(response);
+							// notify that new record save.
+							noty({
+								layout: 'bottomLeft',
+								theme: 'relax', // or relax
+								type: 'success', // success, error, warning, information, notification
+								text: 'New customer successfully added.',
+								timeout: duration
+							});
 
-						// clear inputs and set date
-						form.reset();
-						_this3.setDate();
-
-						// notify that new record save.
-						noty({
-							layout: 'bottomLeft',
-							theme: 'relax', // or relax
-							type: 'success', // success, error, warning, information, notification
-							text: 'New customer successfully added.',
-							timeout: 5000
-						});
-					}
-				});
-			}
+							// redirect to homepage
+							setTimeout(vm.goToHome, duration);
+						}
+					});
+				}
+			});
 		},
 		goToHome: function goToHome() {
 			window.location = '/home';
@@ -21708,6 +21712,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				var id = parseInt(response.data, 10) + 1;
 
 				_this4.lastID = id;
+			});
+		},
+		isIcExist: function isIcExist(ic) {
+			ic = ic.length > 0 ? ic.toUpperCase().trim() : 'empty';
+
+			return axios.get('/customers/checkIc/' + ic + this.tableName).then(function (response) {
+				return response.data;
 			});
 		}
 	}
@@ -21965,13 +21976,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
