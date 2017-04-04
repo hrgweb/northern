@@ -136,8 +136,6 @@
 			this.authUser = JSON.parse(this.auth);
 
 			// http request
-			// this.loadEmails();
-			// this.loadIc();
 			this.customerLastId();
 		},
 		methods: {
@@ -153,26 +151,22 @@
 
 				return _.flatten(result);
 			},
-			loadIc() {
-				let action = '/customers/loadIc/' + this.authUser.AllowedtblCustomer.trim();
+			convertToJson(formArray=[]) {
+				let returnArray = {};
 
-				axios.get(action).then(response => this.icList = this.columnResultConvertToArray(response.data, 'IC'));
-			},
-			loadEmails() {
-				let action = '/customers/loadEmails/' + this.authUser.AllowedtblCustomer.trim();
+				for (let i = 0; i < formArray.length; i++){
+					returnArray[formArray[i]['name']] = formArray[i]['value'];
+				}
 
-				axios.get(action).then(response => this.emailList = this.columnResultConvertToArray(response.data, 'Email'));
-			},
-			setDate() {
-				return $('input[type=date]').val('2017-03-17');
+				return returnArray;
 			},
 			postCustomer() {
 				let form = document.getElementById('customer-create');
 				let action = '/customers' + this.tableName  + '&id=' + this.lastID;
-				const data = new FormData(form);
-
+				let icElem = $('input[name=ic]').val().trim();
+	
 				// check if response promise return 1 then it exist
-				this.isIcExist(data.get('ic')).then(response => {
+				this.isIcExist(icElem).then(response => {
 					if (parseInt(response, 10) > 0) {
 						// notify that ic exist
 						noty({
@@ -183,6 +177,9 @@
 							timeout: 5000,
 						});
 					} else {
+						let data = $('form#customer-create').serializeArray();
+						data = this.convertToJson(data);
+
 						axios.post(action, data).then(response => {
 							let data = response.data;
 
@@ -192,10 +189,6 @@
 							} else {
 								this.isError = false;
 								this.customerRecord = data.records;
-
-								// clear inputs and set date
-								form.reset();
-								this.setDate();
 
 								let vm = this;
 								let duration = 2500;
@@ -210,7 +203,7 @@
 								});
 
 								// redirect to homepage
-								setTimeout(vm.goToHome, duration);
+								window.setTimeout(vm.goToHome, duration);
 							}
 						});
 					}
@@ -229,10 +222,10 @@
 					this.lastID = id;
 				});
 			},
-			isIcExist(ic) {
-				ic = (ic.length > 0) ? ic.toUpperCase().trim() : 'empty';
+			isIcExist(icNo) {
+				icNo = (icNo.length > 0) ? icNo.toUpperCase().trim() : 'empty';
 
-				return axios.get('/customers/checkIc/'+ic+this.tableName).then(response => response.data);
+				return axios.get('/customers/checkIc/'+icNo+this.tableName).then(response => response.data);
 			}
 		}
 	}
