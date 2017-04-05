@@ -37,6 +37,7 @@ Route::group(['prefix' => 'customers'], function() {
     Route::get('/', 'CustomersController@index'); 
     Route::get('/create', 'CustomersController@create'); 
     Route::post('/', 'CustomersController@store');
+    Route::get('/signature', 'CustomersController@signature'); 
     Route::put('/{customer}', 'CustomersController@update');
     Route::get('/customerID', 'CustomersController@getLastId');
     Route::get('/search', 'CustomersController@searchCustomer'); 
@@ -44,6 +45,7 @@ Route::group(['prefix' => 'customers'], function() {
     Route::get('/loadIc/{tblCustomer}', 'CustomersController@loadIc');
     Route::get('/loadEmails/{tblCustomer}', 'CustomersController@loadEmails'); 
     Route::get('/checkIc/{email}', 'CustomersController@isIcExist'); 
+    Route::post('/postSignature', 'CustomersController@postSignature');
 });
 
 // PurchaseController

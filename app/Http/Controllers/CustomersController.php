@@ -263,4 +263,26 @@ class CustomersController extends Controller
 
 		return DB::table($table)->where('IC', $ic)->count();
 	}
+
+	public function signature()
+	{
+		return view('customers.signature');
+	}
+
+	public function postSignature()
+	{
+		// file encode/decode
+		$data_uri = request('meta');
+		$encoded_image = explode(',', $data_uri)[1];
+		$decoded_image = base64_decode($encoded_image);
+
+		// setting up variables
+		$filename = time().'.png';
+		$path_to_save = public_path('img/signatures/'.$filename);
+
+		// post signature
+		$result = file_put_contents($path_to_save, $decoded_image);
+
+		return response()->json(['filename' => $filename, 'result' => $result]);
+	}
 }
