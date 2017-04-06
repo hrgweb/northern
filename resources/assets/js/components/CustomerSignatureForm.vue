@@ -45,31 +45,35 @@
 			</li>
 		</ul>
 
-		<p>
-			I also acknowledge that I have received the goods purchased by me in good condition,
-			and that I will automcatically qualify for a 1 year warranty on manufacturing defects.
-		</p>
+		<form method="POST" id="form-agreement" @submit.prevent="postAgreement">
+			<p>
+				The warranty registration will apply for receipt number:
+				<input type="text" name="receipt" id="receipt">
+			</p>
 
-		<div class="Signature__form-sign">
-			<form method="POST" @submit.prevent="postAgreement">
-				<div class="left-side pull-left">
+			<p>
+				I also acknowledge that I have received the goods purchased by me in good condition,
+				and that I will automcatically qualify for a 1 year warranty on manufacturing defects.
+			</p>
+
+			<div class="Signature__form-sign">
+				<div class="left-side" v-if="isSign">
 					<label>Signature:</label>
-					<div class="switch-element" v-if="isSign">
-						<img :src="signatureData.src" class="img-responsive" :alt="signatureData.filename">
-					</div>
-					<div class="switch-element" v-else>
-						<input type="text" name="signature" id="signature" @focus="showSignature">
-					</div>
+					<img :src="signatureData.src" class="img-responsive" :alt="signatureData.filename">
+				</div>
+				<div class="left-side" v-else>
+					<label>Signature:</label>
+					<input type="text" name="signature" id="signature" @focus="showSignature">
 				</div>
 
-				<div class="right-side pull-right">
+				<div class="right-side">
 					<label>Date:</label>
-					<input type="date" name="date" id="date" :value="date" style="width:40%;">
+					<input type="date" name="date" id="date" :value="date">
 				</div>
 
 				<div class="at-bottom">
 					<p>
-						Should you wish to withdraw ou consent in part or in whole, please send an 
+						Should you wish to withdraw your consent in part or in whole, please send an 
 						email to our Data Protection Officer at DPO@northernopticians.com and provide
 						details of your withdrawal. If you have any questions relating to our collection,
 						use, and disclosure of your personal data or the matters set our above, you may
@@ -78,8 +82,9 @@
 				</div>
 
 				<button type="submit" class="btn btn-info">Save</button>
-			</form>
-		</div>
+			</div>
+		</form>
+
 
 		<!-- Customer Signature - Component -->
 		<customer-signature @isSignatured="closeSignaturePad" v-if="isSignature"></customer-signature>
@@ -88,6 +93,7 @@
 
 <script>
 	import CustomerSignature from './CustomerSignature.vue';
+	import Helper from './class/Helper.js';
 
 	export default { 
 		components: { CustomerSignature },
@@ -97,6 +103,7 @@
 				isSignature: false,
 				signatureData: {},
 				isSign: false,
+				helper: new Helper,
 			}
 		},
 		methods: {
@@ -109,7 +116,12 @@
 				if (data) this.isSign = true;
 			},
 			postAgreement() {
-				alert('temporary...');
+				let form = $('form#form-agreement').serializeArray();
+				let data = this.helper.convertToJson(form);
+				data['filename'] = this.signatureData.filename;
+				data['src'] = this.signatureData.src;
+
+				axios.post('/customers/postAgreement', data).then(response => console.log(response.data));
 			}
 		}
 	}

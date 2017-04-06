@@ -21473,6 +21473,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Error_vue__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Error_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Error_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__class_Helper_js__ = __webpack_require__(77);
 //
 //
 //
@@ -21585,6 +21586,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -21599,7 +21601,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			// icList: [],
 			emailList: [],
 			customerRecord: {},
-			lastID: 0
+			lastID: 0,
+			helper: new __WEBPACK_IMPORTED_MODULE_1__class_Helper_js__["a" /* default */]()
 		};
 	},
 
@@ -21631,17 +21634,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 			return _.flatten(result);
 		},
-		convertToJson: function convertToJson() {
-			var formArray = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-
-			var returnArray = {};
-
-			for (var i = 0; i < formArray.length; i++) {
-				returnArray[formArray[i]['name']] = formArray[i]['value'];
-			}
-
-			return returnArray;
-		},
 		postCustomer: function postCustomer() {
 			var _this = this;
 
@@ -21662,7 +21654,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					});
 				} else {
 					var data = $('form#customer-create').serializeArray();
-					data = _this.convertToJson(data);
+					data = _this.helper.convertToJson(data);
 
 					axios.post(action, data).then(function (response) {
 						var data = response.data;
@@ -22788,9 +22780,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CustomerSignature_vue__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CustomerSignature_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CustomerSignature_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__class_Helper_js__ = __webpack_require__(77);
 //
 //
 //
@@ -22879,6 +22872,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+
 
 
 
@@ -22889,7 +22888,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		return {
 			isSignature: false,
 			signatureData: {},
-			isSign: false
+			isSign: false,
+			helper: new __WEBPACK_IMPORTED_MODULE_1__class_Helper_js__["a" /* default */]()
 		};
 	},
 
@@ -22903,10 +22903,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			if (data) this.isSign = true;
 		},
 		postAgreement: function postAgreement() {
-			alert('temporary...');
+			var form = $('form#form-agreement').serializeArray();
+			var data = this.helper.convertToJson(form);
+			data['filename'] = this.signatureData.filename;
+			data['src'] = this.signatureData.src;
+
+			axios.post('/customers/postAgreement', data).then(function (response) {
+				return console.log(response.data);
+			});
 		}
 	}
 };
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(2)))
 
 /***/ }),
 /* 40 */
@@ -25453,7 +25461,7 @@ if (typeof jQuery === 'undefined') {
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(45)();
-exports.push([module.i, "\ncanvas[data-v-a24b25cc] {\n\tbackground: #DBD7D7;\n\twidth: 100%;\n\theight: 60vh;\n\tborder: 1px solid silver;\n}\n", ""]);
+exports.push([module.i, "\ncanvas[data-v-a24b25cc] {\n\tbackground: #DBD7D7;\n\twidth: 100%;\n\theight: 75vh;\n\tborder: 1px solid silver;\n}\n", ""]);
 
 /***/ }),
 /* 45 */
@@ -45264,11 +45272,10 @@ module.exports = Component.exports
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "Signature__form"
-  }, [_vm._m(0), _vm._v(" "), _c('p', [_vm._v("\n\t\tBy registering, I hereby acknowledge that my personal information is protected \n\t\tby Northern Opticians Data Protection Policy, and hereby authorize, agree, and \n\t\tconsent to allow Northern Opticians Pte Ltd to:\n\t")]), _vm._v(" "), _c('p', [_vm._v("\n\t\t(a) collect, use, disclose, and/or process personal data about me that I had \n\t\tpreviously provided Northern Opticians, that I now provide Northern Opticians,\n\t\tand those that I may in future provide Northern Opticians with.\n\t")]), _vm._v(" "), _c('p', [_vm._v("\n\t\t(b) disclose personal data about me to Northern Opticians' third party service providers\n\t\tand agents (\"Representatives\") that are engaged by Northern Opticians to perform \n\t\tcertain functions in relation to my purchase at Northern Opticians, such as but not\n\t\tlimited to the provision of service for my purchased products or the provision of \n\t\teye care services to me, so long as disclosure is necessary to enable such Representatives\n\t\tto perform the said functions.\n\t")]), _vm._v(" "), _c('p', [_vm._v("\n\t\t(c) in addition, I hereby authorize, agree, and consent to allow Northern Opticians\n\t\tand/or its Representatives to send me such marketing, advertising, and promotional\n\t\tinformation and/or documents relating to Northern Opticians' products, services and \n\t\tactivities, and/or products, services and activities of third parties that Northern\n\t\tOpticians may collaborate with (the \"Marketing Purpose\") through the following modes\n\t\tof communication:\n\t")]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('p', [_vm._v("\n\t\tI also acknowledge that I have received the goods purchased by me in good condition,\n\t\tand that I will automcatically qualify for a 1 year warranty on manufacturing defects.\n\t")]), _vm._v(" "), _c('div', {
-    staticClass: "Signature__form-sign"
-  }, [_c('form', {
+  }, [_vm._m(0), _vm._v(" "), _c('p', [_vm._v("\n\t\tBy registering, I hereby acknowledge that my personal information is protected \n\t\tby Northern Opticians Data Protection Policy, and hereby authorize, agree, and \n\t\tconsent to allow Northern Opticians Pte Ltd to:\n\t")]), _vm._v(" "), _c('p', [_vm._v("\n\t\t(a) collect, use, disclose, and/or process personal data about me that I had \n\t\tpreviously provided Northern Opticians, that I now provide Northern Opticians,\n\t\tand those that I may in future provide Northern Opticians with.\n\t")]), _vm._v(" "), _c('p', [_vm._v("\n\t\t(b) disclose personal data about me to Northern Opticians' third party service providers\n\t\tand agents (\"Representatives\") that are engaged by Northern Opticians to perform \n\t\tcertain functions in relation to my purchase at Northern Opticians, such as but not\n\t\tlimited to the provision of service for my purchased products or the provision of \n\t\teye care services to me, so long as disclosure is necessary to enable such Representatives\n\t\tto perform the said functions.\n\t")]), _vm._v(" "), _c('p', [_vm._v("\n\t\t(c) in addition, I hereby authorize, agree, and consent to allow Northern Opticians\n\t\tand/or its Representatives to send me such marketing, advertising, and promotional\n\t\tinformation and/or documents relating to Northern Opticians' products, services and \n\t\tactivities, and/or products, services and activities of third parties that Northern\n\t\tOpticians may collaborate with (the \"Marketing Purpose\") through the following modes\n\t\tof communication:\n\t")]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('form', {
     attrs: {
-      "method": "POST"
+      "method": "POST",
+      "id": "form-agreement"
     },
     on: {
       "submit": function($event) {
@@ -45276,19 +45283,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.postAgreement($event)
       }
     }
-  }, [_c('div', {
-    staticClass: "left-side pull-left"
-  }, [_c('label', [_vm._v("Signature:")]), _vm._v(" "), (_vm.isSign) ? _c('div', {
-    staticClass: "switch-element"
-  }, [_c('img', {
+  }, [_vm._m(2), _vm._v(" "), _c('p', [_vm._v("\n\t\t\tI also acknowledge that I have received the goods purchased by me in good condition,\n\t\t\tand that I will automcatically qualify for a 1 year warranty on manufacturing defects.\n\t\t")]), _vm._v(" "), _c('div', {
+    staticClass: "Signature__form-sign"
+  }, [(_vm.isSign) ? _c('div', {
+    staticClass: "left-side"
+  }, [_c('label', [_vm._v("Signature:")]), _vm._v(" "), _c('img', {
     staticClass: "img-responsive",
     attrs: {
       "src": _vm.signatureData.src,
       "alt": _vm.signatureData.filename
     }
   })]) : _c('div', {
-    staticClass: "switch-element"
-  }, [_c('input', {
+    staticClass: "left-side"
+  }, [_c('label', [_vm._v("Signature:")]), _vm._v(" "), _c('input', {
     attrs: {
       "type": "text",
       "name": "signature",
@@ -45297,12 +45304,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "focus": _vm.showSignature
     }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "right-side pull-right"
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "right-side"
   }, [_c('label', [_vm._v("Date:")]), _vm._v(" "), _c('input', {
-    staticStyle: {
-      "width": "40%"
-    },
     attrs: {
       "type": "date",
       "name": "date",
@@ -45311,7 +45315,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     domProps: {
       "value": _vm.date
     }
-  })]), _vm._v(" "), _vm._m(2), _vm._v(" "), _c('button', {
+  })]), _vm._v(" "), _vm._m(3), _vm._v(" "), _c('button', {
     staticClass: "btn btn-info",
     attrs: {
       "type": "submit"
@@ -45328,9 +45332,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('ul', [_c('li', [_vm._v("By email to my email address")]), _vm._v(" "), _c('li', [_vm._v("By post to my address*;")]), _vm._v(" "), _c('li', [_vm._v("\n\t\t\tto my phone number provided to Northern Opticians by the following methods:\n\n\t\t\t"), _c('ul', [_c('li', [_vm._v("(a) Voice Calls / Phone Calls*")]), _vm._v(" "), _c('li', [_vm._v("(b) Text Messages (e.g. SMS/MMS)*")])])])])
 },function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_vm._v("\n\t\t\tThe warranty registration will apply for receipt number:\n\t\t\t"), _c('input', {
+    attrs: {
+      "type": "text",
+      "name": "receipt",
+      "id": "receipt"
+    }
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "at-bottom"
-  }, [_c('p', [_vm._v("\n\t\t\t\t\tShould you wish to withdraw ou consent in part or in whole, please send an \n\t\t\t\t\temail to our Data Protection Officer at DPO@northernopticians.com and provide\n\t\t\t\t\tdetails of your withdrawal. If you have any questions relating to our collection,\n\t\t\t\t\tuse, and disclosure of your personal data or the matters set our above, you may\n\t\t\t\t\tcontact our Data Protection Officer.\n\t\t\t\t")])])
+  }, [_c('p', [_vm._v("\n\t\t\t\t\tShould you wish to withdraw your consent in part or in whole, please send an \n\t\t\t\t\temail to our Data Protection Officer at DPO@northernopticians.com and provide\n\t\t\t\t\tdetails of your withdrawal. If you have any questions relating to our collection,\n\t\t\t\t\tuse, and disclosure of your personal data or the matters set our above, you may\n\t\t\t\t\tcontact our Data Protection Officer.\n\t\t\t\t")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {
@@ -46667,7 +46679,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.$emit('isSignatured')
       }
     }
-  }, [_vm._v("x")]), _vm._v(" "), _c('h2', [_vm._v("Signature")]), _vm._v(" "), _c('hr'), _vm._v(" "), _c('canvas'), _vm._v(" "), _c('div', {
+  }, [_vm._v("x")]), _vm._v(" "), _c('h2', [_vm._v("Signature")]), _vm._v(" "), _c('canvas'), _vm._v(" "), _c('div', {
     staticClass: "Signature__controls"
   }, [_c('button', {
     staticClass: "btn btn-info",
@@ -47888,6 +47900,47 @@ module.exports = function(module) {
 __webpack_require__(13);
 module.exports = __webpack_require__(14);
 
+
+/***/ }),
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Helper = function () {
+	function Helper() {
+		_classCallCheck(this, Helper);
+	}
+
+	_createClass(Helper, [{
+		key: 'convertToJson',
+		value: function convertToJson() {
+			var formArray = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+
+			var returnArray = {};
+
+			for (var i = 0; i < formArray.length; i++) {
+				returnArray[formArray[i]['name']] = formArray[i]['value'];
+			}
+
+			return returnArray;
+		}
+	}]);
+
+	return Helper;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = Helper;
 
 /***/ })
 /******/ ]);

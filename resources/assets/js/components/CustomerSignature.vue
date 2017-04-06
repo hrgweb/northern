@@ -3,7 +3,7 @@
 		<div class="Signature-scroll">
 			<div class="Signature">
 				<button type="button" class="btn btn-danger" @click.prevent="$emit('isSignatured')">x</button>
-				<h2>Signature</h2> <hr>
+				<h2>Signature</h2>
 				<canvas></canvas>
 
 				<div class="Signature__controls">
@@ -105,7 +105,7 @@
 	canvas {
 		background: #DBD7D7;
 		width: 100%;
-		height: 60vh;
+		height: 75vh;
 		border: 1px solid silver;
 	}
 </style>

@@ -285,4 +285,9 @@ class CustomersController extends Controller
 
 		return response()->json(['filename' => $filename, 'result' => $result]);
 	}
+
+	public function postAgreement()
+	{
+		return request()->all();
+	}
 }

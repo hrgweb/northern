@@ -24,26 +24,20 @@
 }
 
 .Signature__form-sign {
-	margin: 8em 0;
+	margin: 5em 0;
 
 	.left-side,
 	.right-side {
 		position: relative;
-		width: 50%;
+		margin-bottom: 2em;
+		display: flex;
 	}
 
-	.switch-element {
-	    position: absolute;
-	    top: -0.5em;
-	    left: 5em;
-
-	    img {
+	.left-side {
+		img {
 	    	background: #dcd8d8;
-		    position: relative;
-		    top: -5.5em;
-		    left: 2em;
-		    height: 110px;
-		    width: 130px;
+		    height: 250px;
+		    width: 90%;
 		    border: 1px solid #c3c1c1;
 	    }
 	}
@@ -52,16 +46,23 @@
 		clear: both;
 	}
 
-	label { @include textSpacing; }
+	label { 
+		@include textSpacing; 
+		margin-bottom: 0;
+		width: 110px;
+	}
 
 	input {
 	    background: none;
 	    margin-left: 1em;
 		font-size: 1.3em;
-	    width: 80%;
+	    width: 90%;
 	    border: none;
 	    border-bottom: 1px solid #656565;
 	}
 }
 
-.Signature { width: 40%; }
+.Signature {
+	width: 90%;
+    margin: 2em auto 0;
+}
