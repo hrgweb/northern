@@ -1,16 +1,16 @@
 <template>
-	<div class="Signature">
-		<div class="Signature__header">
-			<h1>Signature</h1> <hr>
-		</div>
+	<div class="Signature-overlay">
+		<div class="Signature-scroll">
+			<div class="Signature">
+				<button type="button" class="btn btn-danger" @click.prevent="$emit('isSignatured')">x</button>
+				<h2>Signature</h2> <hr>
+				<canvas></canvas>
 
-		<div class="Signature__body">
-			<canvas></canvas>
-		</div>
-
-		<div class="Signature__controls">
-			<button type="button" class="btn btn-warning" @click="postSignature">Save</button>
-			<button type="button" class="btn btn-danger" @click="clearSignature">Clear</button>
+				<div class="Signature__controls">
+					<button type="button" class="btn btn-info" @click="postSignature">Save</button>
+					<button type="button" class="btn btn-warning" @click="clearSignature">Clear</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -74,7 +74,7 @@
 								});
 							} else {
 								// notify for success
-								noty({
+								/*noty({
 									layout: 'bottomLeft',
 									theme: 'relax', // or relax
 									type: 'success', // success, error, warning, information, notification
@@ -86,7 +86,9 @@
 										</div>
 									`,
 									timeout: 5000,
-								});
+								});*/
+
+								this.$emit('isSignatured', { src: this.pathOfFile, filename: this.filename}); // close the signature pad
 							}
 						});
 				}

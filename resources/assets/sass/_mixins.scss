@@ -1,0 +1,5 @@
+@mixin textSpacing($fontSize: 1.2em, $marginBottom: 1.8em, $color: #656565) {
+	font-size: $fontSize;
+	margin-bottom: $marginBottom;
+	color: $color;
+}

@@ -1,0 +1,67 @@
+.Signature__form {
+	width: 70%;
+    margin: auto;
+
+	> h2 { @include textSpacing(3.5em, .7em); }
+
+	p,
+	> ul {
+		@include textSpacing; 
+	}
+
+	p { text-align: justify; }
+
+	> ul {
+		list-style-type: lower-roman;
+
+		> li { padding-left: 1em; }
+
+		> li:last-child > ul { 
+			list-style: none; 
+			margin-top: 1em;
+		}
+	}
+}
+
+.Signature__form-sign {
+	margin: 8em 0;
+
+	.left-side,
+	.right-side {
+		position: relative;
+		width: 50%;
+	}
+
+	.switch-element {
+	    position: absolute;
+	    top: -0.5em;
+	    left: 5em;
+
+	    img {
+	    	background: #dcd8d8;
+		    position: relative;
+		    top: -5.5em;
+		    left: 2em;
+		    height: 110px;
+		    width: 130px;
+		    border: 1px solid #c3c1c1;
+	    }
+	}
+
+	.at-bottom {
+		clear: both;
+	}
+
+	label { @include textSpacing; }
+
+	input {
+	    background: none;
+	    margin-left: 1em;
+		font-size: 1.3em;
+	    width: 80%;
+	    border: none;
+	    border-bottom: 1px solid #656565;
+	}
+}
+
+.Signature { width: 40%; }

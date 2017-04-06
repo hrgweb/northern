@@ -9,8 +9,9 @@
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
 // Custom
+@import "mixins";
 @import "login";
 @import "dashboard";
 @import "customer";
-
+@import "signature";
 

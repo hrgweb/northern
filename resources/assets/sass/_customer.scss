@@ -139,7 +139,8 @@ select > option[value] {
 /*=============== Customer Edit ===============*/ 
 
 .Customer__edit-overlay,
-.Customer__purchase-overlay {
+.Customer__purchase-overlay,
+.Signature-overlay {
 	background: black;
     background: rgba(0, 0, 0, 0.8);
     position: fixed;
@@ -151,7 +152,8 @@ select > option[value] {
 }
 
 .Customer__edit-scroll,
-.Customer__purchase-scroll {
+.Customer__purchase-scroll,
+.Signature-scroll {
     position: fixed;
     top: 0;
     left: 0;
@@ -161,7 +163,8 @@ select > option[value] {
 }
 
 .Customer__edit,
-.Customer__purchase {
+.Customer__purchase,
+.Signature {
 	> button {
 		position: absolute;
 	    top: -0.2em;
@@ -181,7 +184,8 @@ select > option[value] {
 }
 
 .Customer__edit,
-.Customer__purchase {
+.Customer__purchase,
+.Signature {
 	background: $elementBgColor;
     position: relative;
     width: $editWidth;
