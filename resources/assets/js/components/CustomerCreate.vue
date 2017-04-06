@@ -112,6 +112,7 @@
 
 <script>
 	import error from './Error.vue';
+	import Helper from './class/Helper.js';
 
 	export default {
 		components: { error },
@@ -125,6 +126,7 @@
 				emailList: [],
 				customerRecord: {},
 				lastID: 0,
+				helper: new Helper
 			}
 		},
 		computed: {
@@ -151,15 +153,6 @@
 
 				return _.flatten(result);
 			},
-			convertToJson(formArray=[]) {
-				let returnArray = {};
-
-				for (let i = 0; i < formArray.length; i++){
-					returnArray[formArray[i]['name']] = formArray[i]['value'];
-				}
-
-				return returnArray;
-			},
 			postCustomer() {
 				let form = document.getElementById('customer-create');
 				let action = '/customers' + this.tableName  + '&id=' + this.lastID;
@@ -178,7 +171,7 @@
 						});
 					} else {
 						let data = $('form#customer-create').serializeArray();
-						data = this.convertToJson(data);
+						data = this.helper.convertToJson(data);
 
 						axios.post(action, data).then(response => {
 							let data = response.data;
