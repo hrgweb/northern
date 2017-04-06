@@ -62,34 +62,7 @@
 						.then(response => {
 							let data = response.data;
 							this.filename = data.filename;
-
-							if (data <= 0 || data == false) {
-								// notify for error
-								noty({
-									layout: 'bottomLeft',
-									theme: 'relax', // or relax
-									type: 'error', // success, error, warning, information, notification
-									text: `Error encountered.`,
-									timeout: 5000,
-								});
-							} else {
-								// notify for success
-								/*noty({
-									layout: 'bottomLeft',
-									theme: 'relax', // or relax
-									type: 'success', // success, error, warning, information, notification
-									text: `
-										<div class="noty-message">
-											<h5>Signature successfully saved.</h5>
-
-											<img src="${this.pathOfFile}" alt="${this.filename}" width="170" height="120">
-										</div>
-									`,
-									timeout: 5000,
-								});*/
-
-								this.$emit('isSignatured', { src: this.pathOfFile, filename: this.filename}); // close the signature pad
-							}
+							this.$emit('isSignatured', { src: this.pathOfFile, filename: this.filename}); // close the signature pad
 						});
 				}
 			},

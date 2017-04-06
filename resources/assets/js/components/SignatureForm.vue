@@ -63,7 +63,7 @@
 				</div>
 				<div class="left-side" v-else>
 					<label>Signature:</label>
-					<input type="text" name="signature" id="signature" @focus="showSignature">
+					<input type="text" name="signature" id="signature" @focus="isSignature = true">
 				</div>
 
 				<div class="right-side">
@@ -86,42 +86,57 @@
 		</form>
 
 
-		<!-- Customer Signature - Component -->
-		<customer-signature @isSignatured="closeSignaturePad" v-if="isSignature"></customer-signature>
+		<!-- Component -->
+		<signature @isSignatured="closeSignaturePad" v-if="isSignature"></signature>
+		<signature-screenshot @isSnap="isScreenshot = false" v-if="isScreenshot"></signature-screenshot>
 	</div>
 </template>
 
 <script>
-	import CustomerSignature from './CustomerSignature.vue';
 	import Helper from './class/Helper.js';
+	import Signature from './Signature.vue';
+	import SignatureScreenshot from './SignatureScreenshot.vue';
 
 	export default { 
-		components: { CustomerSignature },
+		components: { Signature, SignatureScreenshot },
 		props: ['date'],
 		data() {
 			return {
 				isSignature: false,
+				isScreenshot: false,
 				signatureData: {},
 				isSign: false,
 				helper: new Helper,
 			}
 		},
 		methods: {
-			showSignature() {
-				this.isSignature = true;
-			},
 			closeSignaturePad(data) {
 				this.isSignature = false;
 				this.signatureData = data;
 				if (data) this.isSign = true;
 			},
 			postAgreement() {
+				this.isScreenshot = true;
+				this.isSnapshot = true;
+
+				// vars
 				let form = $('form#form-agreement').serializeArray();
+				let screenshot = document.getElementsByClassName('Signature__screenshot');
 				let data = this.helper.convertToJson(form);
 				data['filename'] = this.signatureData.filename;
 				data['src'] = this.signatureData.src;
 
-				axios.post('/customers/postAgreement', data).then(response => console.log(response.data));
+				html2canvas(document.body, {
+					onrendered: function(canvas) {
+						document.getElementsByClassName('Signature__screenshot-body')[0].appendChild(canvas);
+						let img = canvas.toDataURL();
+						
+						// axios.post('/customers/postAgreement', data).then(response => console.log(response.data));
+					}
+				});
+
+				// Close the screenshot popup
+				setTimeout(() => this.isScreenshot = false, 5000);
 			}
 		}
 	}

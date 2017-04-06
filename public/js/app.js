@@ -20479,8 +20479,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Customer_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Customer_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_CustomerCreate_vue__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_CustomerCreate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_CustomerCreate_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_CustomerSignatureForm_vue__ = __webpack_require__(55);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_CustomerSignatureForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_CustomerSignatureForm_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_SignatureForm_vue__ = __webpack_require__(79);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_SignatureForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_SignatureForm_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -20514,7 +20514,7 @@ var app = new Vue({
   components: {
     Customer: __WEBPACK_IMPORTED_MODULE_2__components_Customer_vue___default.a,
     CustomerCreate: __WEBPACK_IMPORTED_MODULE_3__components_CustomerCreate_vue___default.a,
-    CustomerSignatureForm: __WEBPACK_IMPORTED_MODULE_4__components_CustomerSignatureForm_vue___default.a
+    SignatureForm: __WEBPACK_IMPORTED_MODULE_4__components_SignatureForm_vue___default.a
   },
   store: __WEBPACK_IMPORTED_MODULE_0__components_store_store_js__["a" /* store */]
 });
@@ -22666,257 +22666,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 38 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_signature_pad__ = __webpack_require__(48);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	data: function data() {
-		return {
-			canvas: '',
-			signaturePad: {},
-			filename: ''
-		};
-	},
-	mounted: function mounted() {
-		this.onInitSignature();
-		window.addEventListener("resize", this.resizeCanvas);
-	},
-
-	computed: {
-		pathOfFile: function pathOfFile() {
-			return '/img/signatures/' + this.filename;
-		}
-	},
-	methods: {
-		onInitSignature: function onInitSignature() {
-			this.canvas = document.querySelector('canvas');
-			this.signaturePad = new __WEBPACK_IMPORTED_MODULE_0_signature_pad__["a" /* default */](this.canvas, {});
-			this.resizeCanvas();
-		},
-		resizeCanvas: function resizeCanvas() {
-			var ratio = Math.max(window.devicePixelRatio || 1, 1);
-			var canvas = this.canvas;
-			var signaturePad = this.signaturePad;
-
-			canvas.width = canvas.offsetWidth * ratio;
-			canvas.height = canvas.offsetHeight * ratio;
-			canvas.getContext("2d").scale(ratio, ratio);
-			signaturePad.clear(); // otherwise isEmpty() might return incorrect value
-		},
-		postSignature: function postSignature() {
-			var _this = this;
-
-			var signaturePad = this.signaturePad;
-
-			if (!signaturePad.isEmpty()) {
-				var meta = signaturePad.toDataURL();
-
-				// post to server
-				axios.post('/customers/postSignature', { meta: meta }).then(function (response) {
-					var data = response.data;
-					_this.filename = data.filename;
-
-					if (data <= 0 || data == false) {
-						// notify for error
-						noty({
-							layout: 'bottomLeft',
-							theme: 'relax', // or relax
-							type: 'error', // success, error, warning, information, notification
-							text: 'Error encountered.',
-							timeout: 5000
-						});
-					} else {
-						// notify for success
-						/*noty({
-      	layout: 'bottomLeft',
-      	theme: 'relax', // or relax
-      	type: 'success', // success, error, warning, information, notification
-      	text: `
-      		<div class="noty-message">
-      			<h5>Signature successfully saved.</h5>
-      				<img src="${this.pathOfFile}" alt="${this.filename}" width="170" height="120">
-      		</div>
-      	`,
-      	timeout: 5000,
-      });*/
-
-						_this.$emit('isSignatured', { src: _this.pathOfFile, filename: _this.filename }); // close the signature pad
-					}
-				});
-			}
-		},
-		clearSignature: function clearSignature() {
-			var signaturePad = this.signaturePad;
-			!signaturePad.isEmpty() && signaturePad.clear();
-		}
-	}
-};
-
-/***/ }),
-/* 39 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CustomerSignature_vue__ = __webpack_require__(54);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CustomerSignature_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CustomerSignature_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__class_Helper_js__ = __webpack_require__(77);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = {
-	components: { CustomerSignature: __WEBPACK_IMPORTED_MODULE_0__CustomerSignature_vue___default.a },
-	props: ['date'],
-	data: function data() {
-		return {
-			isSignature: false,
-			signatureData: {},
-			isSign: false,
-			helper: new __WEBPACK_IMPORTED_MODULE_1__class_Helper_js__["a" /* default */]()
-		};
-	},
-
-	methods: {
-		showSignature: function showSignature() {
-			this.isSignature = true;
-		},
-		closeSignaturePad: function closeSignaturePad(data) {
-			this.isSignature = false;
-			this.signatureData = data;
-			if (data) this.isSign = true;
-		},
-		postAgreement: function postAgreement() {
-			var form = $('form#form-agreement').serializeArray();
-			var data = this.helper.convertToJson(form);
-			data['filename'] = this.signatureData.filename;
-			data['src'] = this.signatureData.src;
-
-			axios.post('/customers/postAgreement', data).then(function (response) {
-				return console.log(response.data);
-			});
-		}
-	}
-};
-/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(2)))
-
-/***/ }),
+/* 38 */,
+/* 39 */,
 /* 40 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -25457,13 +25208,7 @@ if (typeof jQuery === 'undefined') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(45)();
-exports.push([module.i, "\ncanvas[data-v-a24b25cc] {\n\tbackground: #DBD7D7;\n\twidth: 100%;\n\theight: 75vh;\n\tborder: 1px solid silver;\n}\n", ""]);
-
-/***/ }),
+/* 44 */,
 /* 45 */
 /***/ (function(module, exports) {
 
@@ -45194,165 +44939,9 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 54 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/* styles */
-__webpack_require__(64)
-
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(38),
-  /* template */
-  __webpack_require__(62),
-  /* scopeId */
-  "data-v-a24b25cc",
-  /* cssModules */
-  null
-)
-Component.options.__file = "C:\\xampp\\htdocs\\laravel\\development\\northern\\resources\\assets\\js\\components\\CustomerSignature.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] CustomerSignature.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-a24b25cc", Component.options)
-  } else {
-    hotAPI.reload("data-v-a24b25cc", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(39),
-  /* template */
-  __webpack_require__(56),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "C:\\xampp\\htdocs\\laravel\\development\\northern\\resources\\assets\\js\\components\\CustomerSignatureForm.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] CustomerSignatureForm.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-0cf86a04", Component.options)
-  } else {
-    hotAPI.reload("data-v-0cf86a04", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "Signature__form"
-  }, [_vm._m(0), _vm._v(" "), _c('p', [_vm._v("\n\t\tBy registering, I hereby acknowledge that my personal information is protected \n\t\tby Northern Opticians Data Protection Policy, and hereby authorize, agree, and \n\t\tconsent to allow Northern Opticians Pte Ltd to:\n\t")]), _vm._v(" "), _c('p', [_vm._v("\n\t\t(a) collect, use, disclose, and/or process personal data about me that I had \n\t\tpreviously provided Northern Opticians, that I now provide Northern Opticians,\n\t\tand those that I may in future provide Northern Opticians with.\n\t")]), _vm._v(" "), _c('p', [_vm._v("\n\t\t(b) disclose personal data about me to Northern Opticians' third party service providers\n\t\tand agents (\"Representatives\") that are engaged by Northern Opticians to perform \n\t\tcertain functions in relation to my purchase at Northern Opticians, such as but not\n\t\tlimited to the provision of service for my purchased products or the provision of \n\t\teye care services to me, so long as disclosure is necessary to enable such Representatives\n\t\tto perform the said functions.\n\t")]), _vm._v(" "), _c('p', [_vm._v("\n\t\t(c) in addition, I hereby authorize, agree, and consent to allow Northern Opticians\n\t\tand/or its Representatives to send me such marketing, advertising, and promotional\n\t\tinformation and/or documents relating to Northern Opticians' products, services and \n\t\tactivities, and/or products, services and activities of third parties that Northern\n\t\tOpticians may collaborate with (the \"Marketing Purpose\") through the following modes\n\t\tof communication:\n\t")]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('form', {
-    attrs: {
-      "method": "POST",
-      "id": "form-agreement"
-    },
-    on: {
-      "submit": function($event) {
-        $event.preventDefault();
-        _vm.postAgreement($event)
-      }
-    }
-  }, [_vm._m(2), _vm._v(" "), _c('p', [_vm._v("\n\t\t\tI also acknowledge that I have received the goods purchased by me in good condition,\n\t\t\tand that I will automcatically qualify for a 1 year warranty on manufacturing defects.\n\t\t")]), _vm._v(" "), _c('div', {
-    staticClass: "Signature__form-sign"
-  }, [(_vm.isSign) ? _c('div', {
-    staticClass: "left-side"
-  }, [_c('label', [_vm._v("Signature:")]), _vm._v(" "), _c('img', {
-    staticClass: "img-responsive",
-    attrs: {
-      "src": _vm.signatureData.src,
-      "alt": _vm.signatureData.filename
-    }
-  })]) : _c('div', {
-    staticClass: "left-side"
-  }, [_c('label', [_vm._v("Signature:")]), _vm._v(" "), _c('input', {
-    attrs: {
-      "type": "text",
-      "name": "signature",
-      "id": "signature"
-    },
-    on: {
-      "focus": _vm.showSignature
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "right-side"
-  }, [_c('label', [_vm._v("Date:")]), _vm._v(" "), _c('input', {
-    attrs: {
-      "type": "date",
-      "name": "date",
-      "id": "date"
-    },
-    domProps: {
-      "value": _vm.date
-    }
-  })]), _vm._v(" "), _vm._m(3), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-info",
-    attrs: {
-      "type": "submit"
-    }
-  }, [_vm._v("Save")])])]), _vm._v(" "), (_vm.isSignature) ? _c('customer-signature', {
-    on: {
-      "isSignatured": _vm.closeSignaturePad
-    }
-  }) : _vm._e()], 1)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('h2', {
-    staticClass: "text-center"
-  }, [_vm._v("Northern Opticians "), _c('br'), _vm._v(" Warranty Registrations Form")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('ul', [_c('li', [_vm._v("By email to my email address")]), _vm._v(" "), _c('li', [_vm._v("By post to my address*;")]), _vm._v(" "), _c('li', [_vm._v("\n\t\t\tto my phone number provided to Northern Opticians by the following methods:\n\n\t\t\t"), _c('ul', [_c('li', [_vm._v("(a) Voice Calls / Phone Calls*")]), _vm._v(" "), _c('li', [_vm._v("(b) Text Messages (e.g. SMS/MMS)*")])])])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('p', [_vm._v("\n\t\t\tThe warranty registration will apply for receipt number:\n\t\t\t"), _c('input', {
-    attrs: {
-      "type": "text",
-      "name": "receipt",
-      "id": "receipt"
-    }
-  })])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "at-bottom"
-  }, [_c('p', [_vm._v("\n\t\t\t\t\tShould you wish to withdraw your consent in part or in whole, please send an \n\t\t\t\t\temail to our Data Protection Officer at DPO@northernopticians.com and provide\n\t\t\t\t\tdetails of your withdrawal. If you have any questions relating to our collection,\n\t\t\t\t\tuse, and disclosure of your personal data or the matters set our above, you may\n\t\t\t\t\tcontact our Data Protection Officer.\n\t\t\t\t")])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-0cf86a04", module.exports)
-  }
-}
-
-/***/ }),
+/* 54 */,
+/* 55 */,
+/* 56 */,
 /* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -46658,56 +46247,7 @@ if (false) {
 }
 
 /***/ }),
-/* 62 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "Signature-overlay"
-  }, [_c('div', {
-    staticClass: "Signature-scroll"
-  }, [_c('div', {
-    staticClass: "Signature"
-  }, [_c('button', {
-    staticClass: "btn btn-danger",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": function($event) {
-        $event.preventDefault();
-        _vm.$emit('isSignatured')
-      }
-    }
-  }, [_vm._v("x")]), _vm._v(" "), _c('h2', [_vm._v("Signature")]), _vm._v(" "), _c('canvas'), _vm._v(" "), _c('div', {
-    staticClass: "Signature__controls"
-  }, [_c('button', {
-    staticClass: "btn btn-info",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.postSignature
-    }
-  }, [_vm._v("Save")]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-warning",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.clearSignature
-    }
-  }, [_vm._v("Clear")])])])])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-a24b25cc", module.exports)
-  }
-}
-
-/***/ }),
+/* 62 */,
 /* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -46756,32 +46296,7 @@ if (false) {
 }
 
 /***/ }),
-/* 64 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(44);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(65)("727434da", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-a24b25cc&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CustomerSignature.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-a24b25cc&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./CustomerSignature.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
+/* 64 */,
 /* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -47941,6 +47456,581 @@ var Helper = function () {
 }();
 
 /* harmony default export */ __webpack_exports__["a"] = Helper;
+
+/***/ }),
+/* 78 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__class_Helper_js__ = __webpack_require__(77);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Signature_vue__ = __webpack_require__(83);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Signature_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Signature_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SignatureScreenshot_vue__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SignatureScreenshot_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__SignatureScreenshot_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	components: { Signature: __WEBPACK_IMPORTED_MODULE_1__Signature_vue___default.a, SignatureScreenshot: __WEBPACK_IMPORTED_MODULE_2__SignatureScreenshot_vue___default.a },
+	props: ['date'],
+	data: function data() {
+		return {
+			isSignature: false,
+			isScreenshot: false,
+			signatureData: {},
+			isSign: false,
+			helper: new __WEBPACK_IMPORTED_MODULE_0__class_Helper_js__["a" /* default */]()
+		};
+	},
+
+	methods: {
+		closeSignaturePad: function closeSignaturePad(data) {
+			this.isSignature = false;
+			this.signatureData = data;
+			if (data) this.isSign = true;
+		},
+		postAgreement: function postAgreement() {
+			var _this = this;
+
+			this.isScreenshot = true;
+			this.isSnapshot = true;
+
+			// vars
+			var form = $('form#form-agreement').serializeArray();
+			var screenshot = document.getElementsByClassName('Signature__screenshot');
+			var data = this.helper.convertToJson(form);
+			data['filename'] = this.signatureData.filename;
+			data['src'] = this.signatureData.src;
+
+			html2canvas(document.body, {
+				onrendered: function onrendered(canvas) {
+					document.getElementsByClassName('Signature__screenshot-body')[0].appendChild(canvas);
+					var img = canvas.toDataURL();
+
+					// axios.post('/customers/postAgreement', data).then(response => console.log(response.data));
+				}
+			});
+
+			// Close the screenshot popup
+			setTimeout(function () {
+				return _this.isScreenshot = false;
+			}, 5000);
+		}
+	}
+};
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(2)))
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(78),
+  /* template */
+  __webpack_require__(80),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\laravel\\development\\northern\\resources\\assets\\js\\components\\SignatureForm.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] SignatureForm.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-22169b3c", Component.options)
+  } else {
+    hotAPI.reload("data-v-22169b3c", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "Signature__form"
+  }, [_vm._m(0), _vm._v(" "), _c('p', [_vm._v("\n\t\tBy registering, I hereby acknowledge that my personal information is protected \n\t\tby Northern Opticians Data Protection Policy, and hereby authorize, agree, and \n\t\tconsent to allow Northern Opticians Pte Ltd to:\n\t")]), _vm._v(" "), _c('p', [_vm._v("\n\t\t(a) collect, use, disclose, and/or process personal data about me that I had \n\t\tpreviously provided Northern Opticians, that I now provide Northern Opticians,\n\t\tand those that I may in future provide Northern Opticians with.\n\t")]), _vm._v(" "), _c('p', [_vm._v("\n\t\t(b) disclose personal data about me to Northern Opticians' third party service providers\n\t\tand agents (\"Representatives\") that are engaged by Northern Opticians to perform \n\t\tcertain functions in relation to my purchase at Northern Opticians, such as but not\n\t\tlimited to the provision of service for my purchased products or the provision of \n\t\teye care services to me, so long as disclosure is necessary to enable such Representatives\n\t\tto perform the said functions.\n\t")]), _vm._v(" "), _c('p', [_vm._v("\n\t\t(c) in addition, I hereby authorize, agree, and consent to allow Northern Opticians\n\t\tand/or its Representatives to send me such marketing, advertising, and promotional\n\t\tinformation and/or documents relating to Northern Opticians' products, services and \n\t\tactivities, and/or products, services and activities of third parties that Northern\n\t\tOpticians may collaborate with (the \"Marketing Purpose\") through the following modes\n\t\tof communication:\n\t")]), _vm._v(" "), _vm._m(1), _vm._v(" "), _c('form', {
+    attrs: {
+      "method": "POST",
+      "id": "form-agreement"
+    },
+    on: {
+      "submit": function($event) {
+        $event.preventDefault();
+        _vm.postAgreement($event)
+      }
+    }
+  }, [_vm._m(2), _vm._v(" "), _c('p', [_vm._v("\n\t\t\tI also acknowledge that I have received the goods purchased by me in good condition,\n\t\t\tand that I will automcatically qualify for a 1 year warranty on manufacturing defects.\n\t\t")]), _vm._v(" "), _c('div', {
+    staticClass: "Signature__form-sign"
+  }, [(_vm.isSign) ? _c('div', {
+    staticClass: "left-side"
+  }, [_c('label', [_vm._v("Signature:")]), _vm._v(" "), _c('img', {
+    staticClass: "img-responsive",
+    attrs: {
+      "src": _vm.signatureData.src,
+      "alt": _vm.signatureData.filename
+    }
+  })]) : _c('div', {
+    staticClass: "left-side"
+  }, [_c('label', [_vm._v("Signature:")]), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "text",
+      "name": "signature",
+      "id": "signature"
+    },
+    on: {
+      "focus": function($event) {
+        _vm.isSignature = true
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "right-side"
+  }, [_c('label', [_vm._v("Date:")]), _vm._v(" "), _c('input', {
+    attrs: {
+      "type": "date",
+      "name": "date",
+      "id": "date"
+    },
+    domProps: {
+      "value": _vm.date
+    }
+  })]), _vm._v(" "), _vm._m(3), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-info",
+    attrs: {
+      "type": "submit"
+    }
+  }, [_vm._v("Save")])])]), _vm._v(" "), (_vm.isSignature) ? _c('signature', {
+    on: {
+      "isSignatured": _vm.closeSignaturePad
+    }
+  }) : _vm._e(), _vm._v(" "), (_vm.isScreenshot) ? _c('signature-screenshot', {
+    on: {
+      "isSnap": function($event) {
+        _vm.isScreenshot = false
+      }
+    }
+  }) : _vm._e()], 1)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('h2', {
+    staticClass: "text-center"
+  }, [_vm._v("Northern Opticians "), _c('br'), _vm._v(" Warranty Registrations Form")])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('ul', [_c('li', [_vm._v("By email to my email address")]), _vm._v(" "), _c('li', [_vm._v("By post to my address*;")]), _vm._v(" "), _c('li', [_vm._v("\n\t\t\tto my phone number provided to Northern Opticians by the following methods:\n\n\t\t\t"), _c('ul', [_c('li', [_vm._v("(a) Voice Calls / Phone Calls*")]), _vm._v(" "), _c('li', [_vm._v("(b) Text Messages (e.g. SMS/MMS)*")])])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('p', [_vm._v("\n\t\t\tThe warranty registration will apply for receipt number:\n\t\t\t"), _c('input', {
+    attrs: {
+      "type": "text",
+      "name": "receipt",
+      "id": "receipt"
+    }
+  })])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "at-bottom"
+  }, [_c('p', [_vm._v("\n\t\t\t\t\tShould you wish to withdraw your consent in part or in whole, please send an \n\t\t\t\t\temail to our Data Protection Officer at DPO@northernopticians.com and provide\n\t\t\t\t\tdetails of your withdrawal. If you have any questions relating to our collection,\n\t\t\t\t\tuse, and disclosure of your personal data or the matters set our above, you may\n\t\t\t\t\tcontact our Data Protection Officer.\n\t\t\t\t")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-22169b3c", module.exports)
+  }
+}
+
+/***/ }),
+/* 81 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_signature_pad__ = __webpack_require__(48);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+	data: function data() {
+		return {
+			canvas: '',
+			signaturePad: {},
+			filename: ''
+		};
+	},
+	mounted: function mounted() {
+		this.onInitSignature();
+		window.addEventListener("resize", this.resizeCanvas);
+	},
+
+	computed: {
+		pathOfFile: function pathOfFile() {
+			return '/img/signatures/' + this.filename;
+		}
+	},
+	methods: {
+		onInitSignature: function onInitSignature() {
+			this.canvas = document.querySelector('canvas');
+			this.signaturePad = new __WEBPACK_IMPORTED_MODULE_0_signature_pad__["a" /* default */](this.canvas, {});
+			this.resizeCanvas();
+		},
+		resizeCanvas: function resizeCanvas() {
+			var ratio = Math.max(window.devicePixelRatio || 1, 1);
+			var canvas = this.canvas;
+			var signaturePad = this.signaturePad;
+
+			canvas.width = canvas.offsetWidth * ratio;
+			canvas.height = canvas.offsetHeight * ratio;
+			canvas.getContext("2d").scale(ratio, ratio);
+			signaturePad.clear(); // otherwise isEmpty() might return incorrect value
+		},
+		postSignature: function postSignature() {
+			var _this = this;
+
+			var signaturePad = this.signaturePad;
+
+			if (!signaturePad.isEmpty()) {
+				var meta = signaturePad.toDataURL();
+
+				// post to server
+				axios.post('/customers/postSignature', { meta: meta }).then(function (response) {
+					var data = response.data;
+					_this.filename = data.filename;
+					_this.$emit('isSignatured', { src: _this.pathOfFile, filename: _this.filename }); // close the signature pad
+				});
+			}
+		},
+		clearSignature: function clearSignature() {
+			var signaturePad = this.signaturePad;
+			!signaturePad.isEmpty() && signaturePad.clear();
+		}
+	}
+};
+
+/***/ }),
+/* 82 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(45)();
+exports.push([module.i, "\ncanvas[data-v-4929e750] {\n\tbackground: #DBD7D7;\n\twidth: 100%;\n\theight: 75vh;\n\tborder: 1px solid silver;\n}\n", ""]);
+
+/***/ }),
+/* 83 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/* styles */
+__webpack_require__(85)
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(81),
+  /* template */
+  __webpack_require__(84),
+  /* scopeId */
+  "data-v-4929e750",
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\laravel\\development\\northern\\resources\\assets\\js\\components\\Signature.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Signature.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4929e750", Component.options)
+  } else {
+    hotAPI.reload("data-v-4929e750", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "Signature-overlay"
+  }, [_c('div', {
+    staticClass: "Signature-scroll"
+  }, [_c('div', {
+    staticClass: "Signature"
+  }, [_c('button', {
+    staticClass: "btn btn-danger",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.$emit('isSignatured')
+      }
+    }
+  }, [_vm._v("x")]), _vm._v(" "), _c('h2', [_vm._v("Signature")]), _vm._v(" "), _c('canvas'), _vm._v(" "), _c('div', {
+    staticClass: "Signature__controls"
+  }, [_c('button', {
+    staticClass: "btn btn-info",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.postSignature
+    }
+  }, [_vm._v("Save")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-warning",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.clearSignature
+    }
+  }, [_vm._v("Clear")])])])])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-4929e750", module.exports)
+  }
+}
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(82);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(65)("787aeb36", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4929e750&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Signature.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-4929e750&scoped=true!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Signature.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 86 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {};
+
+/***/ }),
+/* 87 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(86),
+  /* template */
+  __webpack_require__(88),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\laravel\\development\\northern\\resources\\assets\\js\\components\\SignatureScreenshot.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] SignatureScreenshot.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-d645ea44", Component.options)
+  } else {
+    hotAPI.reload("data-v-d645ea44", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _vm._m(0)
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "Signature__screenshot-overlay"
+  }, [_c('div', {
+    staticClass: "Signature__screenshot-scroll"
+  }, [_c('div', {
+    staticClass: "Signature__screenshot"
+  }, [_c('h2', [_vm._v("Screenshot")]), _vm._v(" "), _c('div', {
+    staticClass: "Signature__screenshot-body"
+  })])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-d645ea44", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

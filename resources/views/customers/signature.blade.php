@@ -2,6 +2,10 @@
 
 @section ('content')
 	<div class="container" style="margin-top: 5em;">
-		<customer-signature-form date="{{ date('Y-m-d') }}"></customer-signature-form>
+		<signature-form date="{{ date('Y-m-d') }}"></signature-form>
 	</div>
+@endsection
+
+@section ('footer')
+	<script src="/js/html2canvas.js"></script>
 @endsection

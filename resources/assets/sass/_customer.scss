@@ -140,7 +140,8 @@ select > option[value] {
 
 .Customer__edit-overlay,
 .Customer__purchase-overlay,
-.Signature-overlay {
+.Signature-overlay,
+.Signature__screenshot-overlay {
 	background: black;
     background: rgba(0, 0, 0, 0.8);
     position: fixed;
@@ -153,7 +154,8 @@ select > option[value] {
 
 .Customer__edit-scroll,
 .Customer__purchase-scroll,
-.Signature-scroll {
+.Signature-scroll,
+.Signature__screenshot-scroll {
     position: fixed;
     top: 0;
     left: 0;
@@ -164,7 +166,8 @@ select > option[value] {
 
 .Customer__edit,
 .Customer__purchase,
-.Signature {
+.Signature,
+.Signature__screenshot {
 	> button {
 		position: absolute;
 	    top: -0.2em;
@@ -185,7 +188,8 @@ select > option[value] {
 
 .Customer__edit,
 .Customer__purchase,
-.Signature {
+.Signature,
+.Signature__screenshot {
 	background: $elementBgColor;
     position: relative;
     width: $editWidth;

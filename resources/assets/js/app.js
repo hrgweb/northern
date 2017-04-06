@@ -20,7 +20,7 @@ import noty from 'noty';
 
 import Customer from './components/Customer.vue';
 import CustomerCreate from './components/CustomerCreate.vue';
-import CustomerSignatureForm from './components/CustomerSignatureForm.vue';
+import SignatureForm from './components/SignatureForm.vue';
 
 window.store = store;
 window.noty = noty;
@@ -31,7 +31,7 @@ const app = new Vue({
     components: { 
     	Customer, 
     	CustomerCreate, 
-    	CustomerSignatureForm 
+    	SignatureForm 
     },
     store
 });
