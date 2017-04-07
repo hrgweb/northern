@@ -30,7 +30,6 @@ class CustomerRequest extends FormRequest
         switch ($method) {
             case 'POST':
                 $rules = [
-                    'id' => 'numeric|max:2147483647',
                     'ic' => 'string|nullable',
                     'postcode' => 'numeric|nullable',
                     'email' => 'email|nullable',

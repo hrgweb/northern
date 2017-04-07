@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\ClassTrait\Customerable;
 use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
+    use Customerable;
+
 	protected $guarded = [];
 	protected $dates = ['DOB'];
 	public $timestamps = false;

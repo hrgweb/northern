@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\BPECustomer;
 use App\BPPCustomer;
-use App\Http\Requests\CustomerRequest;
 use App\PACustomer;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,6 +13,7 @@ class CustomersController extends Controller
 	private $column;
 	private $table;
 	private $query;
+	private $filename;
 
 	public function __construct()
 	{
@@ -38,16 +37,17 @@ class CustomersController extends Controller
 		$table = trim(request('table'));
 
 		$validator = Validator::make(request()->all(), [
-			'id' => 'numeric|max:2147483647',
-			'ic' => 'string|nullable',
+			'ic' => 'alpha_num|nullable',
 			'postcode' => 'numeric|nullable',
 			'email' => 'email|nullable',
-			'homephone' => 'min:8|numeric|nullable',
-			'handphone' => 'min:8|numeric|nullable',
+			'homephone' => 'numeric|min:8|nullable',
+			'handphone' => 'numeric|min:8|nullable'
 		]);
 
 		// check if validator fails then return errors
-		if ($validator->fails()) return response()->json(['isFail' => true, 'errors' => $validator->errors()]);
+		if ($validator->fails()) {
+			return response()->json(['isFail' => true, 'errors' => $validator->errors()]);
+		}
 
         // post new customer
         $data = [
@@ -73,18 +73,7 @@ class CustomersController extends Controller
         ];
 
         $result = [];
-
-        switch (trim($table)) {
-			case 'dboBPP.tblCustomer':
-				$result = BPPCustomer::insert($data);
-				break;
-			case 'dboBPE.tblCustomer':
-				$result = BPECustomer::insert($data);
-				break;
-			case 'dboPA.tblCustomer':
-				$result = PACustomer::insert($data);
-				break;
-		}
+        $result = auth()->user()->postToTable($table, $data);
 
         return response()->json(['isFail' => false, 'records' => $result]);
 	}
@@ -269,25 +258,43 @@ class CustomersController extends Controller
 		return view('customers.signature');
 	}
 
+	protected function encodeImage($data_uri)
+	{
+		$encoded_image = explode(',', $data_uri)[1];
+
+		return base64_decode($encoded_image);
+	}
+
+	protected function getFilepath($dir)
+	{
+		$this->filename = time().'.png';
+
+		return public_path('img/'.$dir.'/'.$this->filename);
+	}
+
 	public function postSignature()
 	{
-		// file encode/decode
 		$data_uri = request('meta');
-		$encoded_image = explode(',', $data_uri)[1];
-		$decoded_image = base64_decode($encoded_image);
-
-		// setting up variables
-		$filename = time().'.png';
-		$path_to_save = public_path('img/signatures/'.$filename);
 
 		// post signature
-		$result = file_put_contents($path_to_save, $decoded_image);
+		file_put_contents($this->getFilepath('signatures'), $this->encodeImage($data_uri));
 
-		return response()->json(['filename' => $filename, 'result' => $result]);
+		return response()->json(['filename' => $this->filename]);
 	}
 
 	public function postAgreement()
 	{
-		return request()->all();
+		$data_uri = request('file');
+		$table = request('table');
+
+		// post signature
+		// $result = file_put_contents($this->getFilepath('page'), $this->encodeImage($data_uri));
+
+		// post to database
+		$table = auth()->user()->identifyTableName($table);
+
+		// DB::table()
+
+		return response()->json(['result' => $result]);
 	}
 }

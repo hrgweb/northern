@@ -13,11 +13,11 @@
 
 				<!-- ic -->
 				<label for="ic">IC</label>
-				<input type="text" name="ic" class="form-control">
+				<input type="text" name="ic" class="form-control" v-model="inputs.ic">
 
 				<!-- salutation -->
 				<label for="salutation">Salutation</label>
-				<select name="salutation" class="form-control">
+				<select name="salutation" class="form-control" v-model="inputs.salutation">
 					<option value="MR">MR</option>
 					<option value="MS">MS</option>
 					<option value="MRS">MRS</option>
@@ -28,11 +28,11 @@
 				<div class="customer-create__name">
 					<!-- surname -->
 					<label for="surname">Surname</label>
-					<input type="text" name="surname" class="form-control">
+					<input type="text" name="surname" class="form-control" v-model="inputs.surname">
 
 					<!-- firstname -->
 					<label for="firstname">Firstname</label>
-					<input type="text" name="firstname" class="form-control">
+					<input type="text" name="firstname" class="form-control" v-model="inputs.firstname">
 				</div>
 			</div>
 
@@ -41,30 +41,30 @@
 
 				<!-- block -->
 				<label for="block">Block / House no</label>
-				<input type="text" name="block" class="form-control">
+				<input type="text" name="block" class="form-control" v-model="inputs.block">
 
 				<!-- unit_no -->
 				<label for="unit_no">Unit Number</label>
-				<input type="text" name="unit_no" class="form-control"> <br>
+				<input type="text" name="unit_no" class="form-control" v-model="inputs.unit_no"> <br>
 
 				<!-- building -->
 				<label for="building">Building</label>
-				<input type="text" name="building" class="form-control"> <br>
+				<input type="text" name="building" class="form-control" v-model="inputs.building"> <br>
 
 				<!-- street -->
 				<label for="street">Street</label>
-				<input type="text" name="street" class="form-control"> <br>
+				<input type="text" name="street" class="form-control" v-model="inputs.street"> <br>
 
 				<!-- country -->
 				<label for="country">Country</label>
-				<select name="country" class="form-control">
-					<option value="singapore">Singapore</option>
-					<option value="other">Other</option>
+				<select name="country" class="form-control" v-model="inputs.country">
+					<option value="singapore">SINGAPORE</option>
+					<option value="other">OTHER</option>
 				</select>
 
 				<!-- postcode -->
 				<label for="postcode">Postcode</label>
-				<input type="text" name="postcode" class="form-control">
+				<input type="text" name="postcode" class="form-control" v-model="inputs.postcode">
 			</div>
 
 			<div class="customer-create__other">
@@ -72,31 +72,31 @@
 
 				<!-- dob -->
 				<label for="dob">DOB</label>
-				<input type="date" name="dob" class="form-control" :value="date">
+				<input type="date" name="dob" class="form-control" v-model="inputs.dob">
 
 				<!-- occupation -->
 				<label for="occupation">Occupation</label>
-				<input type="text" name="occupation" class="form-control"> <br><br>
+				<input type="text" name="occupation" class="form-control" v-model="inputs.occupation"> <br><br>
 
 				<!-- gender -->
 				<label for="gender">Gender</label>
-				<input type="radio" name="gender" class="form-control" value="female" checked> <span>Female</span>
-				<input type="radio" name="gender" class="form-control" value="male"> <span>Male</span> <br>
+				<input type="radio" name="gender" class="form-control" value="female" v-model="inputs.gender" checked> <span>Female</span>
+				<input type="radio" name="gender" class="form-control" value="male" v-model="inputs.gender"> <span>Male</span> <br>
 
 				<!-- homephone -->
 				<label for="homephone">Home phone</label>
-				<input type="text" name="homephone" class="form-control">
+				<input type="text" name="homephone" class="form-control" v-model="inputs.homephone">
 
 				<!-- handphone -->
 				<label for="handphone">Hand phone</label>
-				<input type="text" name="handphone" class="form-control"> <br>
+				<input type="text" name="handphone" class="form-control" v-model="inputs.handphone"> <br>
 
 				<!-- email -->
 				<label for="email">Email</label>
-				<input type="text" name="email" class="form-control"> <br>
+				<input type="text" name="email" class="form-control" v-model="inputs.email"> <br>
 
 				<label for="remarks">Remarks</label>
-				<textarea name="remarks" class="form-control" rows="3"></textarea>
+				<textarea name="remarks" class="form-control" rows="3" v-model="inputs.remarks"></textarea>
 			</div>
 
 			<!-- Error - component -->
@@ -112,7 +112,6 @@
 
 <script>
 	import error from './Error.vue';
-	import Helper from './class/Helper.js';
 
 	export default {
 		components: { error },
@@ -122,11 +121,27 @@
 				authUser: {},
 				errors: [],
 				isError: false,
-				// icList: [],
 				emailList: [],
 				customerRecord: {},
 				lastID: 0,
-				helper: new Helper
+				inputs: {
+					ic: '',
+					salutation: 'MR',
+					surname: '',
+					firstname: '',
+					block: '',
+					unit_no: '',
+					building: '',
+					street: '',
+					country: 'singapore',
+					postcode: '',
+					dob: '',
+					gender: 'female',
+					homephone: '',
+					handphone: '',
+					email: '',
+					remarks: ''
+				}
 			}
 		},
 		computed: {
@@ -136,6 +151,7 @@
 		},
 		created() {
 			this.authUser = JSON.parse(this.auth);
+			this.inputs.dob = this.date;
 
 			// http request
 			this.customerLastId();
@@ -156,7 +172,8 @@
 			postCustomer() {
 				let form = document.getElementById('customer-create');
 				let action = '/customers' + this.tableName  + '&id=' + this.lastID;
-				let icElem = $('input[name=ic]').val().trim();
+				let icElem = this.inputs.ic;
+				icElem = (icElem.length > 0) ? icElem.trim() : '';
 	
 				// check if response promise return 1 then it exist
 				this.isIcExist(icElem).then(response => {
@@ -170,13 +187,10 @@
 							timeout: 5000,
 						});
 					} else {
-						let data = $('form#customer-create').serializeArray();
-						data = this.helper.convertToJson(data);
-
-						axios.post(action, data).then(response => {
+						axios.post(action, this.inputs) .then(response => {
 							let data = response.data;
 
-							if (data.isFail) {
+							if (data.isFail == true) {
 								this.errors = data.errors;
 								this.isError = true;
 							} else {

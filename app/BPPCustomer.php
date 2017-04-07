@@ -7,7 +7,7 @@ use App\ClassTrait\Customerable;
 
 class BPPCustomer extends BaseModel
 {
-	use Customerable;
+	// use Customerable;
 
     protected $table = 'dboBPP.tblCustomer';
 }
