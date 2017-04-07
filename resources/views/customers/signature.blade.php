@@ -2,7 +2,7 @@
 
 @section ('content')
 	<div class="container" style="margin-top: 5em;">
-		<signature-form date="{{ date('Y-m-d') }}"></signature-form>
+		<signature-form auth="{{ auth()->user() }}" date="{{ date('Y-m-d') }}"></signature-form>
 	</div>
 @endsection
 

@@ -288,12 +288,11 @@ class CustomersController extends Controller
 		$table = request('table');
 
 		// post signature
-		// $result = file_put_contents($this->getFilepath('page'), $this->encodeImage($data_uri));
+		file_put_contents($this->getFilepath('page'), $this->encodeImage($data_uri));
 
 		// post to database
 		$table = auth()->user()->identifyTableName($table);
-
-		// DB::table()
+		$result = DB::table($table.'.tblWarrantyRegistration')->insert(request()->only(['ReceiptNo', 'Filename', 'Path']));
 
 		return response()->json(['result' => $result]);
 	}

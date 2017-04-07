@@ -48,7 +48,7 @@
 		<form method="POST" id="form-agreement" @submit.prevent="postAgreement">
 			<p>
 				The warranty registration will apply for receipt number:
-				<input type="text" name="receipt" id="receipt">
+				<input type="text" name="ReceiptNo" id="receipt">
 			</p>
 
 			<p>
@@ -99,7 +99,7 @@
 
 	export default { 
 		components: { Signature, SignatureScreenshot },
-		props: ['date'],
+		props: ['auth', 'date'],
 		data() {
 			return {
 				isSignature: false,
@@ -107,36 +107,73 @@
 				signatureData: {},
 				isSign: false,
 				helper: new Helper,
+				hasSignature: false,
+				authUser: {},
+				tableName: ''
+			}
+		},
+		mounted() {
+			this.authUser = JSON.parse(this.auth);
+		},
+		watch: {
+			authUser() {
+				this.tableName = '?table=' + this.authUser.AllowedtblCustomer;
+
+				return this.tableName.trim();
 			}
 		},
 		methods: {
 			closeSignaturePad(data) {
 				this.isSignature = false;
 				this.signatureData = data;
-				if (data) this.isSign = true;
+
+				// Check if data returns some value
+				if (data) {
+					this.isSign = true;
+					this.hasSignature = true;
+				}
 			},
 			postAgreement() {
-				this.isScreenshot = true;
-				this.isSnapshot = true;
-
-				// vars
-				let form = $('form#form-agreement').serializeArray();
+				let form = $('form#form-agreement');
 				let screenshot = document.getElementsByClassName('Signature__screenshot');
-				let data = this.helper.convertToJson(form);
-				data['filename'] = this.signatureData.filename;
-				data['src'] = this.signatureData.src;
+				let data = this.helper.convertToJson(form.serializeArray());
+				let vm = this;
 
-				html2canvas(document.body, {
-					onrendered: function(canvas) {
-						document.getElementsByClassName('Signature__screenshot-body')[0].appendChild(canvas);
-						let img = canvas.toDataURL();
-						
-						// axios.post('/customers/postAgreement', data).then(response => console.log(response.data));
-					}
-				});
+				// Check if signatureData is true and enter receipt #
+				if (this.hasSignature && data.ReceiptNo.length > 0) {
+					this.isScreenshot = true;
+					this.isSnapshot = true;
 
-				// Close the screenshot popup
-				setTimeout(() => this.isScreenshot = false, 5000);
+					data['Filename'] = this.signatureData.filename;
+					data['Path'] = this.signatureData.src;
+
+					html2canvas(document.body, {
+						onrendered: function(canvas) {
+							document.getElementsByClassName('Signature__screenshot-body')[0].appendChild(canvas);
+							data['file'] = canvas.toDataURL();
+
+							axios.post('/customers/postAgreement'+vm.tableName, data)
+								.then(response => {
+									console.log(response.data);
+								});
+						}
+					});
+
+					// Close the screenshot popup and reload the page
+					setTimeout(() => {
+						this.isScreenshot = false;
+						location.reload();
+					}, 5000);
+				} else {
+					// notify for error
+					noty({
+						layout: 'bottomLeft',
+						theme: 'relax', // or relax
+						type: 'error', // success, error, warning, information, notification
+						text: `Please provide signature and receipt number.`,
+						timeout: 2000,
+					});
+				}
 			}
 		}
 	}
