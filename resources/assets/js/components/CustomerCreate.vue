@@ -31,7 +31,7 @@
 					<input type="text" name="surname" class="form-control" v-model="inputs.surname">
 
 					<!-- firstname -->
-					<label for="firstname">Firstname</label>
+					<label for="firstname">First name</label>
 					<input type="text" name="firstname" class="form-control" v-model="inputs.firstname">
 				</div>
 			</div>
@@ -80,8 +80,14 @@
 
 				<!-- gender -->
 				<label for="gender">Gender</label>
-				<input type="radio" name="gender" class="form-control" value="female" v-model="inputs.gender" checked> <span>Female</span>
-				<input type="radio" name="gender" class="form-control" value="male" v-model="inputs.gender"> <span>Male</span> <br>
+				<!-- <input type="radio" name="gender" class="form-control" value="female" v-model="inputs.gender" checked> <span>Female</span>
+				<input type="radio" name="gender" class="form-control" value="male" v-model="inputs.gender"> <span>Male</span> <br> -->
+				<select name="gender" class="form-control" v-model="inputs.gender">
+					<option value="select">SELECT ONE</option>
+					<option value="female">FEMALE</option>
+					<option value="male">MALE</option>
+				</select>
+
 
 				<!-- homephone -->
 				<label for="homephone">Home phone</label>
@@ -136,7 +142,7 @@
 					country: 'singapore',
 					postcode: '',
 					dob: '',
-					gender: 'female',
+					gender: 'select',
 					homephone: '',
 					handphone: '',
 					email: '',
@@ -151,7 +157,7 @@
 		},
 		created() {
 			this.authUser = JSON.parse(this.auth);
-			this.inputs.dob = this.date;
+			this.inputs.dob = 'yyyy-mm-dd'; //this.date;
 
 			// http request
 			this.customerLastId();
@@ -161,7 +167,7 @@
 				let result = data.map(response => {
 					let newResult = [];
 					let data = response[column];
-				  
+
 					newResult.push((data != null) ? data.trim() : '');
 
 					return newResult;
@@ -174,7 +180,7 @@
 				let action = '/customers' + this.tableName  + '&id=' + this.lastID;
 				let icElem = this.inputs.ic;
 				icElem = (icElem.length > 0) ? icElem.trim() : '';
-	
+
 				// check if response promise return 1 then it exist
 				this.isIcExist(icElem).then(response => {
 					if (parseInt(response, 10) > 0) {

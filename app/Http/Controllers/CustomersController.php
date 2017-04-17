@@ -34,10 +34,12 @@ class CustomersController extends Controller
 
 	public function store()
 	{
+        return request()->all();
+
 		$table = trim(request('table'));
 
 		$validator = Validator::make(request()->all(), [
-			'ic' => 'alpha_num|nullable',
+			'ic' => 'required|alpha_num|nullable',
 			'postcode' => 'numeric|nullable',
 			'email' => 'email|nullable',
 			'homephone' => 'numeric|min:8|nullable',
@@ -208,7 +210,7 @@ class CustomersController extends Controller
 		      ,[Remark]
 		      ,[System]
 		    FROM $this->table
-		  	WHERE " . $this->column . " LIKE '" . $this->query . "%'"));
+		  	WHERE " . $this->column . " LIKE '%" . $this->query . "%'"));
 	}
 
 	public function searchCustomer()
