@@ -86,7 +86,7 @@
 					<option value="select">SELECT ONE</option>
 					<option value="female">FEMALE</option>
 					<option value="male">MALE</option>
-				</select>
+				</select> <br>
 
 
 				<!-- homephone -->
@@ -157,7 +157,7 @@
 		},
 		created() {
 			this.authUser = JSON.parse(this.auth);
-			this.inputs.dob = 'yyyy-mm-dd'; //this.date;
+			this.inputs.dob = 'yyyy-MM-dd'; //this.date;
 
 			// http request
 			this.customerLastId();
@@ -216,7 +216,7 @@
 								});
 
 								// redirect to homepage
-								window.setTimeout(vm.goToHome, duration);
+								// window.setTimeout(vm.goToHome, duration);
 							}
 						});
 					}

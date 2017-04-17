@@ -21633,7 +21633,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	created: function created() {
 		this.authUser = JSON.parse(this.auth);
-		this.inputs.dob = 'yyyy-mm-dd'; //this.date;
+		this.inputs.dob = 'yyyy-MM-dd'; //this.date;
 
 		// http request
 		this.customerLastId();
@@ -21698,7 +21698,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 							});
 
 							// redirect to homepage
-							window.setTimeout(vm.goToHome, duration);
+							// window.setTimeout(vm.goToHome, duration);
 						}
 					});
 				}
@@ -45893,7 +45893,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "male"
     }
-  }, [_vm._v("MALE")])]), _vm._v(" "), _c('label', {
+  }, [_vm._v("MALE")])]), _vm._v(" "), _c('br'), _vm._v(" "), _c('label', {
     attrs: {
       "for": "homephone"
     }

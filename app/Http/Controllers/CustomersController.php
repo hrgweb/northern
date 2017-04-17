@@ -34,22 +34,25 @@ class CustomersController extends Controller
 
 	public function store()
 	{
-        return request()->all();
-
 		$table = trim(request('table'));
 
 		$validator = Validator::make(request()->all(), [
-			'ic' => 'required|alpha_num|nullable',
+			'ic' => 'required|alpha_num',
+            'firstname' => 'required',
+            'surname' => 'required',
 			'postcode' => 'numeric|nullable',
-			'email' => 'email|nullable',
+			'email' => 'required|email',
 			'homephone' => 'numeric|min:8|nullable',
-			'handphone' => 'numeric|min:8|nullable'
+			'handphone' => 'required|numeric|min:8'
 		]);
 
 		// check if validator fails then return errors
 		if ($validator->fails()) {
 			return response()->json(['isFail' => true, 'errors' => $validator->errors()]);
 		}
+
+        return request()->all();
+
 
         // post new customer
         $data = [
@@ -75,7 +78,7 @@ class CustomersController extends Controller
         ];
 
         $result = [];
-        $result = auth()->user()->postToTable($table, $data);
+        // $result = auth()->user()->postToTable($table, $data);
 
         return response()->json(['isFail' => false, 'records' => $result]);
 	}
