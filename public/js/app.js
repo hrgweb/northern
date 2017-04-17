@@ -22552,7 +22552,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			handPhoneNo: '',
 			homePhoneNo: '',
 			email: '',
-			columnToUse: '',
 			recordIndex: 0,
 			msg: 'CHOOSE COLUMN TO SEACH AND HIT ENTER TO FIND.',
 			isNotSearch: true,
@@ -22607,30 +22606,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		}
 	},
 	methods: {
-		columnToSearch: function columnToSearch(event) {
-			var column = event.target.attributes.id.value;
-
-			switch (column.trim()) {
-				case 'ic_no':
-					this.columnToUse = 'ic_no';
-					break;
-				case 'first_name':
-					this.columnToUse = 'first_name';
-					break;
-				case 'last_name':
-					this.columnToUse = 'last_name';
-					break;
-				case 'handphone_no':
-					this.columnToUse = 'handphone_no';
-					break;
-				case 'homephone_no':
-					this.columnToUse = 'homephone_no';
-					break;
-				case 'email':
-					this.columnToUse = 'email';
-					break;
-			}
-		},
 		editRecord: function editRecord(customer) {
 			this.$emit('isedited', customer);
 		},
@@ -22640,18 +22615,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		purchaseRecord: function purchaseRecord(customer) {
 			this.$emit('ishistory', customer);
 		},
-		prepareSearch: function prepareSearch(query, column) {
+		prepareSearch: function prepareSearch() {
 			var _this2 = this;
 
-			var url = '/customers/search?query=' + query + '&column=' + column + '&table=' + this.authUser.AllowedtblCustomer;
+			var url = '/customers/search?\n\t\t\t\ttable=' + this.authUser.AllowedtblCustomer + '&\n\t\t\t\tic=' + this.icNo + '&\n\t\t\t\tfirstname=' + this.firstname + '&\n\t\t\t\tlastname=' + this.lastname + '&\n\t\t\t\thandphone=' + this.handPhoneNo + '&\n\t\t\t\thomephone=' + this.homePhoneNo + '&\n\t\t\t\temail=' + this.email + '\n\t\t\t';
 
 			axios.get(url).then(function (response) {
 				_this2.listCustomers = response.data;
+
 				if (_this2.listCustomers.length > 0) {
 					_this2.isNotSearch = false;
 				} else {
 					_this2.isNotSearch = true;
-					_this2.msg = 'NO RESULTS FOUND FOR: "' + query + '"';
+					_this2.msg = 'NO RESULTS FOUND.';
 				}
 			});
 		},
@@ -22659,26 +22635,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			// Loading message
 			this.msg = 'FETCHING DATA...';
 
-			switch (this.columnToUse.trim()) {
-				case 'ic_no':
-					this.prepareSearch(this.icNo, 'IC');
-					break;
-				case 'first_name':
-					this.prepareSearch(this.firstname, 'FirstName');
-					break;
-				case 'last_name':
-					this.prepareSearch(this.lastname, 'Surname');
-					break;
-				case 'handphone_no':
-					this.prepareSearch(this.handPhoneNo, 'HandPhone');
-					break;
-				case 'homephone_no':
-					this.prepareSearch(this.homePhoneNo, 'HomePhone');
-					break;
-				case 'email':
-					this.prepareSearch(this.email, 'Email');
-					break;
-			}
+			this.prepareSearch();
 		}
 	}
 };
@@ -46844,7 +46801,7 @@ if (false) {
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "customer-search"
-  }, [_c('h2', [_vm._v("Search for Customer \n\t\t"), _c('b', [_vm._v("[" + _vm._s(_vm.table) + "]")])]), _vm._v(" "), _c('div', {
+  }, [_c('h2', [_vm._v("Search for Customer\n\t\t"), _c('b', [_vm._v("[" + _vm._s(_vm.table) + "]")])]), _vm._v(" "), _c('div', {
     staticClass: "customer-search__controls"
   }, [_c('form', {
     attrs: {
@@ -46877,7 +46834,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.icNo)
     },
     on: {
-      "focus": _vm.columnToSearch,
       "keyup": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         _vm.startSearch($event)
@@ -46910,7 +46866,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.firstname)
     },
     on: {
-      "focus": _vm.columnToSearch,
       "keyup": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         _vm.startSearch($event)
@@ -46945,7 +46900,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.lastname)
     },
     on: {
-      "focus": _vm.columnToSearch,
       "keyup": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         _vm.startSearch($event)
@@ -46978,7 +46932,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.handPhoneNo)
     },
     on: {
-      "focus": _vm.columnToSearch,
       "keyup": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         _vm.startSearch($event)
@@ -47013,7 +46966,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.homePhoneNo)
     },
     on: {
-      "focus": _vm.columnToSearch,
       "keyup": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         _vm.startSearch($event)
@@ -47046,7 +46998,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.email)
     },
     on: {
-      "focus": _vm.columnToSearch,
       "keyup": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
         _vm.startSearch($event)

@@ -1,6 +1,6 @@
 <template>
 	<div class="customer-search">
-		<h2>Search for Customer 
+		<h2>Search for Customer
 			<b>[{{ table }}]</b>
 		</h2>
 
@@ -9,37 +9,37 @@
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 					<div class="form-group">
 						<label for="ic_no">IC #</label>
-						<input type="text" class="form-control" id="ic_no" name="ic_no" v-model="icNo" @focus="columnToSearch" @keyup.enter="startSearch" autofocus>
+						<input type="text" class="form-control" id="ic_no" name="ic_no" v-model="icNo" @keyup.enter="startSearch" autofocus>
 					</div>
-				
+
 					<div class="form-group">
 						<label for="first_name">First Name</label>
-						<input type="text" class="form-control" id="first_name" name="first_name" v-model="firstname" @focus="columnToSearch" @keyup.enter="startSearch">
+						<input type="text" class="form-control" id="first_name" name="first_name" v-model="firstname" @keyup.enter="startSearch">
 					</div>
 				</div>
 
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 					<div class="form-group">
 						<label for="last_name">Last Name</label>
-						<input type="text" class="form-control" id="last_name" name="last_name" v-model="lastname" @focus="columnToSearch" @keyup.enter="startSearch">
+						<input type="text" class="form-control" id="last_name" name="last_name" v-model="lastname" @keyup.enter="startSearch">
 					</div>
 
-				
+
 					<div class="form-group">
 						<label for="handphone_no">Handphone #</label>
-						<input type="text" class="form-control" id="handphone_no" name="handphone_no" v-model="handPhoneNo" @focus="columnToSearch" @keyup.enter="startSearch">
+						<input type="text" class="form-control" id="handphone_no" name="handphone_no" v-model="handPhoneNo" @keyup.enter="startSearch">
 					</div>
 				</div>
-				
+
 				<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
 					<div class="form-group">
 						<label for="homephone_no">Home Phone #</label>
-						<input type="text" class="form-control" id="homephone_no" name="homephone_no" v-model="homePhoneNo" @focus="columnToSearch" @keyup.enter="startSearch">
+						<input type="text" class="form-control" id="homephone_no" name="homephone_no" v-model="homePhoneNo" @keyup.enter="startSearch">
 					</div>
 
 					<div class="form-group">
 						<label for="email">Email Address</label>
-						<input type="text" class="form-control" id="email" name="email" v-model="email" @focus="columnToSearch" @keyup.enter="startSearch">
+						<input type="text" class="form-control" id="email" name="email" v-model="email" @keyup.enter="startSearch">
 					</div>
 				</div>
 			</form>
@@ -54,7 +54,7 @@
 					<h3>
 						Customer Records
 						<span class="label label-danger">{{ listCustomers.length }}</span>
-					</h3> 
+					</h3>
 				</caption>
 				<thead>
 					<tr>
@@ -120,7 +120,6 @@
 				handPhoneNo: '',
 				homePhoneNo: '',
 				email: '',
-				columnToUse: '',
 				recordIndex: 0,
 				msg: 'CHOOSE COLUMN TO SEACH AND HIT ENTER TO FIND.',
 				isNotSearch: true,
@@ -160,30 +159,6 @@
 			},
 		},
 		methods: {
-			columnToSearch(event) {
-				let column = event.target.attributes.id.value;
-
-				switch(column.trim()) {
-					case 'ic_no':
-						this.columnToUse = 'ic_no';
-						break;
-					case 'first_name':
-						this.columnToUse = 'first_name';
-						break;
-					case 'last_name':
-						this.columnToUse = 'last_name';
-						break;
-					case 'handphone_no':
-						this.columnToUse = 'handphone_no';
-						break;
-					case 'homephone_no':
-						this.columnToUse = 'homephone_no';
-						break;
-					case 'email':
-						this.columnToUse = 'email';
-						break;
-				}
-			},
 			editRecord(customer) {
 				this.$emit('isedited', customer);
 			},
@@ -193,16 +168,25 @@
 			purchaseRecord(customer) {
 				this.$emit('ishistory', customer);
 			},
-			prepareSearch(query, column) {
-				let url = '/customers/search?query='+query+'&column='+column+'&table='+this.authUser.AllowedtblCustomer;
+			prepareSearch() {
+				let url = `/customers/search?
+					table=${this.authUser.AllowedtblCustomer}&
+					ic=${this.icNo}&
+					firstname=${this.firstname}&
+					lastname=${this.lastname}&
+					handphone=${this.handPhoneNo}&
+					homephone=${this.homePhoneNo}&
+					email=${this.email}
+				`;
 
 				axios.get(url).then(response => {
 					this.listCustomers = response.data
+
 					if (this.listCustomers.length > 0) {
 						this.isNotSearch =  false;
 					} else {
 						this.isNotSearch = true;
-						this.msg = 'NO RESULTS FOUND FOR: "' + query + '"';
+						this.msg = 'NO RESULTS FOUND.';
 					}
 				});
 			},
@@ -210,26 +194,7 @@
 				// Loading message
 				this.msg = 'FETCHING DATA...';
 
-				switch(this.columnToUse.trim()) {
-					case 'ic_no':
-						this.prepareSearch(this.icNo, 'IC');						
-						break;
-					case 'first_name':
-						this.prepareSearch(this.firstname, 'FirstName');
-						break;
-					case 'last_name':
-						this.prepareSearch(this.lastname, 'Surname');
-						break;
-					case 'handphone_no':
-						this.prepareSearch(this.handPhoneNo, 'HandPhone');
-						break;
-					case 'homephone_no':
-						this.prepareSearch(this.homePhoneNo, 'HomePhone');
-						break;
-					case 'email':
-						this.prepareSearch(this.email, 'Email');
-						break;
-				}
+				this.prepareSearch();
 			},
 		}
 	}

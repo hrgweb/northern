@@ -10,9 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class CustomersController extends Controller
 {
-	private $column;
 	private $table;
-	private $query;
 	private $filename;
 
 	public function __construct()
@@ -213,42 +211,20 @@ class CustomersController extends Controller
 		      ,[Remark]
 		      ,[System]
 		    FROM $this->table
-		  	WHERE " . $this->column . " LIKE '%" . $this->query . "%'"));
+		  	WHERE (IC LIKE '%" . trim(request('ic')) . "%' OR IC IS NULL) AND
+                (FirstName LIKE '%" . trim(request('firstname')) . "%' OR FirstName IS NULL) AND
+                (Surname LIKE '%" . trim(request('lastname')) . "%' OR Surname IS NULL) AND
+                (HandPhone LIKE '%" . trim(request('handphone')) . "%' OR HandPhone IS NULL) AND
+                (HomePhone LIKE '%" . trim(request('homephone')) . "%' OR HomePhone IS NULL) AND
+                (Email LIKE '%" . trim(request('email')) . "%' OR Email IS NULL)
+        "));
 	}
 
 	public function searchCustomer()
 	{
-		$this->column = request('column');
-		$this->query = request('query');
 		$this->table = request('table');
 
-		// return 'column: '. $this->column . ', query: ' . $this->query . ', table: ' . $this->table;
-
-		$results = '';
-
-		// column to use in search
-		switch(trim($this->column)) {
-			case 'IC':
-				$results = $this->prepareToSearch();
-				break;
-			case 'FirstName':
-				$results = $this->prepareToSearch();
-				break;
-			case 'Surname':
-				$results = $this->prepareToSearch();
-				break;
-			case 'HandPhone':
-				$results = $this->prepareToSearch();
-				break;
-			case 'HomePhone':
-				$results = $this->prepareToSearch();
-				break;
-			case 'Email':
-				$results = $this->prepareToSearch();
-				break;
-		}
-
-		return response()->json($results);
+		return response()->json($this->prepareToSearch());
 	}
 
 	public function isIcExist($ic)
