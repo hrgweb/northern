@@ -30,6 +30,16 @@ class CustomersController extends Controller
 		return view('customers.create');
 	}
 
+    protected function genderValue($gender)
+    {
+        $gender = strtolower($gender);
+
+        if ($gender === 'select')
+            return '';
+        else
+            return ($gender === 'female') ? 'F' : 'M';
+    }
+
 	public function store()
 	{
 		$table = trim(request('table'));
@@ -49,9 +59,6 @@ class CustomersController extends Controller
 			return response()->json(['isFail' => true, 'errors' => $validator->errors()]);
 		}
 
-        return request()->all();
-
-
         // post new customer
         $data = [
         	'Block' => request('block'),
@@ -60,7 +67,7 @@ class CustomersController extends Controller
         	'DOB' => request('dob'), // . ' 00:00:00',
         	'Email' => request('email'),
         	'FirstName' => request('firstname'),
-        	'Gender' => (strtolower(request('gender')) == 'female') ? 'F' : 'M',
+        	'Gender' => $this->genderValue(request('gender')),
         	'HandPhone' => request('handphone'),
         	'HomePhone' => request('homephone'),
         	'IC' => request('ic'),
@@ -76,7 +83,7 @@ class CustomersController extends Controller
         ];
 
         $result = [];
-        // $result = auth()->user()->postToTable($table, $data);
+        $result = auth()->user()->postToTable($table, $data);
 
         return response()->json(['isFail' => false, 'records' => $result]);
 	}

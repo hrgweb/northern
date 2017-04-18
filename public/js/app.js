@@ -21605,6 +21605,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			emailList: [],
 			customerRecord: {},
 			lastID: 0,
+			isIncrement: false,
 			inputs: {
 				ic: '',
 				salutation: 'MR',
@@ -21633,7 +21634,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 	created: function created() {
 		this.authUser = JSON.parse(this.auth);
-		this.inputs.dob = 'yyyy-MM-dd'; //this.date;
+		// this.inputs.dob = 'yyyy-MM-dd'; //this.date;
 
 		// http request
 		this.customerLastId();
@@ -21698,7 +21699,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 							});
 
 							// redirect to homepage
-							// window.setTimeout(vm.goToHome, duration);
+							window.setTimeout(vm.goToHome, duration);
 						}
 					});
 				}

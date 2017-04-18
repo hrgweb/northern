@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\ClassTrait;
 
@@ -43,7 +43,8 @@ trait Customerable
 
     public function setDOBAttribute($dob)
     {
-    	$this->attributes['DOB'] = Carbon::parse($dob);
+        // $this->attributes['DOB'] = Carbon::parse($dob);
+    	$this->attributes['DOB'] = null;
     }
 
     public function setStreetAttribute($street)
