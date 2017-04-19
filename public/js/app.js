@@ -20481,6 +20481,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_CustomerCreate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_CustomerCreate_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_SignatureForm_vue__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_SignatureForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_SignatureForm_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Collection_vue__ = __webpack_require__(82);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Collection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_Collection_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -20505,6 +20507,7 @@ __webpack_require__(42);
 
 
 
+
 window.store = __WEBPACK_IMPORTED_MODULE_0__components_store_store_js__["a" /* store */];
 window.noty = __WEBPACK_IMPORTED_MODULE_1_noty___default.a;
 
@@ -20514,7 +20517,8 @@ var app = new Vue({
   components: {
     Customer: __WEBPACK_IMPORTED_MODULE_2__components_Customer_vue___default.a,
     CustomerCreate: __WEBPACK_IMPORTED_MODULE_3__components_CustomerCreate_vue___default.a,
-    SignatureForm: __WEBPACK_IMPORTED_MODULE_4__components_SignatureForm_vue___default.a
+    SignatureForm: __WEBPACK_IMPORTED_MODULE_4__components_SignatureForm_vue___default.a,
+    Collection: __WEBPACK_IMPORTED_MODULE_5__components_Collection_vue___default.a
   },
   store: __WEBPACK_IMPORTED_MODULE_0__components_store_store_js__["a" /* store */]
 });
@@ -48276,6 +48280,467 @@ module.exports = function(module) {
 __webpack_require__(13);
 module.exports = __webpack_require__(14);
 
+
+/***/ }),
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */,
+/* 79 */,
+/* 80 */,
+/* 81 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CollectionForm_vue__ = __webpack_require__(84);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CollectionForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CollectionForm_vue__);
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    components: { CollectionForm: __WEBPACK_IMPORTED_MODULE_0__CollectionForm_vue___default.a }
+};
+
+/***/ }),
+/* 82 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(81),
+  /* template */
+  __webpack_require__(83),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\laravel\\development\\northern\\resources\\assets\\js\\components\\Collection.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Collection.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5e1cb3a4", Component.options)
+  } else {
+    hotAPI.reload("data-v-5e1cb3a4", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 83 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "Collection"
+  }, [_c('collection-form')], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5e1cb3a4", module.exports)
+  }
+}
+
+/***/ }),
+/* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(86),
+  /* template */
+  __webpack_require__(85),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\laravel\\development\\northern\\resources\\assets\\js\\components\\CollectionForm.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] CollectionForm.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5c705a12", Component.options)
+  } else {
+    hotAPI.reload("data-v-5c705a12", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "Collection__form"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "Collection__inputs"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "receipt"
+    }
+  }, [_vm._v("Receipt Number")]), _c('br'), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.inputs.receipt),
+      expression: "inputs.receipt"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "id": "receipt"
+    },
+    domProps: {
+      "value": (_vm.inputs.receipt)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.inputs.receipt = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.inputs.close),
+      expression: "inputs.close"
+    }],
+    attrs: {
+      "type": "checkbox",
+      "id": "close"
+    },
+    domProps: {
+      "checked": _vm.inputs.close,
+      "checked": Array.isArray(_vm.inputs.close) ? _vm._i(_vm.inputs.close, null) > -1 : (_vm.inputs.close)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.inputs.close,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$c) {
+            $$i < 0 && (_vm.inputs.close = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.inputs.close = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.inputs.close = $$c
+        }
+      }
+    }
+  }), _c('br'), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "close"
+    }
+  }, [_vm._v("Auto Close")])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "dateCollection"
+    }
+  }, [_vm._v("Date of collection")]), _c('br'), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.inputs.receipt),
+      expression: "inputs.receipt"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "id": "dateCollection"
+    },
+    domProps: {
+      "value": (_vm.inputs.receipt)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.inputs.receipt = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "staff"
+    }
+  }, [_vm._v("Staff")]), _c('br'), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.inputs.staff),
+      expression: "inputs.staff"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "id": "staff"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.inputs.staff = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "select"
+    }
+  }, [_vm._v("SELECT STAFF")])])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "amount"
+    }
+  }, [_vm._v("Amount")]), _c('br'), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.inputs.amount),
+      expression: "inputs.amount"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "id": "amount"
+    },
+    domProps: {
+      "value": (_vm.inputs.amount)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.inputs.amount = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "payment"
+    }
+  }, [_vm._v("Payment Method")]), _c('br'), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.inputs.payment),
+      expression: "inputs.payment"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "id": "payment"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.inputs.payment = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "select"
+    }
+  }, [_vm._v("SELECT PAYMENT")])])]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _vm._m(2)])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "Collection__title"
+  }, [_c('h2', {
+    staticClass: "text-center"
+  }, [_vm._v("Collection Form")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "form-group"
+  }, [_c('button', {
+    staticClass: "btn btn-info",
+    attrs: {
+      "type": "button"
+    }
+  }, [_vm._v("New")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-success",
+    attrs: {
+      "type": "button"
+    }
+  }, [_vm._v("Save")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-danger",
+    attrs: {
+      "type": "button"
+    }
+  }, [_vm._v("Close")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "Collection__body"
+  }, [_c('div', {
+    staticClass: "col-xs-4 col-sm-4 col-md-4 col-lg-4"
+  }, [_c('table', {
+    staticClass: "table table-hover"
+  }, [_c('thead', [_c('tr', [_c('th')])]), _vm._v(" "), _c('tbody', [_c('tr', [_c('td')])])])]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-8 col-sm-8 col-md-8 col-lg-8"
+  }, [_c('table', {
+    staticClass: "table table-hover"
+  }, [_c('thead', [_c('tr', [_c('th')])]), _vm._v(" "), _c('tbody', [_c('tr', [_c('td')])])])])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5c705a12", module.exports)
+  }
+}
+
+/***/ }),
+/* 86 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    data: function data() {
+        return {
+            inputs: {
+                close: 'checked',
+                staff: 'select',
+                payment: 'select'
+            }
+        };
+    }
+};
 
 /***/ })
 /******/ ]);

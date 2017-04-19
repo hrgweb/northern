@@ -21,6 +21,7 @@ import noty from 'noty';
 import Customer from './components/Customer.vue';
 import CustomerCreate from './components/CustomerCreate.vue';
 import SignatureForm from './components/SignatureForm.vue';
+import Collection from './components/Collection.vue';
 
 window.store = store;
 window.noty = noty;
@@ -28,10 +29,11 @@ window.noty = noty;
 const app = new Vue({
 	name: 'Northern',
     el: '#app',
-    components: { 
-    	Customer, 
-    	CustomerCreate, 
-    	SignatureForm 
+    components: {
+    	Customer,
+    	CustomerCreate,
+    	SignatureForm,
+        Collection
     },
     store
 });

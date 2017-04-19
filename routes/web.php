@@ -41,6 +41,10 @@ Route::group(['prefix' => 'purchases'], function() {
 	Route::get('/stLeft/{id}', 'PurchaseController@stLeft');
 });
 
+Route::group(['prefix' => 'collections'], function() {
+    Route::get('/', 'CollectionController@index');
+});
+
 
 // tmp
 // Auth::routes();

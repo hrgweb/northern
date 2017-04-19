@@ -1,13 +1,14 @@
 select > option,
-select > option[value] { 
-	text-transform: uppercase; 
+select > option[value] {
+	text-transform: uppercase;
 }
 
 .customer, .customer-create { margin-top: 6em !important; }
 
 .customer { color: #545353; }
 
-.customer-search__controls {
+.customer-search__controls,
+.Collection__inputs {
 	background: $elementBgColor;
     padding: 1em .5em;
     margin-top: 1em;
@@ -26,8 +27,8 @@ select > option[value] {
 	    background: #D9EDF7;
 	}
 
-	table > thead > tr > th:last-child { 
-		min-width: 141px; 
+	table > thead > tr > th:last-child {
+		min-width: 141px;
 		text-align: center;
 	}
 }
@@ -36,7 +37,9 @@ select > option[value] {
 .customer-create input,
 .customer-search__controls input,
 .Customer__edit input,
-.Customer__edit select {
+.Customer__edit select,
+.Collection input,
+.Collection select {
     border: 1px solid $borderColor;
     border-radius: 0px;
     margin-right: 2em;
@@ -46,7 +49,9 @@ select > option[value] {
 .customer-create input:focus, textarea:focus,
 .customer-search__controls input:focus,
 .Customer__edit input:focus,
-.Customer__edit select:focus {
+.Customer__edit select:focus,
+.Collection input:focus,
+.Collection select:focus {
     background: $inputFocusColor;
     color: $white;
     border: 1px solid $red !important;
@@ -136,7 +141,7 @@ select > option[value] {
 	// margin-top: 1em;
 }
 
-/*=============== Customer Edit ===============*/ 
+/*=============== Customer Edit ===============*/
 
 .Customer__edit-overlay,
 .Customer__purchase-overlay,
@@ -214,7 +219,7 @@ select > option[value] {
 }
 
 .customer-create__buttons {
-	
+
 	button {
 	    padding: 1em 3em;
 	    font-size: 1.1em;
@@ -222,7 +227,7 @@ select > option[value] {
 	}
 }
 
-/*=============== Customer Purchase ===============*/ 
+/*=============== Customer Purchase ===============*/
 
 .Customer__purchase {
 	background: $elementBgColor;
@@ -252,17 +257,17 @@ select > option[value] {
 	ul.dispense { color: #e6df88 !important; }
 	ul.st-detail { color: #3edbff; }
 
-	ul { 
-		padding-left: 0; 
+	ul {
+		padding-left: 0;
 		margin-bottom: 0;
 
-		> li { 
-			margin-left: 1em; 
+		> li {
+			margin-left: 1em;
 
 			> a { color: $white; }
 		}
 	}
-	
+
 	div.left-panel {
 		background: $red1;
 	    color: $white;
@@ -270,7 +275,7 @@ select > option[value] {
 	    font-size: 1em;
 	    font-family: calibri;
 	    box-shadow: 0 0 5px 2px rgba(185, 24, 7, 0.2);
-	}	
+	}
 }
 
 .Customer__purchase-info > b {

@@ -1,0 +1,31 @@
+.Collection__form,
+.Collection__inputs {
+    display: flex;
+    align-items: center;
+}
+
+.Collection {
+    margin: 5em auto;
+    width: 90%;
+}
+
+.Collection__form {
+    flex-direction: column;
+    width: 100%;
+}
+
+.Collection__inputs {
+    width: inherit;
+    padding: 1.5em 0 0;
+    flex-direction: row;
+    justify-content: center;
+
+    & > div {
+        margin-right: 1em;
+    }
+
+    div:last-child {
+        margin-right: 0;
+        margin-top: 25px;
+    }
+}
