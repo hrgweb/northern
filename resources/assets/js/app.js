@@ -17,6 +17,7 @@ import { store } from './components/store/store.js';
 
 // 3rd party
 import noty from 'noty';
+import numeral from 'numeral';
 
 import Customer from './components/Customer.vue';
 import CustomerCreate from './components/CustomerCreate.vue';
@@ -25,6 +26,7 @@ import Collection from './components/Collection.vue';
 
 window.store = store;
 window.noty = noty;
+window.numeral = numeral;
 
 const app = new Vue({
 	name: 'Northern',

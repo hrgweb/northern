@@ -14,6 +14,48 @@
     width: 100%;
 }
 
+.Collection__body {
+    display: block;
+    width: 100%;
+    margin-top: 2em;
+    font-family: tahoma;
+
+    .col-xs-4,
+    .col-xs-8 {
+    	padding: 0 !important;
+    }
+
+    .col-xs-4 { padding-right: 1em !important; }
+
+    #receipt-box {
+    	tr { cursor: pointer; }
+    }
+
+    #receipt-table {
+
+        tbody span,
+        tbody b,
+        .empty {
+            font-size: 1.1em;
+            color: #6d6c6c !important;
+        }
+
+        .empty {
+            font-size: 2em;
+            text-align: center;
+            padding: 1em !important;
+        }
+
+        /* tbody span {
+            border-bottom: 1px solid #bf2727;
+        } */
+
+        tbody b {
+            font-weight: bold;
+        }
+    }
+}
+
 .Collection__inputs {
     width: inherit;
     padding: 1.5em 0 0;

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 73);
+/******/ 	return __webpack_require__(__webpack_require__.s = 80);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -11210,9 +11210,9 @@ module.exports = function bind(fn, thisArg) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(38),
+  __webpack_require__(40),
   /* template */
-  __webpack_require__(63),
+  __webpack_require__(69),
   /* scopeId */
   null,
   /* cssModules */
@@ -20472,17 +20472,19 @@ module.exports = g;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_store_store_js__ = __webpack_require__(44);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_noty__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_store_store_js__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_noty__ = __webpack_require__(51);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_noty___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_noty__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Customer_vue__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_Customer_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_Customer_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_CustomerCreate_vue__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_CustomerCreate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_CustomerCreate_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_SignatureForm_vue__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_SignatureForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_SignatureForm_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Collection_vue__ = __webpack_require__(82);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Collection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_Collection_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_numeral__ = __webpack_require__(52);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_numeral___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_numeral__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Customer_vue__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_Customer_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_Customer_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_CustomerCreate_vue__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_CustomerCreate_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_CustomerCreate_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_SignatureForm_vue__ = __webpack_require__(62);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_SignatureForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_SignatureForm_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Collection_vue__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Collection_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_Collection_vue__);
 
 /**
  * First we will load all of this project's JavaScript dependencies which
@@ -20490,7 +20492,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-__webpack_require__(42);
+__webpack_require__(44);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -20508,17 +20510,19 @@ __webpack_require__(42);
 
 
 
+
 window.store = __WEBPACK_IMPORTED_MODULE_0__components_store_store_js__["a" /* store */];
 window.noty = __WEBPACK_IMPORTED_MODULE_1_noty___default.a;
+window.numeral = __WEBPACK_IMPORTED_MODULE_2_numeral___default.a;
 
 var app = new Vue({
   name: 'Northern',
   el: '#app',
   components: {
-    Customer: __WEBPACK_IMPORTED_MODULE_2__components_Customer_vue___default.a,
-    CustomerCreate: __WEBPACK_IMPORTED_MODULE_3__components_CustomerCreate_vue___default.a,
-    SignatureForm: __WEBPACK_IMPORTED_MODULE_4__components_SignatureForm_vue___default.a,
-    Collection: __WEBPACK_IMPORTED_MODULE_5__components_Collection_vue___default.a
+    Customer: __WEBPACK_IMPORTED_MODULE_3__components_Customer_vue___default.a,
+    CustomerCreate: __WEBPACK_IMPORTED_MODULE_4__components_CustomerCreate_vue___default.a,
+    SignatureForm: __WEBPACK_IMPORTED_MODULE_5__components_SignatureForm_vue___default.a,
+    Collection: __WEBPACK_IMPORTED_MODULE_6__components_Collection_vue___default.a
   },
   store: __WEBPACK_IMPORTED_MODULE_0__components_store_store_js__["a" /* store */]
 });
@@ -21376,11 +21380,539 @@ module.exports = function spread(callback) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CustomerSearch_vue__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CollectionForm_vue__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CollectionForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CollectionForm_vue__);
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    components: { CollectionForm: __WEBPACK_IMPORTED_MODULE_0__CollectionForm_vue___default.a },
+    props: ['date', 'auth'],
+    data: function data() {
+        return {
+            authUser: {}
+        };
+    },
+    mounted: function mounted() {
+        this.authUser = JSON.parse(this.auth);
+    }
+};
+
+/***/ }),
+/* 34 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    props: ['date', 'auth'],
+    data: function data() {
+        return {
+            receipts: [],
+            staffs: [],
+            staffID: 0,
+            payments: [],
+            receiptBox: [],
+            receiptShowBox: {},
+            items: [],
+            receiptStatusText: 'none',
+            itemMsg: 'FETCHING ITEMS',
+            isTypeReceipt: false,
+            receiptNoClick: 0,
+            inputs: {
+                receipt: '',
+                close: 'checked',
+                dateCollection: '',
+                staff: 'select',
+                amount: 0,
+                payment: 'select'
+            }
+        };
+    },
+    mounted: function mounted() {
+        // setting up data
+        this.inputs.dateCollection = this.date;
+
+        // fire http(s) request
+        this.staffList();
+        this.paymentMethod();
+    },
+
+    computed: {
+        tableName: function tableName() {
+            return '?table=' + this.auth.AllowedtblCustomer;
+        }
+    },
+    watch: {
+        receiptShowBox: function receiptShowBox() {
+            this.staffID = this.receiptShowBox.StaffID;
+        },
+        auth: function auth() {
+            this.receiptList();
+            this.receiptTable();
+        }
+    },
+    methods: {
+        receiptList: function receiptList() {
+            var _this = this;
+
+            var url = '/collections/receiptList' + this.tableName;
+            axios.get(url).then(function (response) {
+                return _this.receipts = response.data;
+            });
+        },
+        staffList: function staffList() {
+            var _this2 = this;
+
+            axios.get('/collections/staffList').then(function (response) {
+                return _this2.staffs = response.data;
+            });
+        },
+        paymentMethod: function paymentMethod() {
+            var _this3 = this;
+
+            axios.get('/collections/paymentMethod').then(function (response) {
+                return _this3.payments = response.data;
+            });
+        },
+        focusInputText: function focusInputText() {
+            var doc = document;
+            doc.querySelector('#amount').select();
+            // doc.querySelector('#receipt').select();
+        },
+        newCollection: function newCollection() {
+            this.inputs = {
+                receipt: '',
+                close: 'checked',
+                dateCollection: this.date,
+                staff: 'select',
+                amount: 0,
+                payment: 'select'
+            };
+        },
+        saveCollection: function saveCollection() {
+            // check if rececipt # is already keyed
+            if (this.isReceiptKeyedAlready() > 0) {
+                // notify that receipt already keyed.
+                noty({
+                    layout: 'bottomLeft',
+                    theme: 'relax', // or relax
+                    type: 'error', // success, error, warning, information, notification
+                    text: 'This receipt is already on the list.',
+                    timeout: 5000
+                });
+            } else {
+                // make sure user input receipt #, choose staff and payment to pass the validation
+                if (this.inputs.receipt.length > 0 && this.inputs.staff != 'select' && this.inputs.payment != 'select'
+                /*this.inputs.amount > parseInt(0, 10)*/) {
+                        this.prepareData(); // post data
+                    } else {
+                    // notify that validation fails.
+                    noty({
+                        layout: 'bottomLeft',
+                        theme: 'relax', // or relax
+                        type: 'error', // success, error, warning, information, notification
+                        text: 'Make sure you enter receipt number, select staff and payment method.',
+                        timeout: 5000
+                    });
+                }
+            }
+        },
+        backToHome: function backToHome() {
+            window.location.href = '/home';
+        },
+        receiptTable: function receiptTable() {
+            var _this4 = this;
+
+            var url = '/collections/receiptTable' + this.tableName;
+            axios.get(url).then(function (response) {
+                return _this4.receiptBox = response.data;
+            });
+        },
+        prepareData: function prepareData() {
+            var _this5 = this;
+
+            var vm = this;
+
+            this.receiptStatusText = 'receipt';
+            this.receiptNoClick = this.inputs.receipt;
+
+            // notify on saving.
+            noty({
+                layout: 'bottomLeft',
+                theme: 'relax', // or relax
+                type: 'information', // success, error, warning, information, notification
+                text: 'Saving new record to database.',
+                timeout: 5000
+            });
+
+            // show transaction receipt and items
+            this.showTransaction().then(function () {
+                var url = '/collections' + _this5.tableName;
+                var data = {
+                    SaleID: _this5.receiptShowBox.SaleID,
+                    ReceiptNo: _this5.inputs.receipt,
+                    StaffID: _this5.staffID,
+                    PmtMethodID: _this5.inputs.payment.PmtMethodID,
+                    PmtAmount: _this5.inputs.amount,
+                    Posted: 0,
+                    BranchID: Math.floor(_this5.receiptShowBox.BranchID),
+                    OtherSale: 0
+                };
+
+                // store to collection table
+                axios.post(url, data).then(function (response) {
+                    var result = response.data.result;
+
+                    // is request is returning success response
+                    if (response.data.isSuccess) {
+                        // map the result
+                        _this5.receiptBox.push(result.map(function (item) {
+                            return {
+                                SaleID: item.SaleID,
+                                ReceiptNo: item.ReceiptNo,
+                                PmtAmount: numeral(item.PmtAmount.toLocaleString()).format('0,0.00'),
+                                PmtMethod: vm.inputs.payment.PmtMethod
+                            };
+                        }));
+
+                        // notify that saving colleciton is success.
+                        noty({
+                            layout: 'bottomLeft',
+                            theme: 'relax', // or relax
+                            type: 'success', // success, error, warning, information, notification
+                            text: '1 record successfully saved.',
+                            timeout: 5000
+                        });
+
+                        // reset fields
+                        _this5.newCollection();
+                    }
+
+                    // result of the map
+                    _this5.receiptBox = _.flatten(_this5.receiptBox);
+                });
+            });
+        },
+        showTransaction: function showTransaction() {
+            var _this6 = this;
+
+            var url = '/collections/showTransaction/' + this.inputs.receipt + this.tableName;
+
+            this.showItems(); // fire items
+            return axios.get(url).then(function (response) {
+                _this6.receiptStatusText = 'result';
+                _this6.receiptShowBox = _.head(response.data);
+            });
+        },
+        showItems: function showItems() {
+            var _this7 = this;
+
+            var url = '/collections/showItems/' + this.inputs.receipt + this.tableName;
+
+            this.receiptStatusText = 'receipt';
+            axios.get(url).then(function (response) {
+                _this7.receiptStatusText = 'result';
+                _this7.items = response.data;
+            });
+        },
+        receiptItemClick: function receiptItemClick(e) {
+            this.inputs.receipt = parseInt(e.target.parentNode.cells[0].innerHTML, 10);
+
+            // check if row of receipt is already click
+            this.inputs.receipt != this.receiptNoClick && this.showTransaction();
+
+            this.receiptNoClick = this.inputs.receipt;
+        },
+        receiptItemRemove: function receiptItemRemove(args, index) {
+            var _this8 = this;
+
+            var url = '/collections/receiptItemRemove' + this.tableName + '&receipt=' + args.ReceiptNo + '&saleid=' + args.SaleID;
+
+            axios.delete(url).then(function (response) {
+                // check if response is success
+                if (response.data.isSuccess) {
+                    _this8.receiptBox.splice(index, 1);
+
+                    // notify when deleted.
+                    noty({
+                        layout: 'bottomLeft',
+                        theme: 'relax', // or relax
+                        type: 'warning', // success, error, warning, information, notification
+                        text: '1 record successfully deleted.',
+                        timeout: 5000
+                    });
+                }
+            });
+        },
+        isReceiptKeyedAlready: function isReceiptKeyedAlready() {
+            var _this9 = this;
+
+            var result = this.receiptBox.filter(function (item) {
+                return item.ReceiptNo == _this9.inputs.receipt;
+            });
+
+            return result.length;
+        }
+    }
+};
+
+/***/ }),
+/* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CustomerSearch_vue__ = __webpack_require__(60);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CustomerSearch_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CustomerSearch_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CustomerEdit_vue__ = __webpack_require__(53);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CustomerEdit_vue__ = __webpack_require__(58);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__CustomerEdit_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__CustomerEdit_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CustomerPurchase_vue__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CustomerPurchase_vue__ = __webpack_require__(59);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__CustomerPurchase_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__CustomerPurchase_vue__);
 //
 //
@@ -21470,7 +22002,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 34 */
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21735,7 +22267,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 35 */
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -21980,7 +22512,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 36 */
+/* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22430,7 +22962,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22646,7 +23178,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22663,12 +23195,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_signature_pad__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_signature_pad__ = __webpack_require__(53);
 //
 //
 //
@@ -22747,15 +23279,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 };
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__class_Helper_js__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Signature_vue__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__class_Helper_js__ = __webpack_require__(45);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Signature_vue__ = __webpack_require__(61);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Signature_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Signature_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SignatureScreenshot_vue__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SignatureScreenshot_vue__ = __webpack_require__(63);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__SignatureScreenshot_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__SignatureScreenshot_vue__);
 //
 //
@@ -22941,7 +23473,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(2)))
 
 /***/ }),
-/* 41 */
+/* 43 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -22963,14 +23495,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = {};
 
 /***/ }),
-/* 42 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // polyfill
 // require("babel-polyfill");
 // require('es6-promise').polyfill();
 
-window._ = __webpack_require__(48);
+window._ = __webpack_require__(50);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -22980,7 +23512,7 @@ window._ = __webpack_require__(48);
 
 window.$ = window.jQuery = __webpack_require__(2);
 
-__webpack_require__(45);
+__webpack_require__(47);
 
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces
@@ -23017,7 +23549,7 @@ window.axios.defaults.headers.common = {
 // });
 
 /***/ }),
-/* 43 */
+/* 45 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -23051,13 +23583,13 @@ var Helper = function () {
 /* harmony default export */ __webpack_exports__["a"] = Helper;
 
 /***/ }),
-/* 44 */
+/* 46 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(71);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuex__ = __webpack_require__(78);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return store; });
 
 
@@ -23136,7 +23668,7 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
 });
 
 /***/ }),
-/* 45 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(jQuery) {/*!
@@ -25520,14 +26052,14 @@ if (typeof jQuery === 'undefined') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 46 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(47)();
+exports = module.exports = __webpack_require__(49)();
 exports.push([module.i, "\ncanvas[data-v-4929e750] {\n\tbackground: #DBD7D7;\n\twidth: 100%;\n\theight: 75vh;\n\tborder: 1px solid silver;\n}\n", ""]);
 
 /***/ }),
-/* 47 */
+/* 49 */
 /***/ (function(module, exports) {
 
 /*
@@ -25583,7 +26115,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 48 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -42672,10 +43204,10 @@ module.exports = function() {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(72)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12), __webpack_require__(79)(module)))
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!function(root, factory) {
@@ -44559,7 +45091,1030 @@ return window.noty;
 });
 
 /***/ }),
-/* 50 */
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! @preserve
+ * numeral.js
+ * version : 2.0.6
+ * author : Adam Draper
+ * license : MIT
+ * http://adamwdraper.github.com/Numeral-js/
+ */
+
+(function (global, factory) {
+    if (true) {
+        !(__WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.call(exports, __webpack_require__, exports, module)) :
+				__WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+    } else if (typeof module === 'object' && module.exports) {
+        module.exports = factory();
+    } else {
+        global.numeral = factory();
+    }
+}(this, function () {
+    /************************************
+        Variables
+    ************************************/
+
+    var numeral,
+        _,
+        VERSION = '2.0.6',
+        formats = {},
+        locales = {},
+        defaults = {
+            currentLocale: 'en',
+            zeroFormat: null,
+            nullFormat: null,
+            defaultFormat: '0,0',
+            scalePercentBy100: true
+        },
+        options = {
+            currentLocale: defaults.currentLocale,
+            zeroFormat: defaults.zeroFormat,
+            nullFormat: defaults.nullFormat,
+            defaultFormat: defaults.defaultFormat,
+            scalePercentBy100: defaults.scalePercentBy100
+        };
+
+
+    /************************************
+        Constructors
+    ************************************/
+
+    // Numeral prototype object
+    function Numeral(input, number) {
+        this._input = input;
+
+        this._value = number;
+    }
+
+    numeral = function(input) {
+        var value,
+            kind,
+            unformatFunction,
+            regexp;
+
+        if (numeral.isNumeral(input)) {
+            value = input.value();
+        } else if (input === 0 || typeof input === 'undefined') {
+            value = 0;
+        } else if (input === null || _.isNaN(input)) {
+            value = null;
+        } else if (typeof input === 'string') {
+            if (options.zeroFormat && input === options.zeroFormat) {
+                value = 0;
+            } else if (options.nullFormat && input === options.nullFormat || !input.replace(/[^0-9]+/g, '').length) {
+                value = null;
+            } else {
+                for (kind in formats) {
+                    regexp = typeof formats[kind].regexps.unformat === 'function' ? formats[kind].regexps.unformat() : formats[kind].regexps.unformat;
+
+                    if (regexp && input.match(regexp)) {
+                        unformatFunction = formats[kind].unformat;
+
+                        break;
+                    }
+                }
+
+                unformatFunction = unformatFunction || numeral._.stringToNumber;
+
+                value = unformatFunction(input);
+            }
+        } else {
+            value = Number(input)|| null;
+        }
+
+        return new Numeral(input, value);
+    };
+
+    // version number
+    numeral.version = VERSION;
+
+    // compare numeral object
+    numeral.isNumeral = function(obj) {
+        return obj instanceof Numeral;
+    };
+
+    // helper functions
+    numeral._ = _ = {
+        // formats numbers separators, decimals places, signs, abbreviations
+        numberToFormat: function(value, format, roundingFunction) {
+            var locale = locales[numeral.options.currentLocale],
+                negP = false,
+                optDec = false,
+                leadingCount = 0,
+                abbr = '',
+                trillion = 1000000000000,
+                billion = 1000000000,
+                million = 1000000,
+                thousand = 1000,
+                decimal = '',
+                neg = false,
+                abbrForce, // force abbreviation
+                abs,
+                min,
+                max,
+                power,
+                int,
+                precision,
+                signed,
+                thousands,
+                output;
+
+            // make sure we never format a null value
+            value = value || 0;
+
+            abs = Math.abs(value);
+
+            // see if we should use parentheses for negative number or if we should prefix with a sign
+            // if both are present we default to parentheses
+            if (numeral._.includes(format, '(')) {
+                negP = true;
+                format = format.replace(/[\(|\)]/g, '');
+            } else if (numeral._.includes(format, '+') || numeral._.includes(format, '-')) {
+                signed = numeral._.includes(format, '+') ? format.indexOf('+') : value < 0 ? format.indexOf('-') : -1;
+                format = format.replace(/[\+|\-]/g, '');
+            }
+
+            // see if abbreviation is wanted
+            if (numeral._.includes(format, 'a')) {
+                abbrForce = format.match(/a(k|m|b|t)?/);
+
+                abbrForce = abbrForce ? abbrForce[1] : false;
+
+                // check for space before abbreviation
+                if (numeral._.includes(format, ' a')) {
+                    abbr = ' ';
+                }
+
+                format = format.replace(new RegExp(abbr + 'a[kmbt]?'), '');
+
+                if (abs >= trillion && !abbrForce || abbrForce === 't') {
+                    // trillion
+                    abbr += locale.abbreviations.trillion;
+                    value = value / trillion;
+                } else if (abs < trillion && abs >= billion && !abbrForce || abbrForce === 'b') {
+                    // billion
+                    abbr += locale.abbreviations.billion;
+                    value = value / billion;
+                } else if (abs < billion && abs >= million && !abbrForce || abbrForce === 'm') {
+                    // million
+                    abbr += locale.abbreviations.million;
+                    value = value / million;
+                } else if (abs < million && abs >= thousand && !abbrForce || abbrForce === 'k') {
+                    // thousand
+                    abbr += locale.abbreviations.thousand;
+                    value = value / thousand;
+                }
+            }
+
+            // check for optional decimals
+            if (numeral._.includes(format, '[.]')) {
+                optDec = true;
+                format = format.replace('[.]', '.');
+            }
+
+            // break number and format
+            int = value.toString().split('.')[0];
+            precision = format.split('.')[1];
+            thousands = format.indexOf(',');
+            leadingCount = (format.split('.')[0].split(',')[0].match(/0/g) || []).length;
+
+            if (precision) {
+                if (numeral._.includes(precision, '[')) {
+                    precision = precision.replace(']', '');
+                    precision = precision.split('[');
+                    decimal = numeral._.toFixed(value, (precision[0].length + precision[1].length), roundingFunction, precision[1].length);
+                } else {
+                    decimal = numeral._.toFixed(value, precision.length, roundingFunction);
+                }
+
+                int = decimal.split('.')[0];
+
+                if (numeral._.includes(decimal, '.')) {
+                    decimal = locale.delimiters.decimal + decimal.split('.')[1];
+                } else {
+                    decimal = '';
+                }
+
+                if (optDec && Number(decimal.slice(1)) === 0) {
+                    decimal = '';
+                }
+            } else {
+                int = numeral._.toFixed(value, 0, roundingFunction);
+            }
+
+            // check abbreviation again after rounding
+            if (abbr && !abbrForce && Number(int) >= 1000 && abbr !== locale.abbreviations.trillion) {
+                int = String(Number(int) / 1000);
+
+                switch (abbr) {
+                    case locale.abbreviations.thousand:
+                        abbr = locale.abbreviations.million;
+                        break;
+                    case locale.abbreviations.million:
+                        abbr = locale.abbreviations.billion;
+                        break;
+                    case locale.abbreviations.billion:
+                        abbr = locale.abbreviations.trillion;
+                        break;
+                }
+            }
+
+
+            // format number
+            if (numeral._.includes(int, '-')) {
+                int = int.slice(1);
+                neg = true;
+            }
+
+            if (int.length < leadingCount) {
+                for (var i = leadingCount - int.length; i > 0; i--) {
+                    int = '0' + int;
+                }
+            }
+
+            if (thousands > -1) {
+                int = int.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1' + locale.delimiters.thousands);
+            }
+
+            if (format.indexOf('.') === 0) {
+                int = '';
+            }
+
+            output = int + decimal + (abbr ? abbr : '');
+
+            if (negP) {
+                output = (negP && neg ? '(' : '') + output + (negP && neg ? ')' : '');
+            } else {
+                if (signed >= 0) {
+                    output = signed === 0 ? (neg ? '-' : '+') + output : output + (neg ? '-' : '+');
+                } else if (neg) {
+                    output = '-' + output;
+                }
+            }
+
+            return output;
+        },
+        // unformats numbers separators, decimals places, signs, abbreviations
+        stringToNumber: function(string) {
+            var locale = locales[options.currentLocale],
+                stringOriginal = string,
+                abbreviations = {
+                    thousand: 3,
+                    million: 6,
+                    billion: 9,
+                    trillion: 12
+                },
+                abbreviation,
+                value,
+                i,
+                regexp;
+
+            if (options.zeroFormat && string === options.zeroFormat) {
+                value = 0;
+            } else if (options.nullFormat && string === options.nullFormat || !string.replace(/[^0-9]+/g, '').length) {
+                value = null;
+            } else {
+                value = 1;
+
+                if (locale.delimiters.decimal !== '.') {
+                    string = string.replace(/\./g, '').replace(locale.delimiters.decimal, '.');
+                }
+
+                for (abbreviation in abbreviations) {
+                    regexp = new RegExp('[^a-zA-Z]' + locale.abbreviations[abbreviation] + '(?:\\)|(\\' + locale.currency.symbol + ')?(?:\\))?)?$');
+
+                    if (stringOriginal.match(regexp)) {
+                        value *= Math.pow(10, abbreviations[abbreviation]);
+                        break;
+                    }
+                }
+
+                // check for negative number
+                value *= (string.split('-').length + Math.min(string.split('(').length - 1, string.split(')').length - 1)) % 2 ? 1 : -1;
+
+                // remove non numbers
+                string = string.replace(/[^0-9\.]+/g, '');
+
+                value *= Number(string);
+            }
+
+            return value;
+        },
+        isNaN: function(value) {
+            return typeof value === 'number' && isNaN(value);
+        },
+        includes: function(string, search) {
+            return string.indexOf(search) !== -1;
+        },
+        insert: function(string, subString, start) {
+            return string.slice(0, start) + subString + string.slice(start);
+        },
+        reduce: function(array, callback /*, initialValue*/) {
+            if (this === null) {
+                throw new TypeError('Array.prototype.reduce called on null or undefined');
+            }
+
+            if (typeof callback !== 'function') {
+                throw new TypeError(callback + ' is not a function');
+            }
+
+            var t = Object(array),
+                len = t.length >>> 0,
+                k = 0,
+                value;
+
+            if (arguments.length === 3) {
+                value = arguments[2];
+            } else {
+                while (k < len && !(k in t)) {
+                    k++;
+                }
+
+                if (k >= len) {
+                    throw new TypeError('Reduce of empty array with no initial value');
+                }
+
+                value = t[k++];
+            }
+            for (; k < len; k++) {
+                if (k in t) {
+                    value = callback(value, t[k], k, t);
+                }
+            }
+            return value;
+        },
+        /**
+         * Computes the multiplier necessary to make x >= 1,
+         * effectively eliminating miscalculations caused by
+         * finite precision.
+         */
+        multiplier: function (x) {
+            var parts = x.toString().split('.');
+
+            return parts.length < 2 ? 1 : Math.pow(10, parts[1].length);
+        },
+        /**
+         * Given a variable number of arguments, returns the maximum
+         * multiplier that must be used to normalize an operation involving
+         * all of them.
+         */
+        correctionFactor: function () {
+            var args = Array.prototype.slice.call(arguments);
+
+            return args.reduce(function(accum, next) {
+                var mn = _.multiplier(next);
+                return accum > mn ? accum : mn;
+            }, 1);
+        },
+        /**
+         * Implementation of toFixed() that treats floats more like decimals
+         *
+         * Fixes binary rounding issues (eg. (0.615).toFixed(2) === '0.61') that present
+         * problems for accounting- and finance-related software.
+         */
+        toFixed: function(value, maxDecimals, roundingFunction, optionals) {
+            var splitValue = value.toString().split('.'),
+                minDecimals = maxDecimals - (optionals || 0),
+                boundedPrecision,
+                optionalsRegExp,
+                power,
+                output;
+
+            // Use the smallest precision value possible to avoid errors from floating point representation
+            if (splitValue.length === 2) {
+              boundedPrecision = Math.min(Math.max(splitValue[1].length, minDecimals), maxDecimals);
+            } else {
+              boundedPrecision = minDecimals;
+            }
+
+            power = Math.pow(10, boundedPrecision);
+
+            // Multiply up by precision, round accurately, then divide and use native toFixed():
+            output = (roundingFunction(value + 'e+' + boundedPrecision) / power).toFixed(boundedPrecision);
+
+            if (optionals > maxDecimals - boundedPrecision) {
+                optionalsRegExp = new RegExp('\\.?0{1,' + (optionals - (maxDecimals - boundedPrecision)) + '}$');
+                output = output.replace(optionalsRegExp, '');
+            }
+
+            return output;
+        }
+    };
+
+    // avaliable options
+    numeral.options = options;
+
+    // avaliable formats
+    numeral.formats = formats;
+
+    // avaliable formats
+    numeral.locales = locales;
+
+    // This function sets the current locale.  If
+    // no arguments are passed in, it will simply return the current global
+    // locale key.
+    numeral.locale = function(key) {
+        if (key) {
+            options.currentLocale = key.toLowerCase();
+        }
+
+        return options.currentLocale;
+    };
+
+    // This function provides access to the loaded locale data.  If
+    // no arguments are passed in, it will simply return the current
+    // global locale object.
+    numeral.localeData = function(key) {
+        if (!key) {
+            return locales[options.currentLocale];
+        }
+
+        key = key.toLowerCase();
+
+        if (!locales[key]) {
+            throw new Error('Unknown locale : ' + key);
+        }
+
+        return locales[key];
+    };
+
+    numeral.reset = function() {
+        for (var property in defaults) {
+            options[property] = defaults[property];
+        }
+    };
+
+    numeral.zeroFormat = function(format) {
+        options.zeroFormat = typeof(format) === 'string' ? format : null;
+    };
+
+    numeral.nullFormat = function (format) {
+        options.nullFormat = typeof(format) === 'string' ? format : null;
+    };
+
+    numeral.defaultFormat = function(format) {
+        options.defaultFormat = typeof(format) === 'string' ? format : '0.0';
+    };
+
+    numeral.register = function(type, name, format) {
+        name = name.toLowerCase();
+
+        if (this[type + 's'][name]) {
+            throw new TypeError(name + ' ' + type + ' already registered.');
+        }
+
+        this[type + 's'][name] = format;
+
+        return format;
+    };
+
+
+    numeral.validate = function(val, culture) {
+        var _decimalSep,
+            _thousandSep,
+            _currSymbol,
+            _valArray,
+            _abbrObj,
+            _thousandRegEx,
+            localeData,
+            temp;
+
+        //coerce val to string
+        if (typeof val !== 'string') {
+            val += '';
+
+            if (console.warn) {
+                console.warn('Numeral.js: Value is not string. It has been co-erced to: ', val);
+            }
+        }
+
+        //trim whitespaces from either sides
+        val = val.trim();
+
+        //if val is just digits return true
+        if (!!val.match(/^\d+$/)) {
+            return true;
+        }
+
+        //if val is empty return false
+        if (val === '') {
+            return false;
+        }
+
+        //get the decimal and thousands separator from numeral.localeData
+        try {
+            //check if the culture is understood by numeral. if not, default it to current locale
+            localeData = numeral.localeData(culture);
+        } catch (e) {
+            localeData = numeral.localeData(numeral.locale());
+        }
+
+        //setup the delimiters and currency symbol based on culture/locale
+        _currSymbol = localeData.currency.symbol;
+        _abbrObj = localeData.abbreviations;
+        _decimalSep = localeData.delimiters.decimal;
+        if (localeData.delimiters.thousands === '.') {
+            _thousandSep = '\\.';
+        } else {
+            _thousandSep = localeData.delimiters.thousands;
+        }
+
+        // validating currency symbol
+        temp = val.match(/^[^\d]+/);
+        if (temp !== null) {
+            val = val.substr(1);
+            if (temp[0] !== _currSymbol) {
+                return false;
+            }
+        }
+
+        //validating abbreviation symbol
+        temp = val.match(/[^\d]+$/);
+        if (temp !== null) {
+            val = val.slice(0, -1);
+            if (temp[0] !== _abbrObj.thousand && temp[0] !== _abbrObj.million && temp[0] !== _abbrObj.billion && temp[0] !== _abbrObj.trillion) {
+                return false;
+            }
+        }
+
+        _thousandRegEx = new RegExp(_thousandSep + '{2}');
+
+        if (!val.match(/[^\d.,]/g)) {
+            _valArray = val.split(_decimalSep);
+            if (_valArray.length > 2) {
+                return false;
+            } else {
+                if (_valArray.length < 2) {
+                    return ( !! _valArray[0].match(/^\d+.*\d$/) && !_valArray[0].match(_thousandRegEx));
+                } else {
+                    if (_valArray[0].length === 1) {
+                        return ( !! _valArray[0].match(/^\d+$/) && !_valArray[0].match(_thousandRegEx) && !! _valArray[1].match(/^\d+$/));
+                    } else {
+                        return ( !! _valArray[0].match(/^\d+.*\d$/) && !_valArray[0].match(_thousandRegEx) && !! _valArray[1].match(/^\d+$/));
+                    }
+                }
+            }
+        }
+
+        return false;
+    };
+
+
+    /************************************
+        Numeral Prototype
+    ************************************/
+
+    numeral.fn = Numeral.prototype = {
+        clone: function() {
+            return numeral(this);
+        },
+        format: function(inputString, roundingFunction) {
+            var value = this._value,
+                format = inputString || options.defaultFormat,
+                kind,
+                output,
+                formatFunction;
+
+            // make sure we have a roundingFunction
+            roundingFunction = roundingFunction || Math.round;
+
+            // format based on value
+            if (value === 0 && options.zeroFormat !== null) {
+                output = options.zeroFormat;
+            } else if (value === null && options.nullFormat !== null) {
+                output = options.nullFormat;
+            } else {
+                for (kind in formats) {
+                    if (format.match(formats[kind].regexps.format)) {
+                        formatFunction = formats[kind].format;
+
+                        break;
+                    }
+                }
+
+                formatFunction = formatFunction || numeral._.numberToFormat;
+
+                output = formatFunction(value, format, roundingFunction);
+            }
+
+            return output;
+        },
+        value: function() {
+            return this._value;
+        },
+        input: function() {
+            return this._input;
+        },
+        set: function(value) {
+            this._value = Number(value);
+
+            return this;
+        },
+        add: function(value) {
+            var corrFactor = _.correctionFactor.call(null, this._value, value);
+
+            function cback(accum, curr, currI, O) {
+                return accum + Math.round(corrFactor * curr);
+            }
+
+            this._value = _.reduce([this._value, value], cback, 0) / corrFactor;
+
+            return this;
+        },
+        subtract: function(value) {
+            var corrFactor = _.correctionFactor.call(null, this._value, value);
+
+            function cback(accum, curr, currI, O) {
+                return accum - Math.round(corrFactor * curr);
+            }
+
+            this._value = _.reduce([value], cback, Math.round(this._value * corrFactor)) / corrFactor;
+
+            return this;
+        },
+        multiply: function(value) {
+            function cback(accum, curr, currI, O) {
+                var corrFactor = _.correctionFactor(accum, curr);
+                return Math.round(accum * corrFactor) * Math.round(curr * corrFactor) / Math.round(corrFactor * corrFactor);
+            }
+
+            this._value = _.reduce([this._value, value], cback, 1);
+
+            return this;
+        },
+        divide: function(value) {
+            function cback(accum, curr, currI, O) {
+                var corrFactor = _.correctionFactor(accum, curr);
+                return Math.round(accum * corrFactor) / Math.round(curr * corrFactor);
+            }
+
+            this._value = _.reduce([this._value, value], cback);
+
+            return this;
+        },
+        difference: function(value) {
+            return Math.abs(numeral(this._value).subtract(value).value());
+        }
+    };
+
+    /************************************
+        Default Locale && Format
+    ************************************/
+
+    numeral.register('locale', 'en', {
+        delimiters: {
+            thousands: ',',
+            decimal: '.'
+        },
+        abbreviations: {
+            thousand: 'k',
+            million: 'm',
+            billion: 'b',
+            trillion: 't'
+        },
+        ordinal: function(number) {
+            var b = number % 10;
+            return (~~(number % 100 / 10) === 1) ? 'th' :
+                (b === 1) ? 'st' :
+                (b === 2) ? 'nd' :
+                (b === 3) ? 'rd' : 'th';
+        },
+        currency: {
+            symbol: '$'
+        }
+    });
+
+    
+
+(function() {
+        numeral.register('format', 'bps', {
+            regexps: {
+                format: /(BPS)/,
+                unformat: /(BPS)/
+            },
+            format: function(value, format, roundingFunction) {
+                var space = numeral._.includes(format, ' BPS') ? ' ' : '',
+                    output;
+
+                value = value * 10000;
+
+                // check for space before BPS
+                format = format.replace(/\s?BPS/, '');
+
+                output = numeral._.numberToFormat(value, format, roundingFunction);
+
+                if (numeral._.includes(output, ')')) {
+                    output = output.split('');
+
+                    output.splice(-1, 0, space + 'BPS');
+
+                    output = output.join('');
+                } else {
+                    output = output + space + 'BPS';
+                }
+
+                return output;
+            },
+            unformat: function(string) {
+                return +(numeral._.stringToNumber(string) * 0.0001).toFixed(15);
+            }
+        });
+})();
+
+
+(function() {
+        var decimal = {
+            base: 1000,
+            suffixes: ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
+        },
+        binary = {
+            base: 1024,
+            suffixes: ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB']
+        };
+
+    var allSuffixes =  decimal.suffixes.concat(binary.suffixes.filter(function (item) {
+            return decimal.suffixes.indexOf(item) < 0;
+        }));
+        var unformatRegex = allSuffixes.join('|');
+        // Allow support for BPS (http://www.investopedia.com/terms/b/basispoint.asp)
+        unformatRegex = '(' + unformatRegex.replace('B', 'B(?!PS)') + ')';
+
+    numeral.register('format', 'bytes', {
+        regexps: {
+            format: /([0\s]i?b)/,
+            unformat: new RegExp(unformatRegex)
+        },
+        format: function(value, format, roundingFunction) {
+            var output,
+                bytes = numeral._.includes(format, 'ib') ? binary : decimal,
+                suffix = numeral._.includes(format, ' b') || numeral._.includes(format, ' ib') ? ' ' : '',
+                power,
+                min,
+                max;
+
+            // check for space before
+            format = format.replace(/\s?i?b/, '');
+
+            for (power = 0; power <= bytes.suffixes.length; power++) {
+                min = Math.pow(bytes.base, power);
+                max = Math.pow(bytes.base, power + 1);
+
+                if (value === null || value === 0 || value >= min && value < max) {
+                    suffix += bytes.suffixes[power];
+
+                    if (min > 0) {
+                        value = value / min;
+                    }
+
+                    break;
+                }
+            }
+
+            output = numeral._.numberToFormat(value, format, roundingFunction);
+
+            return output + suffix;
+        },
+        unformat: function(string) {
+            var value = numeral._.stringToNumber(string),
+                power,
+                bytesMultiplier;
+
+            if (value) {
+                for (power = decimal.suffixes.length - 1; power >= 0; power--) {
+                    if (numeral._.includes(string, decimal.suffixes[power])) {
+                        bytesMultiplier = Math.pow(decimal.base, power);
+
+                        break;
+                    }
+
+                    if (numeral._.includes(string, binary.suffixes[power])) {
+                        bytesMultiplier = Math.pow(binary.base, power);
+
+                        break;
+                    }
+                }
+
+                value *= (bytesMultiplier || 1);
+            }
+
+            return value;
+        }
+    });
+})();
+
+
+(function() {
+        numeral.register('format', 'currency', {
+        regexps: {
+            format: /(\$)/
+        },
+        format: function(value, format, roundingFunction) {
+            var locale = numeral.locales[numeral.options.currentLocale],
+                symbols = {
+                    before: format.match(/^([\+|\-|\(|\s|\$]*)/)[0],
+                    after: format.match(/([\+|\-|\)|\s|\$]*)$/)[0]
+                },
+                output,
+                symbol,
+                i;
+
+            // strip format of spaces and $
+            format = format.replace(/\s?\$\s?/, '');
+
+            // format the number
+            output = numeral._.numberToFormat(value, format, roundingFunction);
+
+            // update the before and after based on value
+            if (value >= 0) {
+                symbols.before = symbols.before.replace(/[\-\(]/, '');
+                symbols.after = symbols.after.replace(/[\-\)]/, '');
+            } else if (value < 0 && (!numeral._.includes(symbols.before, '-') && !numeral._.includes(symbols.before, '('))) {
+                symbols.before = '-' + symbols.before;
+            }
+
+            // loop through each before symbol
+            for (i = 0; i < symbols.before.length; i++) {
+                symbol = symbols.before[i];
+
+                switch (symbol) {
+                    case '$':
+                        output = numeral._.insert(output, locale.currency.symbol, i);
+                        break;
+                    case ' ':
+                        output = numeral._.insert(output, ' ', i + locale.currency.symbol.length - 1);
+                        break;
+                }
+            }
+
+            // loop through each after symbol
+            for (i = symbols.after.length - 1; i >= 0; i--) {
+                symbol = symbols.after[i];
+
+                switch (symbol) {
+                    case '$':
+                        output = i === symbols.after.length - 1 ? output + locale.currency.symbol : numeral._.insert(output, locale.currency.symbol, -(symbols.after.length - (1 + i)));
+                        break;
+                    case ' ':
+                        output = i === symbols.after.length - 1 ? output + ' ' : numeral._.insert(output, ' ', -(symbols.after.length - (1 + i) + locale.currency.symbol.length - 1));
+                        break;
+                }
+            }
+
+
+            return output;
+        }
+    });
+})();
+
+
+(function() {
+        numeral.register('format', 'exponential', {
+        regexps: {
+            format: /(e\+|e-)/,
+            unformat: /(e\+|e-)/
+        },
+        format: function(value, format, roundingFunction) {
+            var output,
+                exponential = typeof value === 'number' && !numeral._.isNaN(value) ? value.toExponential() : '0e+0',
+                parts = exponential.split('e');
+
+            format = format.replace(/e[\+|\-]{1}0/, '');
+
+            output = numeral._.numberToFormat(Number(parts[0]), format, roundingFunction);
+
+            return output + 'e' + parts[1];
+        },
+        unformat: function(string) {
+            var parts = numeral._.includes(string, 'e+') ? string.split('e+') : string.split('e-'),
+                value = Number(parts[0]),
+                power = Number(parts[1]);
+
+            power = numeral._.includes(string, 'e-') ? power *= -1 : power;
+
+            function cback(accum, curr, currI, O) {
+                var corrFactor = numeral._.correctionFactor(accum, curr),
+                    num = (accum * corrFactor) * (curr * corrFactor) / (corrFactor * corrFactor);
+                return num;
+            }
+
+            return numeral._.reduce([value, Math.pow(10, power)], cback, 1);
+        }
+    });
+})();
+
+
+(function() {
+        numeral.register('format', 'ordinal', {
+        regexps: {
+            format: /(o)/
+        },
+        format: function(value, format, roundingFunction) {
+            var locale = numeral.locales[numeral.options.currentLocale],
+                output,
+                ordinal = numeral._.includes(format, ' o') ? ' ' : '';
+
+            // check for space before
+            format = format.replace(/\s?o/, '');
+
+            ordinal += locale.ordinal(value);
+
+            output = numeral._.numberToFormat(value, format, roundingFunction);
+
+            return output + ordinal;
+        }
+    });
+})();
+
+
+(function() {
+        numeral.register('format', 'percentage', {
+        regexps: {
+            format: /(%)/,
+            unformat: /(%)/
+        },
+        format: function(value, format, roundingFunction) {
+            var space = numeral._.includes(format, ' %') ? ' ' : '',
+                output;
+
+            if (numeral.options.scalePercentBy100) {
+                value = value * 100;
+            }
+
+            // check for space before %
+            format = format.replace(/\s?\%/, '');
+
+            output = numeral._.numberToFormat(value, format, roundingFunction);
+
+            if (numeral._.includes(output, ')')) {
+                output = output.split('');
+
+                output.splice(-1, 0, space + '%');
+
+                output = output.join('');
+            } else {
+                output = output + space + '%';
+            }
+
+            return output;
+        },
+        unformat: function(string) {
+            var number = numeral._.stringToNumber(string);
+            if (numeral.options.scalePercentBy100) {
+                return number * 0.01;
+            }
+            return number;
+        }
+    });
+})();
+
+
+(function() {
+        numeral.register('format', 'time', {
+        regexps: {
+            format: /(:)/,
+            unformat: /(:)/
+        },
+        format: function(value, format, roundingFunction) {
+            var hours = Math.floor(value / 60 / 60),
+                minutes = Math.floor((value - (hours * 60 * 60)) / 60),
+                seconds = Math.round(value - (hours * 60 * 60) - (minutes * 60));
+
+            return hours + ':' + (minutes < 10 ? '0' + minutes : minutes) + ':' + (seconds < 10 ? '0' + seconds : seconds);
+        },
+        unformat: function(string) {
+            var timeArray = string.split(':'),
+                seconds = 0;
+
+            // turn hours and minutes into seconds and add them all up
+            if (timeArray.length === 3) {
+                // hours
+                seconds = seconds + (Number(timeArray[0]) * 60 * 60);
+                // minutes
+                seconds = seconds + (Number(timeArray[1]) * 60);
+                // seconds
+                seconds = seconds + Number(timeArray[2]);
+            } else if (timeArray.length === 2) {
+                // minutes
+                seconds = seconds + (Number(timeArray[0]) * 60);
+                // seconds
+                seconds = seconds + Number(timeArray[1]);
+            }
+            return Number(seconds);
+        }
+    });
+})();
+
+return numeral;
+}));
+
+
+/***/ }),
+/* 53 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -45087,14 +46642,82 @@ SignaturePad.prototype.toData = function () {
 
 
 /***/ }),
-/* 51 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
   __webpack_require__(33),
   /* template */
-  __webpack_require__(66),
+  __webpack_require__(70),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\laravel\\development\\northern\\resources\\assets\\js\\components\\Collection.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] Collection.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5e1cb3a4", Component.options)
+  } else {
+    hotAPI.reload("data-v-5e1cb3a4", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(34),
+  /* template */
+  __webpack_require__(68),
+  /* scopeId */
+  null,
+  /* cssModules */
+  null
+)
+Component.options.__file = "C:\\xampp\\htdocs\\laravel\\development\\northern\\resources\\assets\\js\\components\\CollectionForm.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] CollectionForm.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5c705a12", Component.options)
+  } else {
+    hotAPI.reload("data-v-5c705a12", Component.options)
+  }
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var Component = __webpack_require__(1)(
+  /* script */
+  __webpack_require__(35),
+  /* template */
+  __webpack_require__(73),
   /* scopeId */
   null,
   /* cssModules */
@@ -45121,14 +46744,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 52 */
+/* 57 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(34),
+  __webpack_require__(36),
   /* template */
-  __webpack_require__(60),
+  __webpack_require__(65),
   /* scopeId */
   null,
   /* cssModules */
@@ -45155,14 +46778,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 53 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(35),
+  __webpack_require__(37),
   /* template */
-  __webpack_require__(64),
+  __webpack_require__(71),
   /* scopeId */
   null,
   /* cssModules */
@@ -45189,14 +46812,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 54 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(36),
+  __webpack_require__(38),
   /* template */
-  __webpack_require__(62),
+  __webpack_require__(67),
   /* scopeId */
   null,
   /* cssModules */
@@ -45223,14 +46846,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 55 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(37),
+  __webpack_require__(39),
   /* template */
-  __webpack_require__(65),
+  __webpack_require__(72),
   /* scopeId */
   null,
   /* cssModules */
@@ -45257,18 +46880,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 56 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(68)
+__webpack_require__(75)
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(39),
+  __webpack_require__(41),
   /* template */
-  __webpack_require__(61),
+  __webpack_require__(66),
   /* scopeId */
   "data-v-4929e750",
   /* cssModules */
@@ -45295,14 +46918,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 57 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(40),
+  __webpack_require__(42),
   /* template */
-  __webpack_require__(59),
+  __webpack_require__(64),
   /* scopeId */
   null,
   /* cssModules */
@@ -45329,14 +46952,14 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 58 */
+/* 63 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var Component = __webpack_require__(1)(
   /* script */
-  __webpack_require__(41),
+  __webpack_require__(43),
   /* template */
-  __webpack_require__(67),
+  __webpack_require__(74),
   /* scopeId */
   null,
   /* cssModules */
@@ -45363,7 +46986,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 59 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -45458,7 +47081,7 @@ if (false) {
 }
 
 /***/ }),
-/* 60 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -45994,7 +47617,7 @@ if (false) {
 }
 
 /***/ }),
-/* 61 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -46044,7 +47667,7 @@ if (false) {
 }
 
 /***/ }),
-/* 62 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -46182,7 +47805,330 @@ if (false) {
 }
 
 /***/ }),
-/* 63 */
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "Collection__form"
+  }, [_vm._m(0), _vm._v(" "), _c('div', {
+    staticClass: "Collection__inputs"
+  }, [_c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "receipt"
+    }
+  }, [_vm._v("Receipt Number")]), _c('br'), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.inputs.receipt),
+      expression: "inputs.receipt"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "id": "receipt",
+      "list": "receipts"
+    },
+    domProps: {
+      "value": (_vm.inputs.receipt)
+    },
+    on: {
+      "keyup": function($event) {
+        if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
+        _vm.saveCollection($event)
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.inputs.receipt = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('datalist', {
+    attrs: {
+      "id": "receipts"
+    }
+  }, _vm._l((_vm.receipts), function(receipt) {
+    return _c('option', {
+      domProps: {
+        "value": receipt.Receipt
+      }
+    }, [_vm._v(_vm._s(receipt.Receipt))])
+  }))]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.inputs.close),
+      expression: "inputs.close"
+    }],
+    attrs: {
+      "type": "checkbox",
+      "id": "close"
+    },
+    domProps: {
+      "checked": _vm.inputs.close,
+      "checked": Array.isArray(_vm.inputs.close) ? _vm._i(_vm.inputs.close, null) > -1 : (_vm.inputs.close)
+    },
+    on: {
+      "__c": function($event) {
+        var $$a = _vm.inputs.close,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$c) {
+            $$i < 0 && (_vm.inputs.close = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.inputs.close = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.inputs.close = $$c
+        }
+      }
+    }
+  }), _c('br'), _vm._v(" "), _c('label', {
+    attrs: {
+      "for": "close"
+    }
+  }, [_vm._v("Auto Close")])]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "dateCollection"
+    }
+  }, [_vm._v("Date of collection")]), _c('br'), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.inputs.dateCollection),
+      expression: "inputs.dateCollection"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text",
+      "id": "dateCollection",
+      "disabled": "disabled"
+    },
+    domProps: {
+      "value": (_vm.inputs.dateCollection)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.inputs.dateCollection = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "staff"
+    }
+  }, [_vm._v("Staff")]), _c('br'), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.inputs.staff),
+      expression: "inputs.staff"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "id": "staff"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.inputs.staff = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "select"
+    }
+  }, [_vm._v("SELECT STAFF")]), _vm._v(" "), _vm._l((_vm.staffs), function(staff) {
+    return _c('option', {
+      domProps: {
+        "value": staff.StaffName
+      }
+    }, [_vm._v(_vm._s(staff.StaffName))])
+  })], 2)]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "amount"
+    }
+  }, [_vm._v("Amount")]), _c('br'), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.inputs.amount),
+      expression: "inputs.amount"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "number",
+      "id": "amount"
+    },
+    domProps: {
+      "value": (_vm.inputs.amount)
+    },
+    on: {
+      "focus": _vm.focusInputText,
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.inputs.amount = $event.target.value
+      },
+      "blur": function($event) {
+        _vm.$forceUpdate()
+      }
+    }
+  })]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('label', {
+    attrs: {
+      "for": "payment"
+    }
+  }, [_vm._v("Payment Method")]), _c('br'), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.inputs.payment),
+      expression: "inputs.payment"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "id": "payment"
+    },
+    on: {
+      "change": function($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        });
+        _vm.inputs.payment = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+      }
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "select"
+    }
+  }, [_vm._v("SELECT PAYMENT")]), _vm._v(" "), _vm._l((_vm.payments), function(payment) {
+    return _c('option', {
+      domProps: {
+        "value": payment
+      }
+    }, [_vm._v(_vm._s(payment.PmtMethod))])
+  })], 2)]), _vm._v(" "), _c('div', {
+    staticClass: "form-group"
+  }, [_c('button', {
+    staticClass: "btn btn-success",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.saveCollection
+    }
+  }, [_vm._v("Save")]), _vm._v(" "), _c('button', {
+    staticClass: "btn btn-danger",
+    attrs: {
+      "type": "button"
+    },
+    on: {
+      "click": _vm.backToHome
+    }
+  }, [_vm._v("Close")])])]), _vm._v(" "), _c('div', {
+    staticClass: "Collection__body"
+  }, [_c('div', {
+    staticClass: "col-xs-4 col-sm-4 col-md-4 col-lg-4"
+  }, [_c('table', {
+    staticClass: "table table-bordered table-hover",
+    attrs: {
+      "id": "receipt-box"
+    }
+  }, [_vm._m(1), _vm._v(" "), _c('tbody', _vm._l((_vm.receiptBox), function(list, index) {
+    return _c('tr', {
+      on: {
+        "click": function($event) {
+          $event.stopPropagation();
+          _vm.receiptItemClick($event)
+        }
+      }
+    }, [_c('td', [_vm._v(_vm._s(list.ReceiptNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(list.PmtAmount))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(list.PmtMethod))]), _vm._v(" "), _c('td', {
+      staticClass: "text-center"
+    }, [_c('button', {
+      staticClass: "btn btn-warning",
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": function($event) {
+          $event.stopPropagation();
+          if ($event.target !== $event.currentTarget) { return null; }
+          _vm.receiptItemRemove(list, index)
+        }
+      }
+    }, [_vm._v("Delete")])])])
+  }))])]), _vm._v(" "), _c('div', {
+    staticClass: "col-xs-8 col-sm-8 col-md-8 col-lg-8"
+  }, [_c('table', {
+    staticClass: "table table-bordered table-hover",
+    attrs: {
+      "id": "receipt-table"
+    }
+  }, [_vm._m(2), _vm._v(" "), (_vm.receiptStatusText === 'none') ? _c('tbody', [_vm._m(3)]) : (_vm.receiptStatusText === 'receipt') ? _c('tbody', [_c('tr', [_c('td', {
+    staticClass: "empty",
+    attrs: {
+      "colspan": "6"
+    }
+  }, [_vm._v("FETCHING TRANSACTION")])])]) : _c('tbody', [_c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Sale ID")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.SaleID))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Receipt No")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.ReceiptNo))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Customer")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.FirstName) + "\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.Surname) + "\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Address")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.Block) + "\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.Unit) + "\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.Building) + "\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.Street) + "\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.PostCode) + "\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("D.O.B")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.DOB))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Phone No")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.HandPhone))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Sale Date")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.SaleDate))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Sale Time")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.SaleTime))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Collection Date")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.CollectDate))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Staff")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.StaffName))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Tray No")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.TrayNo))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Sale Amount")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.Subtotal))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Deposit")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.Deposit))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Balance")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.Balance))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), (_vm.receiptStatusText === 'receipt') ? _c('tr', [_c('td', {
+    staticClass: "empty",
+    attrs: {
+      "colspan": "6"
+    }
+  }, [_vm._v(_vm._s(_vm.itemMsg))])]) : _vm._l((_vm.items), function(item, index) {
+    return _c('tr', [_c('td', [_vm._v(_vm._s(++index))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.Brand))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.FullDescription))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.Selling))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.Qty))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(item.TranTotal))])])
+  })], 2)])])])])
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "Collection__title"
+  }, [_c('h2', {
+    staticClass: "text-center"
+  }, [_vm._v("Collection Form")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("Receipt")]), _vm._v(" "), _c('th', [_vm._v("Amount")]), _vm._v(" "), _c('th', [_vm._v("Paid by")]), _vm._v(" "), _c('th', {
+    staticClass: "text-center"
+  }, [_vm._v("Actions")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('thead', [_c('tr', [_c('th', [_vm._v("Item")]), _vm._v(" "), _c('th', [_vm._v("Brand")]), _vm._v(" "), _c('th', [_vm._v("Descriptions")]), _vm._v(" "), _c('th', [_vm._v("Price")]), _vm._v(" "), _c('th', [_vm._v("Qty")]), _vm._v(" "), _c('th', [_vm._v("Total")])])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('tr', [_c('td', {
+    staticClass: "empty",
+    attrs: {
+      "colspan": "6"
+    }
+  }, [_vm._v("TRANSACTION DETAILS")])])
+}]}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5c705a12", module.exports)
+  }
+}
+
+/***/ }),
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -46201,7 +48147,29 @@ if (false) {
 }
 
 /***/ }),
-/* 64 */
+/* 70 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "Collection"
+  }, [_c('collection-form', {
+    attrs: {
+      "date": _vm.date,
+      "auth": _vm.authUser
+    }
+  })], 1)
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-5e1cb3a4", module.exports)
+  }
+}
+
+/***/ }),
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -46800,7 +48768,7 @@ if (false) {
 }
 
 /***/ }),
-/* 65 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -47063,7 +49031,7 @@ if (false) {
 }
 
 /***/ }),
-/* 66 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -47111,7 +49079,7 @@ if (false) {
 }
 
 /***/ }),
-/* 67 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -47136,17 +49104,17 @@ if (false) {
 }
 
 /***/ }),
-/* 68 */
+/* 75 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(46);
+var content = __webpack_require__(48);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(69)("787aeb36", content, false);
+var update = __webpack_require__(76)("787aeb36", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -47162,7 +49130,7 @@ if(false) {
 }
 
 /***/ }),
-/* 69 */
+/* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -47181,7 +49149,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(70)
+var listToStyles = __webpack_require__(77)
 
 /*
 type StyleObject = {
@@ -47398,7 +49366,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 70 */
+/* 77 */
 /***/ (function(module, exports) {
 
 /**
@@ -47431,7 +49399,7 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 71 */
+/* 78 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48246,7 +50214,7 @@ var index_esm = {
 
 
 /***/ }),
-/* 72 */
+/* 79 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -48274,473 +50242,12 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 73 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(13);
 module.exports = __webpack_require__(14);
 
-
-/***/ }),
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */,
-/* 81 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CollectionForm_vue__ = __webpack_require__(84);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__CollectionForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__CollectionForm_vue__);
-//
-//
-//
-//
-//
-//
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = {
-    components: { CollectionForm: __WEBPACK_IMPORTED_MODULE_0__CollectionForm_vue___default.a }
-};
-
-/***/ }),
-/* 82 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(81),
-  /* template */
-  __webpack_require__(83),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "C:\\xampp\\htdocs\\laravel\\development\\northern\\resources\\assets\\js\\components\\Collection.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] Collection.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5e1cb3a4", Component.options)
-  } else {
-    hotAPI.reload("data-v-5e1cb3a4", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 83 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "Collection"
-  }, [_c('collection-form')], 1)
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-5e1cb3a4", module.exports)
-  }
-}
-
-/***/ }),
-/* 84 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var Component = __webpack_require__(1)(
-  /* script */
-  __webpack_require__(86),
-  /* template */
-  __webpack_require__(85),
-  /* scopeId */
-  null,
-  /* cssModules */
-  null
-)
-Component.options.__file = "C:\\xampp\\htdocs\\laravel\\development\\northern\\resources\\assets\\js\\components\\CollectionForm.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
-if (Component.options.functional) {console.error("[vue-loader] CollectionForm.vue: functional components are not supported with templates, they should use render functions.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5c705a12", Component.options)
-  } else {
-    hotAPI.reload("data-v-5c705a12", Component.options)
-  }
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 85 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "Collection__form"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
-    staticClass: "Collection__inputs"
-  }, [_c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "receipt"
-    }
-  }, [_vm._v("Receipt Number")]), _c('br'), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.inputs.receipt),
-      expression: "inputs.receipt"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "id": "receipt"
-    },
-    domProps: {
-      "value": (_vm.inputs.receipt)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.inputs.receipt = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.inputs.close),
-      expression: "inputs.close"
-    }],
-    attrs: {
-      "type": "checkbox",
-      "id": "close"
-    },
-    domProps: {
-      "checked": _vm.inputs.close,
-      "checked": Array.isArray(_vm.inputs.close) ? _vm._i(_vm.inputs.close, null) > -1 : (_vm.inputs.close)
-    },
-    on: {
-      "__c": function($event) {
-        var $$a = _vm.inputs.close,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$c) {
-            $$i < 0 && (_vm.inputs.close = $$a.concat($$v))
-          } else {
-            $$i > -1 && (_vm.inputs.close = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.inputs.close = $$c
-        }
-      }
-    }
-  }), _c('br'), _vm._v(" "), _c('label', {
-    attrs: {
-      "for": "close"
-    }
-  }, [_vm._v("Auto Close")])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "dateCollection"
-    }
-  }, [_vm._v("Date of collection")]), _c('br'), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.inputs.receipt),
-      expression: "inputs.receipt"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "id": "dateCollection"
-    },
-    domProps: {
-      "value": (_vm.inputs.receipt)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.inputs.receipt = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "staff"
-    }
-  }, [_vm._v("Staff")]), _c('br'), _vm._v(" "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.inputs.staff),
-      expression: "inputs.staff"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "id": "staff"
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.inputs.staff = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "select"
-    }
-  }, [_vm._v("SELECT STAFF")])])]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "amount"
-    }
-  }, [_vm._v("Amount")]), _c('br'), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.inputs.amount),
-      expression: "inputs.amount"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "type": "text",
-      "id": "amount"
-    },
-    domProps: {
-      "value": (_vm.inputs.amount)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.inputs.amount = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
-  }, [_c('label', {
-    attrs: {
-      "for": "payment"
-    }
-  }, [_vm._v("Payment Method")]), _c('br'), _vm._v(" "), _c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.inputs.payment),
-      expression: "inputs.payment"
-    }],
-    staticClass: "form-control",
-    attrs: {
-      "id": "payment"
-    },
-    on: {
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.inputs.payment = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
-    }
-  }, [_c('option', {
-    attrs: {
-      "value": "select"
-    }
-  }, [_vm._v("SELECT PAYMENT")])])]), _vm._v(" "), _vm._m(1)]), _vm._v(" "), _vm._m(2)])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "Collection__title"
-  }, [_c('h2', {
-    staticClass: "text-center"
-  }, [_vm._v("Collection Form")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "form-group"
-  }, [_c('button', {
-    staticClass: "btn btn-info",
-    attrs: {
-      "type": "button"
-    }
-  }, [_vm._v("New")]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-success",
-    attrs: {
-      "type": "button"
-    }
-  }, [_vm._v("Save")]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-danger",
-    attrs: {
-      "type": "button"
-    }
-  }, [_vm._v("Close")])])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "Collection__body"
-  }, [_c('div', {
-    staticClass: "col-xs-4 col-sm-4 col-md-4 col-lg-4"
-  }, [_c('table', {
-    staticClass: "table table-hover"
-  }, [_c('thead', [_c('tr', [_c('th')])]), _vm._v(" "), _c('tbody', [_c('tr', [_c('td')])])])]), _vm._v(" "), _c('div', {
-    staticClass: "col-xs-8 col-sm-8 col-md-8 col-lg-8"
-  }, [_c('table', {
-    staticClass: "table table-hover"
-  }, [_c('thead', [_c('tr', [_c('th')])]), _vm._v(" "), _c('tbody', [_c('tr', [_c('td')])])])])])
-}]}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-5c705a12", module.exports)
-  }
-}
-
-/***/ }),
-/* 86 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = {
-    data: function data() {
-        return {
-            inputs: {
-                close: 'checked',
-                staff: 'select',
-                payment: 'select'
-            }
-        };
-    }
-};
 
 /***/ })
 /******/ ]);

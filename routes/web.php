@@ -1,10 +1,5 @@
 <?php
 
-// tmp
-Route::get('query', function() {
-
-});
-
 Route::get('/', function () {
     return view('welcome');
 })->middleware('guest');
@@ -41,8 +36,18 @@ Route::group(['prefix' => 'purchases'], function() {
 	Route::get('/stLeft/{id}', 'PurchaseController@stLeft');
 });
 
+// CollectionController
 Route::group(['prefix' => 'collections'], function() {
     Route::get('/', 'CollectionController@index');
+    Route::post('/', 'CollectionController@store');
+    Route::get('/receiptList', 'CollectionController@receiptList');
+    Route::get('/collectionLastID', 'CollectionController@collectionLastID');
+    Route::get('/staffList', 'CollectionController@staffList');
+    Route::get('/paymentMethod', 'CollectionController@paymentMethod');
+    Route::get('/receiptTable', 'CollectionController@receiptTable');
+    Route::get('/showTransaction/{receipt}', 'CollectionController@showTransaction');
+    Route::get('/showItems/{receipt}', 'CollectionController@showItems');
+    Route::delete('/receiptItemRemove', 'CollectionController@receiptItemRemove');
 });
 
 
