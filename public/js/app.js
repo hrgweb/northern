@@ -21862,7 +21862,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         receiptItemClick: function receiptItemClick(e) {
-            this.inputs.receipt = parseInt(e.target.parentNode.cells[0].innerHTML, 10);
+            var receipt = parseInt(e.target.parentNode.cells[0].innerHTML, 10);
+            this.inputs.receipt = receipt != undefined || receipt != null ? receipt : 0;
 
             // check if row of receipt is already click
             this.inputs.receipt != this.receiptNoClick && this.showTransaction();
