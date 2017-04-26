@@ -1,22 +1,16 @@
 .Collection__form,
-.Collection__inputs {
-    display: flex;
-    align-items: center;
+.Collection__inputs,
+.Collection__inputs > div {
+	flex-direction: column;
 }
 
 .Collection {
     margin: 5em auto;
-    width: 90%;
-}
-
-.Collection__form {
-    flex-direction: column;
     width: 100%;
 }
 
 .Collection__body {
-    display: block;
-    width: 100%;
+    width: inherit;
     margin-top: 2em;
     font-family: tahoma;
 
@@ -28,7 +22,13 @@
     .col-xs-4 { padding-right: 1em !important; }
 
     #receipt-box {
-    	tr { cursor: pointer; }
+    	tr { 
+    		cursor: pointer; 
+
+    		> td:nth-child(4n+4) {
+			    width: 10%;
+			}
+    	}
     }
 
     #receipt-table {
@@ -59,15 +59,79 @@
 .Collection__inputs {
     width: inherit;
     padding: 1.5em 0 0;
-    flex-direction: row;
     justify-content: center;
 
     & > div {
-        margin-right: 1em;
+        padding: .5em 1em;
+
+        > label { 
+        	width: 100%;
+        	text-transform: uppercase;
+        	text-align: center;
+        }
     }
 
     div:last-child {
         margin-right: 0;
         margin-top: 25px;
     }
+
+    .group-btn > button {
+    	width: 100%;
+	    margin-bottom: 0.5em;
+	    padding: 1em 0
+    }
 }
+
+@media (min-width: 568px) {
+	.Collection__form {
+	}
+
+	.Collection__inputs {
+		width: 90%;
+		margin: 0 auto;
+	}
+
+	.Collection__body {
+		> div { 
+			padding: 0; 
+			margin-bottom: 3em;
+		}
+	}
+}
+
+@media (min-width: 768px) {
+	.Collection__inputs {
+		flex-direction: row;
+	}
+
+	.Collection__body {
+		> div { 
+			padding: 1em; 
+		}
+	}
+}
+
+@media (min-width: 1024px) {
+	.Collection__inputs {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+	}
+
+	.Collection__body {
+		> div { 
+			padding: 0 5.5em;
+		}
+	}
+
+	.group-btn { flex-basis: 100%; }
+}
+
+/* @media (min-width: 1200px) {
+	.Collection__body {
+		> div { 
+			padding: 0 4.5em;; 
+		}
+	}
+} */

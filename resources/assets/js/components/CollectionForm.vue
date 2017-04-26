@@ -7,7 +7,7 @@
 		<div class="Collection__inputs">
 			<!-- Receipt -->
 			<div class="form-group">
-				<label for="receipt">Receipt Number</label><br>
+				<label for="receipt">Receipt Number</label>
 				<input type="text" class="form-control" id="receipt" list="receipts" v-model="inputs.receipt" @keyup.enter="saveCollection">
 				<datalist id="receipts">
 					<option v-for="receipt in receipts" :value="receipt.Receipt">{{ receipt.Receipt }}</option>
@@ -22,13 +22,13 @@
 
 			<!-- Date -->
 			<div class="form-group">
-				<label for="dateCollection">Date of collection</label><br>
+				<label for="dateCollection">Date of collection</label>
 				<input type="text" class="form-control" id="dateCollection" disabled="disabled" v-model="inputs.dateCollection">
 			</div>
 
 			<!-- Staff -->
 			<div class="form-group">
-				<label for="staff">Staff</label><br>
+				<label for="staff">Staff</label>
 				<select class="form-control" id="staff" v-model="inputs.staff">
 					<option value="select">SELECT STAFF</option>
 					<option v-for="staff in staffs" :value="staff.StaffName">{{ staff.StaffName }}</option>
@@ -37,13 +37,13 @@
 
 			<!-- Amount -->
 			<div class="form-group">
-				<label for="amount">Amount</label><br>
+				<label for="amount">Amount</label>
 				<input type="number" class="form-control" id="amount" v-model="inputs.amount" @focus="focusInputText">
 			</div>
 
 			<!-- Payment -->
 			<div class="form-group">
-				<label for="payment">Payment Method</label><br>
+				<label for="payment">Payment Method</label>
 				<select class="form-control" id="payment" v-model="inputs.payment">
 					<option value="select">SELECT PAYMENT</option>
 					<option v-for="payment in payments" :value="payment">{{ payment.PmtMethod }}</option>
@@ -51,7 +51,7 @@
 			</div>
 
 			<!-- Actions -->
-			<div class="form-group">
+			<div class="form-group group-btn">
 				<!-- <button type="button" class="btn btn-info" @click="newCollection">New</button> -->
 				<button type="button" class="btn btn-success" @click="saveCollection">Save</button>
 				<button type="button" class="btn btn-danger" @click="backToHome">Close</button>
@@ -59,7 +59,7 @@
 		</div>
 
 		<div class="Collection__body">
-			<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+			<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 				<table class="table table-bordered table-hover" id="receipt-box">
 					<thead>
 						<tr>
@@ -82,7 +82,7 @@
 				</table>
 			</div>
 
-			<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+			<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
 				<table class="table table-bordered table-hover" id="receipt-table">
 					<thead>
 						<tr>
@@ -280,7 +280,7 @@
         		this.staffID = this.receiptShowBox.StaffID;
         	},
         	auth() {
-            	this.receiptList();
+            	// this.receiptList();
             	this.receiptTable();
         	}
         },

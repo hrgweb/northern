@@ -21693,7 +21693,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.staffID = this.receiptShowBox.StaffID;
         },
         auth: function auth() {
-            this.receiptList();
+            // this.receiptList();
             this.receiptTable();
         }
     },
@@ -47820,7 +47820,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "for": "receipt"
     }
-  }, [_vm._v("Receipt Number")]), _c('br'), _vm._v(" "), _c('input', {
+  }, [_vm._v("Receipt Number")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -47901,7 +47901,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "for": "dateCollection"
     }
-  }, [_vm._v("Date of collection")]), _c('br'), _vm._v(" "), _c('input', {
+  }, [_vm._v("Date of collection")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -47929,7 +47929,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "for": "staff"
     }
-  }, [_vm._v("Staff")]), _c('br'), _vm._v(" "), _c('select', {
+  }, [_vm._v("Staff")]), _vm._v(" "), _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -47967,7 +47967,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "for": "amount"
     }
-  }, [_vm._v("Amount")]), _c('br'), _vm._v(" "), _c('input', {
+  }, [_vm._v("Amount")]), _vm._v(" "), _c('input', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -47998,7 +47998,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "for": "payment"
     }
-  }, [_vm._v("Payment Method")]), _c('br'), _vm._v(" "), _c('select', {
+  }, [_vm._v("Payment Method")]), _vm._v(" "), _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -48031,7 +48031,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v(_vm._s(payment.PmtMethod))])
   })], 2)]), _vm._v(" "), _c('div', {
-    staticClass: "form-group"
+    staticClass: "form-group group-btn"
   }, [_c('button', {
     staticClass: "btn btn-success",
     attrs: {
@@ -48051,7 +48051,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("Close")])])]), _vm._v(" "), _c('div', {
     staticClass: "Collection__body"
   }, [_c('div', {
-    staticClass: "col-xs-4 col-sm-4 col-md-4 col-lg-4"
+    staticClass: "col-xs-12 col-sm-12 col-md-4 col-lg-4"
   }, [_c('table', {
     staticClass: "table table-bordered table-hover",
     attrs: {
@@ -48081,7 +48081,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }, [_vm._v("Delete")])])])
   }))])]), _vm._v(" "), _c('div', {
-    staticClass: "col-xs-8 col-sm-8 col-md-8 col-lg-8"
+    staticClass: "col-xs-12 col-sm-12 col-md-8 col-lg-8"
   }, [_c('table', {
     staticClass: "table table-bordered table-hover",
     attrs: {
