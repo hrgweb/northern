@@ -21693,7 +21693,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             this.staffID = this.receiptShowBox.StaffID;
         },
         auth: function auth() {
-            // this.receiptList();
+            this.receiptList();
             this.receiptTable();
         }
     },

@@ -280,7 +280,7 @@
         		this.staffID = this.receiptShowBox.StaffID;
         	},
         	auth() {
-            	// this.receiptList();
+            	this.receiptList();
             	this.receiptTable();
         	}
         },
