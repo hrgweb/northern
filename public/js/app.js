@@ -21758,6 +21758,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         theme: 'relax', // or relax
                         type: 'error', // success, error, warning, information, notification
                         text: 'Make sure you enter receipt number, select staff and payment method.',
+                        // text: `Make sure you enter receipt number`,
                         timeout: 5000
                     });
                 }
@@ -21778,9 +21779,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this5 = this;
 
             var vm = this;
-
-            this.receiptStatusText = 'receipt';
-            this.receiptNoClick = this.inputs.receipt;
+            var url = '/collections' + this.tableName;
+            var data = {
+                SaleID: this.receiptShowBox.SaleID,
+                ReceiptNo: this.inputs.receipt,
+                StaffID: this.staffID,
+                PmtMethodID: this.inputs.payment.PmtMethodID,
+                PmtAmount: this.inputs.amount,
+                Posted: 0,
+                BranchID: Math.floor(this.receiptShowBox.BranchID),
+                OtherSale: 0
+            };
 
             // notify on saving.
             noty({
@@ -21791,52 +21800,37 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 timeout: 5000
             });
 
-            // show transaction receipt and items
-            this.showTransaction().then(function () {
-                var url = '/collections' + _this5.tableName;
-                var data = {
-                    SaleID: _this5.receiptShowBox.SaleID,
-                    ReceiptNo: _this5.inputs.receipt,
-                    StaffID: _this5.staffID,
-                    PmtMethodID: _this5.inputs.payment.PmtMethodID,
-                    PmtAmount: _this5.inputs.amount,
-                    Posted: 0,
-                    BranchID: Math.floor(_this5.receiptShowBox.BranchID),
-                    OtherSale: 0
-                };
+            // store to collection table
+            axios.post(url, data).then(function (response) {
+                var result = response.data.result;
 
-                // store to collection table
-                axios.post(url, data).then(function (response) {
-                    var result = response.data.result;
+                // is request is returning success response
+                if (response.data.isSuccess) {
+                    // map the result
+                    _this5.receiptBox.push(result.map(function (item) {
+                        return {
+                            SaleID: item.SaleID,
+                            ReceiptNo: item.ReceiptNo,
+                            PmtAmount: numeral(item.PmtAmount.toLocaleString()).format('0,0.00'),
+                            PmtMethod: vm.inputs.payment.PmtMethod
+                        };
+                    }));
 
-                    // is request is returning success response
-                    if (response.data.isSuccess) {
-                        // map the result
-                        _this5.receiptBox.push(result.map(function (item) {
-                            return {
-                                SaleID: item.SaleID,
-                                ReceiptNo: item.ReceiptNo,
-                                PmtAmount: numeral(item.PmtAmount.toLocaleString()).format('0,0.00'),
-                                PmtMethod: vm.inputs.payment.PmtMethod
-                            };
-                        }));
+                    // notify that saving colleciton is success.
+                    noty({
+                        layout: 'bottomLeft',
+                        theme: 'relax', // or relax
+                        type: 'success', // success, error, warning, information, notification
+                        text: '1 record successfully saved.',
+                        timeout: 5000
+                    });
 
-                        // notify that saving colleciton is success.
-                        noty({
-                            layout: 'bottomLeft',
-                            theme: 'relax', // or relax
-                            type: 'success', // success, error, warning, information, notification
-                            text: '1 record successfully saved.',
-                            timeout: 5000
-                        });
+                    // reset fields
+                    _this5.newCollection();
+                }
 
-                        // reset fields
-                        _this5.newCollection();
-                    }
-
-                    // result of the map
-                    _this5.receiptBox = _.flatten(_this5.receiptBox);
-                });
+                // result of the map
+                _this5.receiptBox = _.flatten(_this5.receiptBox);
             });
         },
         showTransaction: function showTransaction() {
@@ -21844,10 +21838,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             var url = '/collections/showTransaction/' + this.inputs.receipt + this.tableName;
 
+            this.receiptStatusText = 'receipt';
+            this.receiptNoClick = this.inputs.receipt;
+
             this.showItems(); // fire items
             return axios.get(url).then(function (response) {
+                var data = _.head(response.data);
+                var parseBalance = parseFloat(data.Balance);
+
+                _this6.receiptShowBox = data;
                 _this6.receiptStatusText = 'result';
-                _this6.receiptShowBox = _.head(response.data);
+
+                // set the the amount base on the left balance
+                _this6.inputs.amount = numeral(parseBalance).format('0,0.00');
             });
         },
         showItems: function showItems() {
@@ -47839,7 +47842,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "keyup": function($event) {
         if (!('button' in $event) && _vm._k($event.keyCode, "enter", 13)) { return null; }
-        _vm.saveCollection($event)
+        _vm.showTransaction($event)
       },
       "input": function($event) {
         if ($event.target.composing) { return; }

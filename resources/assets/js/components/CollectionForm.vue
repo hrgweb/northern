@@ -8,7 +8,7 @@
 			<!-- Receipt -->
 			<div class="form-group">
 				<label for="receipt">Receipt Number</label>
-				<input type="text" class="form-control" id="receipt" list="receipts" v-model="inputs.receipt" @keyup.enter="saveCollection">
+				<input type="text" class="form-control" id="receipt" list="receipts" v-model="inputs.receipt" @keyup.enter="showTransaction">
 				<datalist id="receipts">
 					<option v-for="receipt in receipts" :value="receipt.Receipt">{{ receipt.Receipt }}</option>
 				</datalist>
@@ -335,6 +335,7 @@
 	                        theme: 'relax', // or relax
 	                        type: 'error', // success, error, warning, information, notification
 	                        text: `Make sure you enter receipt number, select staff and payment method.`,
+	                        // text: `Make sure you enter receipt number`,
 	                        timeout: 5000,
 	                    });
 	                }
@@ -349,11 +350,19 @@
             },
             prepareData() {
             	let vm = this;
+            	let url = '/collections' + this.tableName;
+        		const data = {
+        			SaleID: this.receiptShowBox.SaleID,
+        			ReceiptNo: this.inputs.receipt,
+        			StaffID: this.staffID,
+        			PmtMethodID: this.inputs.payment.PmtMethodID,
+        			PmtAmount: this.inputs.amount,
+        			Posted: 0,
+        			BranchID: Math.floor(this.receiptShowBox.BranchID),
+        			OtherSale: 0,
+        		};
 
-            	this.receiptStatusText = 'receipt';
-                this.receiptNoClick = this.inputs.receipt;
-
-                // notify on saving.
+            	// notify on saving.
                 noty({
                 	layout: 'bottomLeft',
                     theme: 'relax', // or relax
@@ -362,61 +371,55 @@
                     timeout: 5000,
                 });
 
-                // show transaction receipt and items
-            	this.showTransaction().then(() => {
-            		let url = '/collections' + this.tableName;
-            		const data = {
-            			SaleID: this.receiptShowBox.SaleID,
-            			ReceiptNo: this.inputs.receipt,
-            			StaffID: this.staffID,
-            			PmtMethodID: this.inputs.payment.PmtMethodID,
-            			PmtAmount: this.inputs.amount,
-            			Posted: 0,
-            			BranchID: Math.floor(this.receiptShowBox.BranchID),
-            			OtherSale: 0,
-            		};
+                // store to collection table
+            	axios.post(url, data).then(response => {
+                	let result = response.data.result;
 
-                    // store to collection table
-	                axios.post(url, data).then(response => {
-	                	let result = response.data.result;
+                	// is request is returning success response
+                	if (response.data.isSuccess) {
+                        // map the result
+                        this.receiptBox.push(result.map(item => {
+                        	return {
+                        		SaleID: item.SaleID,
+                        		ReceiptNo: item.ReceiptNo,
+                        		PmtAmount: numeral(item.PmtAmount.toLocaleString()).format('0,0.00'),
+                        		PmtMethod: vm.inputs.payment.PmtMethod
+                        	}
+                        }));
 
-	                	// is request is returning success response
-	                	if (response.data.isSuccess) {
-	                        // map the result
-	                        this.receiptBox.push(result.map(item => {
-	                        	return {
-	                        		SaleID: item.SaleID,
-	                        		ReceiptNo: item.ReceiptNo,
-	                        		PmtAmount: numeral(item.PmtAmount.toLocaleString()).format('0,0.00'),
-	                        		PmtMethod: vm.inputs.payment.PmtMethod
-	                        	}
-	                        }));
+                        // notify that saving colleciton is success.
+	                    noty({
+	                    	layout: 'bottomLeft',
+	                        theme: 'relax', // or relax
+	                        type: 'success', // success, error, warning, information, notification
+	                        text: `1 record successfully saved.`,
+	                        timeout: 5000,
+	                    });
 
-	                        // notify that saving colleciton is success.
-		                    noty({
-		                    	layout: 'bottomLeft',
-		                        theme: 'relax', // or relax
-		                        type: 'success', // success, error, warning, information, notification
-		                        text: `1 record successfully saved.`,
-		                        timeout: 5000,
-		                    });
+	                    // reset fields
+	                    this.newCollection();
+                	}
 
-		                    // reset fields
-		                    this.newCollection();
-	                	}
-
-	                	// result of the map
-	                    this.receiptBox = _.flatten(this.receiptBox);
-	                });
+                	// result of the map
+                    this.receiptBox = _.flatten(this.receiptBox);
                 });
             },
             showTransaction() {
             	let url = '/collections/showTransaction/' + this.inputs.receipt + this.tableName;
 
+            	this.receiptStatusText = 'receipt';
+                this.receiptNoClick = this.inputs.receipt;
+
                 this.showItems(); // fire items
                 return axios.get(url).then(response => {
-                	this.receiptStatusText = 'result';
-                	this.receiptShowBox = _.head(response.data);
+                	let data = _.head(response.data);
+                	let parseBalance = parseFloat(data.Balance);
+
+                	this.receiptShowBox = data;
+ 					this.receiptStatusText = 'result';
+
+                	// set the the amount base on the left balance
+                	this.inputs.amount = numeral(parseBalance).format('0,0.00');
                 });
             },
             showItems() {

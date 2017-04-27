@@ -32,6 +32,7 @@ class CollectionController extends Controller
         return response()->json([
     		'result' => [request()->only(['SaleID', 'ReceiptNo', 'PmtAmount'])], 
     		'isSuccess' => $result
+    		// 'isSuccess' => true // tmp
         ]);
     }
 
