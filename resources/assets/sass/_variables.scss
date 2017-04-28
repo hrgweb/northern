@@ -1,23 +1,26 @@
-/*=============== Color ===============*/ 
+/*=============== Color ===============*/
+
 $lightGreen: #DFFFDF;
 $light2Green: #DAF7C6;
 $mediumGreen: #c1efab;
-$medium2Green: #c0e8b8;
+$medium2Green: #5CB85C;
 $lightSilver: #7b7676;
-$lightRed: #ea939a;
+$lightSilver2: #4E5D6C;
+$lightRed: #D57B7B;
 $white: #fff;
-$red: #ef2828;
+$red: #D43F3A;
 $red1: #f55e5e;
 $red2: #ff1919;
-
-$bodyBgColor: $lightGreen;
+$lightBlack: #4E5D6C;
+$bodyBgColor: $lightBlack;
 $navBgColor: $mediumGreen;
-$borderColor: $medium2Green;
+$borderColor: $lightBlack;
 $textColor: $lightSilver;
-$elementBgColor: $light2Green;
+$elementBgColor: $lightBlack;
 $inputFocusColor: $lightRed;
 
-/*=============== Size ===============*/ 
+/*=============== Size ===============*/
+
 $loginWidth: 350px;
 $editWidth: 400px;
 $dashboardWidth: 500px;

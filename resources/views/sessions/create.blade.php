@@ -20,7 +20,7 @@
 					<input type="password" name="password" class="form-control" id="password">
 				</div>	
 			
-				<button type="submit" class="btn btn-info">Sign In</button>
+				<button type="submit" class="btn btn-default">SIGN IN</button>
 			</form>
 		</div>
 	</div>

@@ -1,26 +1,39 @@
-body { 
-	background: $bodyBgColor;
-	font-family: 'Roboto', 'sans-serif';
+body {
+    font-family: 'Roboto', 'sans-serif';
 }
-h1, h2, h3, h4, legend, th { color: $textColor; }
-th { font-family: tahoma; }
-label { 
-	color: $textColor;
+
+h1,
+h2,
+h3,
+h4,
+legend,
+th {
+    color: $textColor;
+}
+
+th {
+    font-family: tahoma;
+}
+
+label {
+    color: $textColor;
     font-family: tahoma;
     font-size: 1em;
     font-weight: normal;
 }
 
-.navbar-default { 
-	background: $navBgColor;
-	position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    border-bottom: 1px solid $borderColor;
+.navbar-default {
+    padding: 1em;
+    li {
+        a {
+            font-size: 1.3em;
+            text-transform: uppercase;
+        }
+    }
 }
 
 .alert-danger {
+    background: $red;
     padding-left: 2em;
 }
 
@@ -29,13 +42,15 @@ label {
     width: $loginWidth;
     max-width: $loginWidth;
     margin: 10em auto;
-    border: 1px solid $borderColor;
-
+    h2,
+    label {
+        color: $white;
+    }
     h2 {
-        background: $navBgColor;
         padding: 0.7em 0.5em 0.4em;
         margin: 0;
     }
-
-    form { padding: 1em; }
+    form {
+        padding: 1em;
+    }
 }
