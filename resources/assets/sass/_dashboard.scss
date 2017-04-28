@@ -1,7 +1,15 @@
+.center-homepage {
+    margin-top: 8em;
+    color: $white;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 2.5em;
+}
+
 .dashboard,
 .dashboard__actions {
-	display: flex;
-	flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .dashboard {
@@ -15,8 +23,8 @@
 }
 
 .dashboard__logo {
-	background: $navBgColor;
-	padding: 0;
+    background: $navBgColor;
+    padding: 0;
     margin-bottom: 2em;
     text-transform: uppercase;
     border-bottom: 1px solid $borderColor;
@@ -26,19 +34,22 @@
     padding: 1em 2em 0;
     align-items: center;
     justify-content: center;
-
-	> a {
-	    margin-bottom: 1em;
-	    padding: 3.5em 1em;
-	    width: 100%;
-	    text-align: center;
-	}
+    >a {
+        margin-bottom: 1em;
+        padding: 3.5em 1em;
+        width: 100%;
+        text-align: center;
+    }
 }
 
 @media screen and (min-width: 768px) {
-    .dashboard { width: 70%; }
+    .dashboard {
+        width: 70%;
+    }
 }
 
 @media screen and (min-width: 992px) {
-    .dashboard { width: 50%; }
+    .dashboard {
+        width: 50%;
+    }
 }
