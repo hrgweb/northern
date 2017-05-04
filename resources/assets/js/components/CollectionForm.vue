@@ -283,8 +283,10 @@
 				collection: {
 					'CollectionPaidDate': null,
 					'SubAmount': '',
-					'PaymentMethod': null
-				}
+					'PaymentMethod': null,
+					'RemainingBalance': null
+				},
+				isCollected: false,
 			}
 		},
 		mounted() {
@@ -307,9 +309,10 @@
         	},
         	remainingBalance() {
         		return (
-        				this.receiptShowBox.RemainingBalance == null || 
-        				this.receiptShowBox.RemainingBalance == undefined
-        				) ? this.receiptShowBox.Balance : this.receiptShowBox.RemainingBalance
+        				this.collection.RemainingBalance == null || 
+        				this.collection.RemainingBalance == undefined ||
+        				this.collection.RemainingBalance == ''
+        				) ? this.receiptShowBox.Balance : this.collection.RemainingBalance;
         	},
         	paidBy() {
         		return (
@@ -356,23 +359,35 @@
             saveCollection() {
             	let isEmptyReceipt = (document.querySelector('input#receipt').value.length > 0) ? false : true;
 
-            	// make sure user input receipt #, choose staff and payment to pass the validation
-                if (isEmptyReceipt === false && 
-                	this.inputs.staff != 'select' &&
-                	this.inputs.payment != 'select'
-                	/*this.inputs.amount > parseInt(0, 10)*/) {
-                    this.prepareData();     // post data
-            	} else {
-                    // notify that validation fails.
+            	// check if balance is paid
+            	if (this.isReceiptPaid()) {
+					// notify that receipt is paid.
                     noty({
                     	layout: 'bottomLeft',
                         theme: 'relax', // or relax
                         type: 'error', // success, error, warning, information, notification
-                        text: `Make sure you enter receipt number, select staff and payment method.`,
-                        // text: `Make sure you enter receipt number`,
+                        text: 'This receipt is already paid.',
                         timeout: 5000,
                     });
-                }
+            	} else {
+            		// make sure user input receipt #, choose staff and payment to pass the validation
+	                if (isEmptyReceipt === false && 
+	                	this.inputs.staff != 'select' &&
+	                	this.inputs.payment != 'select'
+	                	/*this.inputs.amount > parseInt(0, 10)*/) {
+	                    this.prepareData();     // post data
+	            	} else {
+	                    // notify that validation fails.
+	                    noty({
+	                    	layout: 'bottomLeft',
+	                        theme: 'relax', // or relax
+	                        type: 'error', // success, error, warning, information, notification
+	                        text: `Make sure you enter receipt number, select staff and payment method.`,
+	                        // text: `Make sure you enter receipt number`,
+	                        timeout: 5000,
+	                    });
+	                }
+            	}
             },
             backToHome() {
             	window.location.href = '/home';
@@ -395,7 +410,8 @@
         			BranchID: Math.floor(this.receiptShowBox.BranchID),
         			OtherSale: 0,
         			// for update
-        			Balance: parseFloat(this.receiptShowBox.Balance) - parseFloat(this.inputs.amount)
+        			// Balance: parseFloat(this.receiptShowBox.Balance) - parseFloat(this.inputs.amount)
+        			Balance: this.mainBalance()
         		};
 
             	// notify on saving.
@@ -413,8 +429,14 @@
 
                 	// is request is returning success response
                 	if (response.data.isInserted && response.data.isUpdated) {
-		            	// update the balance
-		            	this.receiptShowBox.RemainingBalance = numeral(data.Balance.toLocaleString()).format('0,0.00');
+        				// set collection object & update the balance
+		        		this.collection.CollectionPaidDate = this.inputs.dateCollection;
+		        		this.collection.PaymentMethod = this.inputs.payment.PmtMethod;
+		        		this.collection.SubAmount = this.inputs.amount;
+		            	this.collection.RemainingBalance = numeral(data.Balance.toLocaleString()).format('0,0.00');
+
+		            	// that means collection is collected
+		            	this.isCollected = true;
 
                         // map the result
                         this.receiptBox.push(result.map(item => {
@@ -501,10 +523,18 @@
             		}
             	});
             },
-            isReceiptKeyedAlready() {
-            	let result = this.receiptBox.filter(item => item.ReceiptNo == this.inputs.receipt);
+            mainBalance() {
+				let result = 0;
 
-            	return result.length;
+            	if (this.isCollected)
+            		result = parseFloat(this.collection.RemainingBalance) - parseFloat(this.inputs.amount)
+            	else 
+            		result = parseFloat(this.receiptShowBox.Balance) - parseFloat(this.inputs.amount)
+
+            	return result;
+            },
+            isReceiptPaid() {
+            	return (this.mainBalance() < 0) ? true : false;
             }
         }
     }

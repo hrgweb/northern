@@ -47,6 +47,7 @@ Route::group(['prefix' => 'collections'], function() {
     Route::get('/receiptTable', 'CollectionController@receiptTable');
     Route::get('/showTransaction/{receipt}', 'CollectionController@showTransaction');
     Route::get('/showItems/{receipt}', 'CollectionController@showItems');
+    Route::get('/isReceiptPaid/{receipt}', 'CollectionController@isReceiptPaid');
     Route::delete('/receiptItemRemove', 'CollectionController@receiptItemRemove');
 });
 

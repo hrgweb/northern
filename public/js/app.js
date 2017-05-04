@@ -21695,8 +21695,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             collection: {
                 'CollectionPaidDate': null,
                 'SubAmount': '',
-                'PaymentMethod': null
-            }
+                'PaymentMethod': null,
+                'RemainingBalance': null
+            },
+            isCollected: false
         };
     },
     mounted: function mounted() {
@@ -21716,7 +21718,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.collection.CollectionPaidDate != null || this.collection.CollectionPaidDate != undefined ? this.collection.CollectionPaidDate : '';
         },
         remainingBalance: function remainingBalance() {
-            return this.receiptShowBox.RemainingBalance == null || this.receiptShowBox.RemainingBalance == undefined ? this.receiptShowBox.Balance : this.receiptShowBox.RemainingBalance;
+            return this.collection.RemainingBalance == null || this.collection.RemainingBalance == undefined || this.collection.RemainingBalance == '' ? this.receiptShowBox.Balance : this.collection.RemainingBalance;
         },
         paidBy: function paidBy() {
             return this.collection.PaymentMethod != null || this.collection.PaymentMethod != undefined ? '<<< Paid by ' + this.collection.PaymentMethod : '';
@@ -21772,20 +21774,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         saveCollection: function saveCollection() {
             var isEmptyReceipt = document.querySelector('input#receipt').value.length > 0 ? false : true;
 
-            // make sure user input receipt #, choose staff and payment to pass the validation
-            if (isEmptyReceipt === false && this.inputs.staff != 'select' && this.inputs.payment != 'select'
-            /*this.inputs.amount > parseInt(0, 10)*/) {
-                    this.prepareData(); // post data
-                } else {
-                // notify that validation fails.
+            // check if balance is paid
+            if (this.isReceiptPaid()) {
+                // notify that receipt is paid.
                 noty({
                     layout: 'bottomLeft',
                     theme: 'relax', // or relax
                     type: 'error', // success, error, warning, information, notification
-                    text: 'Make sure you enter receipt number, select staff and payment method.',
-                    // text: `Make sure you enter receipt number`,
+                    text: 'This receipt is already paid.',
                     timeout: 5000
                 });
+            } else {
+                // make sure user input receipt #, choose staff and payment to pass the validation
+                if (isEmptyReceipt === false && this.inputs.staff != 'select' && this.inputs.payment != 'select'
+                /*this.inputs.amount > parseInt(0, 10)*/) {
+                        this.prepareData(); // post data
+                    } else {
+                    // notify that validation fails.
+                    noty({
+                        layout: 'bottomLeft',
+                        theme: 'relax', // or relax
+                        type: 'error', // success, error, warning, information, notification
+                        text: 'Make sure you enter receipt number, select staff and payment method.',
+                        // text: `Make sure you enter receipt number`,
+                        timeout: 5000
+                    });
+                }
             }
         },
         backToHome: function backToHome() {
@@ -21815,7 +21829,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 BranchID: Math.floor(this.receiptShowBox.BranchID),
                 OtherSale: 0,
                 // for update
-                Balance: parseFloat(this.receiptShowBox.Balance) - parseFloat(this.inputs.amount)
+                // Balance: parseFloat(this.receiptShowBox.Balance) - parseFloat(this.inputs.amount)
+                Balance: this.mainBalance()
             };
 
             // notify on saving.
@@ -21833,8 +21848,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 // is request is returning success response
                 if (response.data.isInserted && response.data.isUpdated) {
-                    // update the balance
-                    _this5.receiptShowBox.RemainingBalance = numeral(data.Balance.toLocaleString()).format('0,0.00');
+                    // set collection object & update the balance
+                    _this5.collection.CollectionPaidDate = _this5.inputs.dateCollection;
+                    _this5.collection.PaymentMethod = _this5.inputs.payment.PmtMethod;
+                    _this5.collection.SubAmount = _this5.inputs.amount;
+                    _this5.collection.RemainingBalance = numeral(data.Balance.toLocaleString()).format('0,0.00');
+
+                    // that means collection is collected
+                    _this5.isCollected = true;
 
                     // map the result
                     _this5.receiptBox.push(result.map(function (item) {
@@ -21927,14 +21948,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         },
-        isReceiptKeyedAlready: function isReceiptKeyedAlready() {
-            var _this9 = this;
+        mainBalance: function mainBalance() {
+            var result = 0;
 
-            var result = this.receiptBox.filter(function (item) {
-                return item.ReceiptNo == _this9.inputs.receipt;
-            });
+            if (this.isCollected) result = parseFloat(this.collection.RemainingBalance) - parseFloat(this.inputs.amount);else result = parseFloat(this.receiptShowBox.Balance) - parseFloat(this.inputs.amount);
 
-            return result.length;
+            return result;
+        },
+        isReceiptPaid: function isReceiptPaid() {
+            return this.mainBalance() < 0 ? true : false;
         }
     }
 };
