@@ -21648,6 +21648,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
     props: ['date', 'auth'],
@@ -21671,6 +21691,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 staff: 'select',
                 amount: 0,
                 payment: 'select'
+            },
+            collection: {
+                'CollectionPaidDate': null,
+                'SubAmount': '',
+                'PaymentMethod': null
             }
         };
     },
@@ -21686,6 +21711,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     computed: {
         tableName: function tableName() {
             return '?table=' + this.auth.AllowedtblCustomer;
+        },
+        collectedPaidDate: function collectedPaidDate() {
+            return this.collection.CollectionPaidDate != null || this.collection.CollectionPaidDate != undefined ? this.collection.CollectionPaidDate : '';
+        },
+        remainingBalance: function remainingBalance() {
+            return this.receiptShowBox.RemainingBalance == null || this.receiptShowBox.RemainingBalance == undefined ? this.receiptShowBox.Balance : this.receiptShowBox.RemainingBalance;
+        },
+        paidBy: function paidBy() {
+            return this.collection.PaymentMethod != null || this.collection.PaymentMethod != undefined ? '<<< Paid by ' + this.collection.PaymentMethod : '';
         }
     },
     watch: {
@@ -21736,32 +21770,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             };
         },
         saveCollection: function saveCollection() {
-            // check if rececipt # is already keyed
-            if (this.isReceiptKeyedAlready() > 0) {
-                // notify that receipt already keyed.
+            var isEmptyReceipt = document.querySelector('input#receipt').value.length > 0 ? false : true;
+
+            // make sure user input receipt #, choose staff and payment to pass the validation
+            if (isEmptyReceipt === false && this.inputs.staff != 'select' && this.inputs.payment != 'select'
+            /*this.inputs.amount > parseInt(0, 10)*/) {
+                    this.prepareData(); // post data
+                } else {
+                // notify that validation fails.
                 noty({
                     layout: 'bottomLeft',
                     theme: 'relax', // or relax
                     type: 'error', // success, error, warning, information, notification
-                    text: 'This receipt is already on the list.',
+                    text: 'Make sure you enter receipt number, select staff and payment method.',
+                    // text: `Make sure you enter receipt number`,
                     timeout: 5000
                 });
-            } else {
-                // make sure user input receipt #, choose staff and payment to pass the validation
-                if (this.inputs.receipt.length > 0 && this.inputs.staff != 'select' && this.inputs.payment != 'select'
-                /*this.inputs.amount > parseInt(0, 10)*/) {
-                        this.prepareData(); // post data
-                    } else {
-                    // notify that validation fails.
-                    noty({
-                        layout: 'bottomLeft',
-                        theme: 'relax', // or relax
-                        type: 'error', // success, error, warning, information, notification
-                        text: 'Make sure you enter receipt number, select staff and payment method.',
-                        // text: `Make sure you enter receipt number`,
-                        timeout: 5000
-                    });
-                }
             }
         },
         backToHome: function backToHome() {
@@ -21781,6 +21805,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var vm = this;
             var url = '/collections' + this.tableName;
             var data = {
+                // for insert
                 SaleID: this.receiptShowBox.SaleID,
                 ReceiptNo: this.inputs.receipt,
                 StaffID: this.staffID,
@@ -21788,7 +21813,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 PmtAmount: this.inputs.amount,
                 Posted: 0,
                 BranchID: Math.floor(this.receiptShowBox.BranchID),
-                OtherSale: 0
+                OtherSale: 0,
+                // for update
+                Balance: parseFloat(this.receiptShowBox.Balance) - parseFloat(this.inputs.amount)
             };
 
             // notify on saving.
@@ -21805,7 +21832,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 var result = response.data.result;
 
                 // is request is returning success response
-                if (response.data.isSuccess) {
+                if (response.data.isInserted && response.data.isUpdated) {
+                    // update the balance
+                    _this5.receiptShowBox.RemainingBalance = numeral(data.Balance.toLocaleString()).format('0,0.00');
+
                     // map the result
                     _this5.receiptBox.push(result.map(function (item) {
                         return {
@@ -21827,10 +21857,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                     // reset fields
                     _this5.newCollection();
-                }
 
-                // result of the map
-                _this5.receiptBox = _.flatten(_this5.receiptBox);
+                    // result of the map
+                    _this5.receiptBox = _.flatten(_this5.receiptBox);
+                }
             });
         },
         showTransaction: function showTransaction() {
@@ -21864,9 +21894,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this7.items = response.data;
             });
         },
-        receiptItemClick: function receiptItemClick(e) {
+        receiptItemClick: function receiptItemClick(list, e) {
             var receipt = parseInt(e.target.parentNode.cells[0].innerHTML, 10);
             this.inputs.receipt = receipt != undefined || receipt != null ? receipt : 0;
+            this.collection.CollectionPaidDate = list.CollectDate;
+            this.collection.SubAmount = list.PmtAmount;
+            this.collection.PaymentMethod = list.PmtMethod;
 
             // check if row of receipt is already click
             this.inputs.receipt != this.receiptNoClick && this.showTransaction();
@@ -48065,7 +48098,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       on: {
         "click": function($event) {
           $event.stopPropagation();
-          _vm.receiptItemClick($event)
+          _vm.receiptItemClick(list, $event)
         }
       }
     }, [_c('td', [_vm._v(_vm._s(list.ReceiptNo))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(list.PmtAmount))]), _vm._v(" "), _c('td', [_vm._v(_vm._s(list.PmtMethod))]), _vm._v(" "), _c('td', {
@@ -48095,7 +48128,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "colspan": "6"
     }
-  }, [_vm._v("FETCHING TRANSACTION")])])]) : _c('tbody', [_c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Sale ID")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.SaleID))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Receipt No")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.ReceiptNo))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Customer")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.FirstName) + "\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.Surname) + "\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Address")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.Block) + "\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.Unit) + "\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.Building) + "\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.Street) + "\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.PostCode) + "\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("D.O.B")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.DOB))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Phone No")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.HandPhone))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Sale Date")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.SaleDate))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Sale Time")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.SaleTime))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Collection Date")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.CollectDate))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Staff")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.StaffName))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Tray No")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.TrayNo))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Sale Amount")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.Subtotal))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Deposit")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.Deposit))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Balance")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.Balance))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), (_vm.receiptStatusText === 'receipt') ? _c('tr', [_c('td', {
+  }, [_vm._v("FETCHING TRANSACTION")])])]) : _c('tbody', [_c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Sale ID")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.SaleID))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Receipt No")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.ReceiptNo))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Customer")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.FirstName) + "\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.Surname) + "\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Address")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v("\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.Block) + "\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.Unit) + "\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.Building) + "\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.Street) + "\n\t\t\t\t\t\t\t\t" + _vm._s(_vm.receiptShowBox.PostCode) + "\n\t\t\t\t\t\t\t")])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("D.O.B")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.DOB))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Phone No")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.HandPhone))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Sale Date")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.SaleDate))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Sale Time")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.SaleTime))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Collection Date")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.CollectDate))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Staff")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.StaffName))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Tray No")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.TrayNo))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Sale Amount")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.Subtotal))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Deposit")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.Deposit))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("Balance")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.receiptShowBox.Balance))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("   Sub-deposit")]), _vm._v(" "), _c('em', [_vm._v(_vm._s(_vm.collectedPaidDate))])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.collection.SubAmount))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), _c('tr', [_c('td'), _c('td'), _vm._v(" "), _c('td', [_c('span', [_vm._v("   Remaining Balance")])]), _vm._v(" "), _c('td', [_c('b', [_vm._v(_vm._s(_vm.remainingBalance))]), _vm._v("    \n\t\t\t\t\t\t\t"), _c('em', [_vm._v(_vm._s(_vm.paidBy))])]), _vm._v(" "), _c('td'), _c('td')]), _vm._v(" "), (_vm.receiptStatusText === 'receipt') ? _c('tr', [_c('td', {
     staticClass: "empty",
     attrs: {
       "colspan": "6"

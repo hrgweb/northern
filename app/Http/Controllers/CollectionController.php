@@ -20,19 +20,24 @@ class CollectionController extends Controller
     public function store(Request $request)
     {
     	$table = $this->storePrefix('tblCollection');
+    	$sales = $this->storePrefix('tblSales');
 
     	$request['CollectID'] = $this->collectionLastID();
         $request['CollectDate'] = date('Y-m-d');
         $request['CollectTime'] = date('Y-m-d H:i:s');
-        $data = request()->except('table');
+        $data = request()->all();
+
+        // update the balance from tblSales
+        $updated = DB::table($sales)->where('ReceiptNo', $data['ReceiptNo'])->update(['Balance' => $data['Balance']]);
 
         // post to db
-        $result = DB::table($table)->insert($data);
+        $inserted = DB::table($table)->insert(request()->except('table', 'Balance'));
 
         return response()->json([
     		'result' => [request()->only(['SaleID', 'ReceiptNo', 'PmtAmount'])], 
-    		'isSuccess' => $result
-    		// 'isSuccess' => true // tmp
+    		// 'isSuccess' => true // tmp,
+    		'isInserted' => $inserted,
+    		'isUpdated' => $updated
         ]);
     }
 
@@ -75,7 +80,7 @@ class CollectionController extends Controller
     	$settlement = $this->storePrefix('tblSettlement');
 
         return DB::select(DB::raw("
-            SELECT tblCollection.ReceiptNo, tblCollection.SaleID,
+            SELECT tblCollection.ReceiptNo, tblCollection.SaleID, CONVERT(DATE, CollectDate) AS CollectDate,
             -- SELECT tblCollection.CollectID, tblCollection.SaleID, tblCollection.ReceiptNo, tblCollection.CollectDate, 
             	CONVERT(VARCHAR, CAST(tblCollection.PmtAmount AS MONEY),1) PmtAmount,
                 tblPmtMethod.PmtMethod
@@ -110,7 +115,8 @@ class CollectionController extends Controller
                 staff.StaffID, StaffName, TrayNo, PmtMethod,
                 CONVERT(VARCHAR, CAST(Subtotal as MONEY),1) Subtotal, 
                 CONVERT(VARCHAR, CAST(Deposit as MONEY),1) Deposit, 
-                CONVERT(VARCHAR, CAST(Balance as MONEY),1) Balance
+                CONVERT(VARCHAR, CAST(Balance as MONEY),1) Balance--,
+                --CONVERT(DATE, CollectDate) GetOnlyDateFromCollectionDate
             FROM $sales AS sales
                 JOIN $customer AS customer
             ON customer.CustID = sales.CustID
@@ -163,7 +169,7 @@ class CollectionController extends Controller
     	array_add(request(), 'collectdate', date('Y-m-d'));
 
     	// remove data
-    	$result = DB::table($table)->whereRaw('SaleID=? AND ReceiptNo=? AND CollectDate=?', [$saleid, $receipt, request('collectdate')])->delete();
+    	// $result = DB::table($table)->whereRaw('SaleID=? AND ReceiptNo=? AND CollectDate=?', [$saleid, $receipt, request('collectdate')])->delete();
 
         return response()->json(['isSuccess' => $result]);
 

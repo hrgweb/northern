@@ -70,7 +70,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="(list, index) in receiptBox" @click.stop="receiptItemClick">
+						<tr v-for="(list, index) in receiptBox" @click.stop="receiptItemClick(list, $event)">
 							<td>{{ list.ReceiptNo }}</td>
 							<td>{{ list.PmtAmount }}</td>
 							<td>{{ list.PmtMethod }}</td>
@@ -217,6 +217,26 @@
 							<td></td><td></td>
 						</tr>
 
+						<tr>
+							<td></td><td></td>
+							<td>
+								<span>&nbsp;&nbsp; Sub-deposit</span>
+								<em>{{ collectedPaidDate }}</em>
+							</td>
+							<td><b>{{ collection.SubAmount }}</b></td>
+							<td></td><td></td>
+						</tr>
+
+						<tr>
+							<td></td><td></td>
+							<td><span>&nbsp;&nbsp; Remaining Balance</span></td>
+							<td>
+								<b>{{ remainingBalance }}</b> &nbsp;&nbsp; 
+								<em>{{ paidBy }}</em>
+							</td>
+							<td></td><td></td>
+						</tr>
+
 						<!-- show items -->
 						<tr v-if="receiptStatusText === 'receipt'">
 							<td colspan="6" class="empty">{{ itemMsg }}</td>
@@ -260,6 +280,11 @@
 					amount: 0,
 					payment: 'select'
 				},
+				collection: {
+					'CollectionPaidDate': null,
+					'SubAmount': '',
+					'PaymentMethod': null
+				}
 			}
 		},
 		mounted() {
@@ -273,6 +298,24 @@
         computed: {
         	tableName() {
        			return '?table=' + this.auth.AllowedtblCustomer;
+        	},
+        	collectedPaidDate() {
+        		return (
+        				this.collection.CollectionPaidDate != null || 
+        				this.collection.CollectionPaidDate != undefined
+        				) ? this.collection.CollectionPaidDate : '';
+        	},
+        	remainingBalance() {
+        		return (
+        				this.receiptShowBox.RemainingBalance == null || 
+        				this.receiptShowBox.RemainingBalance == undefined
+        				) ? this.receiptShowBox.Balance : this.receiptShowBox.RemainingBalance
+        	},
+        	paidBy() {
+        		return (
+						this.collection.PaymentMethod != null || 
+        				this.collection.PaymentMethod != undefined
+        				) ? '<<< Paid by ' + this.collection.PaymentMethod : '';
         	}
         },
         watch: {
@@ -311,35 +354,25 @@
             	};
             },
             saveCollection() {
-            	// check if rececipt # is already keyed
-            	if (this.isReceiptKeyedAlready() > 0) {
-            		// notify that receipt already keyed.
+            	let isEmptyReceipt = (document.querySelector('input#receipt').value.length > 0) ? false : true;
+
+            	// make sure user input receipt #, choose staff and payment to pass the validation
+                if (isEmptyReceipt === false && 
+                	this.inputs.staff != 'select' &&
+                	this.inputs.payment != 'select'
+                	/*this.inputs.amount > parseInt(0, 10)*/) {
+                    this.prepareData();     // post data
+            	} else {
+                    // notify that validation fails.
                     noty({
                     	layout: 'bottomLeft',
                         theme: 'relax', // or relax
                         type: 'error', // success, error, warning, information, notification
-                        text: 'This receipt is already on the list.',
+                        text: `Make sure you enter receipt number, select staff and payment method.`,
+                        // text: `Make sure you enter receipt number`,
                         timeout: 5000,
                     });
-            	} else {
-	                // make sure user input receipt #, choose staff and payment to pass the validation
-	                if (this.inputs.receipt.length > 0 && 
-	                	this.inputs.staff != 'select' &&
-	                	this.inputs.payment != 'select'
-	                	/*this.inputs.amount > parseInt(0, 10)*/) {
-	                    this.prepareData();     // post data
-	            	} else {
-	                    // notify that validation fails.
-	                    noty({
-	                    	layout: 'bottomLeft',
-	                        theme: 'relax', // or relax
-	                        type: 'error', // success, error, warning, information, notification
-	                        text: `Make sure you enter receipt number, select staff and payment method.`,
-	                        // text: `Make sure you enter receipt number`,
-	                        timeout: 5000,
-	                    });
-	                }
-            	}
+                }
             },
             backToHome() {
             	window.location.href = '/home';
@@ -352,6 +385,7 @@
             	let vm = this;
             	let url = '/collections' + this.tableName;
         		const data = {
+        			// for insert
         			SaleID: this.receiptShowBox.SaleID,
         			ReceiptNo: this.inputs.receipt,
         			StaffID: this.staffID,
@@ -360,6 +394,8 @@
         			Posted: 0,
         			BranchID: Math.floor(this.receiptShowBox.BranchID),
         			OtherSale: 0,
+        			// for update
+        			Balance: parseFloat(this.receiptShowBox.Balance) - parseFloat(this.inputs.amount)
         		};
 
             	// notify on saving.
@@ -376,7 +412,10 @@
                 	let result = response.data.result;
 
                 	// is request is returning success response
-                	if (response.data.isSuccess) {
+                	if (response.data.isInserted && response.data.isUpdated) {
+		            	// update the balance
+		            	this.receiptShowBox.RemainingBalance = numeral(data.Balance.toLocaleString()).format('0,0.00');
+
                         // map the result
                         this.receiptBox.push(result.map(item => {
                         	return {
@@ -398,10 +437,10 @@
 
 	                    // reset fields
 	                    this.newCollection();
-                	}
 
-                	// result of the map
-                    this.receiptBox = _.flatten(this.receiptBox);
+	                    // result of the map
+                    	this.receiptBox = _.flatten(this.receiptBox);
+                	}
                 });
             },
             showTransaction() {
@@ -431,9 +470,12 @@
             		this.items = response.data;
             	});
             },
-            receiptItemClick(e) {
+            receiptItemClick(list, e) {
             	let receipt = parseInt(e.target.parentNode.cells[0].innerHTML, 10);
             	this.inputs.receipt = (receipt != undefined || receipt != null) ? receipt : 0;
+            	this.collection.CollectionPaidDate = list.CollectDate;
+            	this.collection.SubAmount = list.PmtAmount;
+            	this.collection.PaymentMethod = list.PmtMethod;
 
             	// check if row of receipt is already click
             	this.inputs.receipt != this.receiptNoClick && this.showTransaction();

@@ -1,3 +1,17 @@
+h1,
+h2,
+h3,
+label,
+th,
+td {
+	font-size: 1.1em;
+	color: $white !important;
+}
+
+.table-bordered>thead>tr>th, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>tbody>tr>td, .table-bordered>tfoot>tr>td {
+    border: 1px solid #505050;
+}
+
 .Collection__form,
 .Collection__inputs,
 .Collection__inputs > div {
@@ -37,7 +51,7 @@
         tbody b,
         .empty {
             font-size: 1.1em;
-            color: #6d6c6c !important;
+            color: $white;
         }
 
         .empty {
