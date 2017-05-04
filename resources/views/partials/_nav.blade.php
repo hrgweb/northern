@@ -7,7 +7,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">NORTHERN</a>
+      <a class="navbar-brand" href="{{ url('/') }}">NORTHERN</a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -20,23 +20,20 @@
               <li><a href="#">{{ $user->username }}</a></li>
               <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                      {{ Auth::user()->name }} <span class="caret"></span>
+                      {{ Auth::user()->name }}
                   </a>
-
-                  <ul class="dropdown-menu" role="menu">
-                      <li>
-                          <a href="{{ url('logout') }}"
-                              {{-- onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();" --}}>
-                              Logout
-                          </a>
-
-                          {{-- <form id="logout-form" action="#" method="POST" style="display: none;">
-                              {{ csrf_field() }}
-                          </form> --}}
-                      </li>
-                  </ul>
               </li>
+              <li>
+                <a href="{{ url('logout') }}"
+                    {{-- onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();" --}}>
+                    Logout
+                </a>
+
+                {{-- <form id="logout-form" action="#" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form> --}}
+            </li>
           @endif
       </ul>
     </div>
