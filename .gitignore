@@ -5,7 +5,6 @@
 /storage/*.key
 /vendor
 /.idea
-/public/css/app.css
 Homestead.json
 Homestead.yaml
 .env
