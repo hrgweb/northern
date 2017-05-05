@@ -3,7 +3,7 @@ select > option[value] {
 	text-transform: uppercase;
 }
 
-.customer, .customer-create { margin-top: 6em !important; }
+.customer, .customer-create { margin-top: 0 !important; }
 
 .customer { color: #545353; }
 
@@ -20,11 +20,11 @@ select > option[value] {
 	margin-bottom: 5em;
 
 	table > tbody > tr:nth-child(odd) {
-	    background: #DFF0D8;
+	    background: #404040;
 	}
 
 	table > tbody > tr:nth-child(even) {
-	    background: #D9EDF7;
+	    background: #656565;
 	}
 
 	table > thead > tr > th:last-child {
@@ -76,9 +76,12 @@ select > option[value] {
     width: 790px;
     max-width: 790px;
     background: $elementBgColor;
+    color: $white;
     padding: 0.7em 1em .5em;
     margin: 0 auto 3em;
     border: 1px solid $borderColor;
+
+    legend { color: $white; }
 
     h3 {
 		font-size: 1.3em;
