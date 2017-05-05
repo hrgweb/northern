@@ -75,7 +75,14 @@
 							<td>{{ list.PmtAmount }}</td>
 							<td>{{ list.PmtMethod }}</td>
 							<td class="text-center">
-								<button type="button" class="btn btn-warning" @click.stop.self="receiptItemRemove(list, index)">Delete</button>
+								<button 
+									type="button" 
+									class="btn btn-warning" 
+									@click.stop.self="receiptItemRemove(list, index)"
+									:disabled="isDeleteButtonEnable"
+								>
+									Delete
+								</button>
 							</td>
 						</tr>
 					</tbody>
@@ -231,7 +238,7 @@
 							<td></td><td></td>
 							<td><span>&nbsp;&nbsp; Remaining Balance</span></td>
 							<td>
-								<b>{{ remainingBalance }}</b> &nbsp;&nbsp; 
+								<b style="font-size: 1.7em; color: #f55e5e;">{{ remainingBalance }}</b> &nbsp;&nbsp;
 								<em>{{ paidBy }}</em>
 							</td>
 							<td></td><td></td>
@@ -287,6 +294,7 @@
 					'RemainingBalance': null
 				},
 				isCollected: false,
+				isDeleteButtonEnable: false,
 			}
 		},
 		mounted() {
@@ -432,7 +440,7 @@
         				// set collection object & update the balance
 		        		this.collection.CollectionPaidDate = this.inputs.dateCollection;
 		        		this.collection.PaymentMethod = this.inputs.payment.PmtMethod;
-		        		this.collection.SubAmount = this.inputs.amount;
+		        		this.collection.SubAmount = numeral(this.inputs.amount.toLocaleString()).format('0,0.00');
 		            	this.collection.RemainingBalance = numeral(data.Balance.toLocaleString()).format('0,0.00');
 
 		            	// that means collection is collected
@@ -441,6 +449,7 @@
                         // map the result
                         this.receiptBox.push(result.map(item => {
                         	return {
+                        		CollectId: response.data.CollectId,
                         		SaleID: item.SaleID,
                         		ReceiptNo: item.ReceiptNo,
                         		PmtAmount: numeral(item.PmtAmount.toLocaleString()).format('0,0.00'),
@@ -478,6 +487,7 @@
 
                 	this.receiptShowBox = data;
  					this.receiptStatusText = 'result';
+ 					this.isDeleteButtonEnable = false;
 
                 	// set the the amount base on the left balance
                 	this.inputs.amount = numeral(parseBalance).format('0,0.00');
@@ -500,28 +510,68 @@
             	this.collection.PaymentMethod = list.PmtMethod;
 
             	// check if row of receipt is already click
-            	this.inputs.receipt != this.receiptNoClick && this.showTransaction();
+            	if (this.inputs.receipt != this.receiptNoClick) {
+            		this.showTransaction();
+ 					this.isDeleteButtonEnable = true;
+            	}
 
             	this.receiptNoClick = this.inputs.receipt;
             },
             receiptItemRemove(args, index) {
-            	let url = '/collections/receiptItemRemove' + this.tableName + '&receipt=' + args.ReceiptNo + '&saleid=' + args.SaleID;
+            	this.inputs.receipt = document.querySelector('input#receipt').value;
 
-            	axios.delete(url).then(response => {
-            		// check if response is success
-            		if (response.data.isSuccess) {
-            			this.receiptBox.splice(index, 1);
+            	if (this.inputs.receipt.length > 0) {
+            		let url = '/collections/receiptItemRemove' + this.tableName + 
+            			'&collectid=' + args.CollectId + 
+            			'&receipt=' + args.ReceiptNo + 
+            			'&saleid=' + args.SaleID +
+            			'&balance=' + this.addBalanceWhenReceiptRemove(args.PmtAmount);
 
-            			// notify when deleted.
-		                noty({
-		                	layout: 'bottomLeft',
-		                    theme: 'relax', // or relax
-		                    type: 'warning', // success, error, warning, information, notification
-		                    text: `1 record successfully deleted.`,
-		                    timeout: 5000,
-		                });
-            		}
-            	});
+            		// notify that receipt is deleting.
+	                noty({
+	                	layout: 'bottomLeft',
+	                    theme: 'relax', // or relax
+	                    type: 'error', // success, error, warning, information, notification
+	                    text: `Deleting receipt.....`,
+	                    timeout: 5000,
+	                });
+
+            		axios.delete(url).then(response => {
+            			let data = response.data;
+
+	            		// check if response is success
+	            		if (data.isUpdated == true && data.isDeleted == true) {
+	            			this.receiptBox.splice(index, 1);
+
+	            			// notify when deleted.
+			                noty({
+			                	layout: 'bottomLeft',
+			                    theme: 'relax', // or relax
+			                    type: 'success', // success, error, warning, information, notification
+			                    text: `1 receipt successfully deleted.`,
+			                    timeout: 5000,
+			                });
+	            		}
+	            	});
+            	} else {
+            		// notify that receipt # is empty
+	                noty({
+	                	layout: 'bottomLeft',
+	                    theme: 'relax', // or relax
+	                    type: 'error', // success, error, warning, information, notification
+	                    text: `Please enter or select receipt number first.`,
+	                    timeout: 5000,
+	                });
+            	}
+            },
+            addBalanceWhenReceiptRemove(subdeposit) {
+            	if (this.isCollected) {
+            		this.collection.RemainingBalance = numeral(parseFloat(this.collection.RemainingBalance) + parseFloat(subdeposit)).format('0,0.00');
+            		return this.collection.RemainingBalance;
+            	} else {
+            		this.receiptShowBox.Balance = numeral(parseFloat(this.receiptShowBox.Balance) + parseFloat(subdeposit)).format('0,0.00');;
+            		return this.receiptShowBox.Balance;
+            	}
             },
             mainBalance() {
 				let result = 0;

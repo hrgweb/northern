@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 
 class CollectionController extends Controller
 {
+	private $last_id;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -26,18 +28,27 @@ class CollectionController extends Controller
         $request['CollectDate'] = date('Y-m-d');
         $request['CollectTime'] = date('Y-m-d H:i:s');
         $data = request()->all();
+        $this->last_id = $this->collectionLastID();
 
-        // update the balance from tblSales
-        $updated = DB::table($sales)->where('ReceiptNo', $data['ReceiptNo'])->update(['Balance' => $data['Balance']]);
+        DB::beginTransaction();
+		try {
+			// update the balance from tblSales
+	        $updated = DB::table($sales)->where('ReceiptNo', $data['ReceiptNo'])->update(['Balance' => $data['Balance']]);
 
-        // post to db
-        $inserted = DB::table($table)->insert(request()->except('table', 'Balance'));
-
+	        // post to db
+	        $inserted = DB::table($table)->insert(request()->except('table', 'Balance'));
+		} catch (ValidationException $e) {
+			DB::rollback();
+			throw $e;
+		}
+		DB::commit();
+        
         return response()->json([
     		'result' => [request()->only(['SaleID', 'ReceiptNo', 'PmtAmount'])], 
     		// 'isSuccess' => true // tmp,
     		'isInserted' => $inserted,
-    		'isUpdated' => $updated
+    		'isUpdated' => $updated,
+    		'CollectId' => $this->last_id
         ]);
     }
 
@@ -80,7 +91,7 @@ class CollectionController extends Controller
     	$settlement = $this->storePrefix('tblSettlement');
 
         return DB::select(DB::raw("
-            SELECT tblCollection.ReceiptNo, tblCollection.SaleID, CONVERT(DATE, CollectDate) AS CollectDate,
+            SELECT tblCollection.ReceiptNo, CollectId, tblCollection.SaleID, CONVERT(DATE, CollectDate) AS CollectDate,
             -- SELECT tblCollection.CollectID, tblCollection.SaleID, tblCollection.ReceiptNo, tblCollection.CollectDate, 
             	CONVERT(VARCHAR, CAST(tblCollection.PmtAmount AS MONEY),1) PmtAmount,
                 tblPmtMethod.PmtMethod
@@ -164,14 +175,29 @@ class CollectionController extends Controller
     public function receiptItemRemove()
     {
     	$table = $this->storePrefix('tblCollection');
+    	$sales = $this->storePrefix('tblSales');
     	$saleid = request('saleid');
+    	$collectid = request('collectid');
     	$receipt = request('receipt');
+    	$balance = request('balance');
     	array_add(request(), 'collectdate', date('Y-m-d'));
 
-    	// remove data
-    	// $result = DB::table($table)->whereRaw('SaleID=? AND ReceiptNo=? AND CollectDate=?', [$saleid, $receipt, request('collectdate')])->delete();
+    	// return $balance;
+    	// return request()->all();
 
-        return response()->json(['isSuccess' => $result]);
+    	DB::beginTransaction();
+		try {
+			// update data from tblSales
+			$updated = DB::table($sales)->where('SaleID', $saleid)->update(['Balance' => $balance]);
 
+			// remove data from tblCollection
+    		$deleted = DB::table($table)->whereRaw('CollectID=?', [$collectid])->delete();
+		} catch (ValidationException $e) {
+			DB::rollback();
+			throw $e;
+		}
+		DB::commit();
+    	
+        return response()->json(['isUpdated' => $updated, 'isDeleted' => $deleted]);
     }
 }
